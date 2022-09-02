@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.SignUpController">
+    <children>
+        <VBox prefHeight="400.0" prefWidth="239.0" style="-fx-background-color: #4169e1;" />
+        <Label layoutX="279.0" prefHeight="79.0" prefWidth="246.0" text=" Sign Up">
+            <font>
+                <Font name="Roboto Light" size="30.0" />
+            </font>
+        </Label>
+        <TextField fx:id="tf_username" layoutX="282.0" layoutY="190.0" prefHeight="36.0" prefWidth="239.0" promptText="Email">
+            <font>
+                <Font name="Roboto Light" size="17.0" />
+            </font></TextField>
+        <PasswordField fx:id="pf_password" layoutX="283.0" layoutY="248.0" prefHeight="36.0" prefWidth="239.0" promptText="Password">
+            <font>
+                <Font name="Roboto Light" size="17.0" />
+            </font></PasswordField>
+        <Button fx:id="btn_signup" layoutX="282.0" layoutY="299.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" style="-fx-background-color: #4169e1; -fx-cursor: hand;" text="Sign Up" textFill="WHITE">
+            <font>
+                <Font name="Roboto Light" size="14.0" />
+            </font></Button>
+        <Button fx:id="btn_alreadyhaveaccount" layoutX="282.0" layoutY="329.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="239.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Already have an account?" textFill="#4b60abbd" underline="true">
+            <font>
+                <Font name="Roboto Light" size="14.0" />
+            </font>
+        </Button>
+      <TextField fx:id="tf_firstname" layoutX="283.0" layoutY="79.0" prefHeight="36.0" prefWidth="239.0" promptText="First Name">
+         <font>
+            <Font name="Roboto Light" size="17.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="tf_surname" layoutX="283.0" layoutY="137.0" prefHeight="36.0" prefWidth="239.0" promptText="Surname">
+         <font>
+            <Font name="Roboto Light" size="17.0" />
+         </font>
+      </TextField>
+    </children>
+</AnchorPane>

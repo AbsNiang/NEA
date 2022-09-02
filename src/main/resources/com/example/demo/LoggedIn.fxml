@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.LoggedInController">
+   <children>
+      <VBox prefHeight="72.0" prefWidth="615.0" style="-fx-background-color: #4169e1;">
+         <children>
+            <AnchorPane prefHeight="72.0" prefWidth="649.0">
+               <children>
+                  <TextField fx:id="tf_keywords" layoutX="300.0" layoutY="23.0" prefHeight="26.0" prefWidth="294.0" promptText="Search keywords..." />
+               </children>
+            </AnchorPane>
+         </children></VBox>
+      <TableView fx:id="tableView" layoutX="128.0" layoutY="72.0" prefHeight="328.0" prefWidth="487.0">
+        <columns>
+          <TableColumn fx:id="ProductIDColumn" prefWidth="38.199981689453125" text="ID" />
+          <TableColumn fx:id="NameProductColumn" prefWidth="122.79998779296875" text="Name" />
+            <TableColumn fx:id="PriceProductColumn" prefWidth="65.19998168945312" text="Price" />
+            <TableColumn fx:id="TypeProductColumn" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="DescriptionTableColumn" prefWidth="182.39999389648438" text="Description" />
+        </columns>
+      </TableView>
+      <VBox layoutY="72.0" prefHeight="328.0" prefWidth="155.0" />
+   </children>
+</AnchorPane>

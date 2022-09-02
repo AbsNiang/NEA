@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,11 +34,14 @@ public class SignUpController implements Initializable { //Sign up scene
             @Override
             public void handle(ActionEvent event) {
                 if (!tf_username.getText().isEmpty() && !pf_password.getText().trim().isEmpty()
-                        && !tf_firstname.getText().trim().isEmpty() && !tf_surname.getText().trim().isEmpty()) {
+                        && !tf_firstname.getText().trim().isEmpty() && !tf_surname.getText().trim().isEmpty() && LoginUtils.passwordCheck(pf_password.getText())) {
+
                     DBUtils.signUpUser(event, tf_username.getText(), pf_password.getText(), tf_firstname.getText(), tf_surname.getText(), false);
                 }else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Please fill in all the information");
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    alert.setContentText("Please fill in all the information. " +
+                            "\nPasswords must contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.");
                     alert.show();
                 }
             }

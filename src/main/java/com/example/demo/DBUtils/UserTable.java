@@ -1,6 +1,6 @@
-package com.example.demo;
+package com.example.demo.DBUtils;
 
-import com.example.demo.auth.Controllers.SceneHandler;
+import com.example.demo.SceneHandler;
 import com.example.demo.auth.Objects.User;
 import com.example.demo.auth.Registration.PasswordConverter;
 import com.example.demo.auth.Registration.PasswordHandler;
@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.Arrays;
 
 // the first signed-up user will be the owner, and they will be able to edit to add other owners or admins.
-public class DBUtils {
+public class UserTable {
 
     public static void signUpUser(ActionEvent event, User user) {
         Connection connection = null;
@@ -189,5 +189,34 @@ public class DBUtils {
             }
         }
         return false;
+    }
+
+    public static void alterTable(String email, String field, String fieldData) {
+        Connection connection = null;
+        PreparedStatement psInsert = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
+            psInsert = connection.prepareStatement("UPDATE users SET " + field + " = ? WHERE emailAddress = ?");
+            psInsert.setString(1, fieldData);
+            psInsert.setString(2, email);
+            psInsert.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (psInsert != null) {
+                try {
+                    psInsert.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

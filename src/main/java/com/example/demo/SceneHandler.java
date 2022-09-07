@@ -1,6 +1,7 @@
-package com.example.demo.auth.Controllers;
+package com.example.demo;
 
-import com.example.demo.DBUtils;
+import com.example.demo.DBUtils.UserTable;
+import com.example.demo.auth.Controllers.LoggedInController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,9 +15,9 @@ public class SceneHandler {
     public static void changeScene(ActionEvent event, String fxmlFile, String title, String emailAddress, int width, int height) {
 
         Parent root = null;
-        if (emailAddress != null) {
+        if (emailAddress != null && fxmlFile.equals("LoggedIn.fxml")) {
             try {
-                FXMLLoader loader = new FXMLLoader(DBUtils.class.getResource(fxmlFile));
+                FXMLLoader loader = new FXMLLoader(SceneHandler.class.getResource(fxmlFile));
                 root = loader.load();
                 LoggedInController loggedInController = loader.getController();
                 loggedInController.setUserInformation(emailAddress, null);
@@ -25,7 +26,7 @@ public class SceneHandler {
             }
         } else {
             try {
-                root = FXMLLoader.load(DBUtils.class.getResource(fxmlFile));
+                root = FXMLLoader.load(SceneHandler.class.getResource(fxmlFile));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,6 +1,7 @@
 package com.example.demo.auth.Controllers;
 
-import com.example.demo.DBUtils;
+import com.example.demo.DBUtils.UserTable;
+import com.example.demo.SceneHandler;
 import com.example.demo.auth.EmailHandling.EmailToken;
 import com.example.demo.auth.Objects.User;
 import com.example.demo.auth.EmailHandling.Email;
@@ -20,7 +21,7 @@ import javafx.scene.layout.Region;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SignUpController implements Initializable { //Sign up scene
+public class SignUpController implements Initializable { //Add toggle password visibility for QOL improvements
     @FXML
     private Button btn_signup;
     @FXML
@@ -50,13 +51,12 @@ public class SignUpController implements Initializable { //Sign up scene
                         && !tf_firstname.getText().trim().isEmpty() && !tf_surname.getText().trim().isEmpty() && PasswordHandler.passwordCheck(pf_password.getText())) {
                     if (tf_code.getText().equals(code)) {
                         System.out.println("code is correct");
-
                         byte[] salt = PasswordHandler.generateSalt();
                         byte[] byteDigestPassword = PasswordHandler.getSaltedHash(pf_password.getText(), salt);
                         String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
                         String strSalt = PasswordConverter.toHex(salt);
                         User user = new User(tf_username.getText(), hashedPassword, strSalt, tf_firstname.getText(), tf_surname.getText(), false, false);
-                        DBUtils.signUpUser(event, user);
+                        UserTable.signUpUser(event, user);
                     } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

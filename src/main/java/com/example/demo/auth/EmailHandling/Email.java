@@ -34,7 +34,7 @@ public class Email {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailToken.getEmailAddress()));
             message.setSubject(emailToken.getSubject());
             if (emailToken.isSendCode()) {
-                message.setText(emailToken.getText() + emailToken.getCode());
+                message.setText(emailToken.getText() + "\n"+emailToken.getCode());
             } else {
                 message.setText(emailToken.getText());
             }

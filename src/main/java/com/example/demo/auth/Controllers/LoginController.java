@@ -1,12 +1,12 @@
 package com.example.demo.auth.Controllers;
 
-import com.example.demo.DBUtils;
+import com.example.demo.DBUtils.UserTable;
+import com.example.demo.SceneHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
@@ -31,7 +31,7 @@ public class LoginController implements Initializable {
         btn_login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DBUtils.logInUser(event, tf_username.getText(), pf_password.getText());
+                UserTable.logInUser(event, tf_username.getText(), pf_password.getText());
             }
         });
 
@@ -39,6 +39,13 @@ public class LoginController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 SceneHandler.changeScene(event, "SignUp.fxml", "Sign-Up", null, 600, 400);
+            }
+        });
+
+        btn_forgot.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                SceneHandler.changeScene(actionEvent,"ForgotPassword.fxml","Forgot Password",null,600,400);
             }
         });
     }

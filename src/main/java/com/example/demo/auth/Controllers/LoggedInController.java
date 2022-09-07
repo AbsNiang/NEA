@@ -1,4 +1,4 @@
-package com.example.demo.auth;
+package com.example.demo.auth.Controllers;
 
 import com.example.demo.DBUtils;
 import javafx.event.ActionEvent;

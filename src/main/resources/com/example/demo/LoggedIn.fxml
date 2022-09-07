@@ -3,23 +3,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.LoggedInController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.Controllers.LoggedInController">
    <children>
-      <VBox prefHeight="72.0" prefWidth="615.0" style="-fx-background-color: #4169e1;">
+      <VBox prefHeight="72.0" prefWidth="900.0" style="-fx-background-color: #4169e1;">
          <children>
-            <AnchorPane prefHeight="72.0" prefWidth="649.0">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="tf_keywords" layoutX="300.0" layoutY="23.0" prefHeight="26.0" prefWidth="294.0" promptText="Search keywords..." />
+                  <TextField fx:id="tf_keywords" layoutX="545.0" layoutY="24.0" prefHeight="26.0" prefWidth="323.0" promptText="Search keywords..." />
                </children>
             </AnchorPane>
          </children></VBox>
-      <TableView fx:id="tableView" layoutX="128.0" layoutY="72.0" prefHeight="328.0" prefWidth="487.0">
+      <TableView fx:id="tableView" layoutX="128.0" layoutY="72.0" prefHeight="528.0" prefWidth="772.0">
         <columns>
-          <TableColumn fx:id="ProductIDColumn" prefWidth="38.199981689453125" text="ID" />
-          <TableColumn fx:id="NameProductColumn" prefWidth="122.79998779296875" text="Name" />
-            <TableColumn fx:id="PriceProductColumn" prefWidth="65.19998168945312" text="Price" />
-            <TableColumn fx:id="TypeProductColumn" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="DescriptionTableColumn" prefWidth="182.39999389648438" text="Description" />
+          <TableColumn fx:id="NameProductColumn" prefWidth="197.60000610351562" text="Name" />
+            <TableColumn fx:id="PriceProductColumn" prefWidth="112.0" text="Price" />
+            <TableColumn fx:id="TypeProductColumn" prefWidth="148.60006713867188" text="Type" />
+            <TableColumn fx:id="DescriptionTableColumn" prefWidth="312.0" text="Description" />
         </columns>
       </TableView>
       <VBox layoutY="72.0" prefHeight="328.0" prefWidth="155.0" />

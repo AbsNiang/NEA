@@ -4,40 +4,63 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.SignUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.Controllers.SignUpController">
     <children>
-        <VBox prefHeight="400.0" prefWidth="239.0" style="-fx-background-color: #4169e1;" />
-        <Label layoutX="279.0" prefHeight="79.0" prefWidth="246.0" text=" Sign Up">
+        <Label layoutX="7.0" prefHeight="79.0" prefWidth="246.0" text=" Sign Up">
             <font>
                 <Font name="Roboto Light" size="30.0" />
             </font>
         </Label>
-        <TextField fx:id="tf_username" layoutX="282.0" layoutY="190.0" prefHeight="36.0" prefWidth="239.0" promptText="Email">
+        <TextField fx:id="tf_username" layoutX="10.0" layoutY="189.0" prefHeight="36.0" prefWidth="239.0" promptText="Email">
             <font>
                 <Font name="Roboto Light" size="17.0" />
             </font></TextField>
-        <PasswordField fx:id="pf_password" layoutX="283.0" layoutY="248.0" prefHeight="36.0" prefWidth="239.0" promptText="Password">
+        <PasswordField fx:id="pf_password" layoutX="10.0" layoutY="245.0" prefHeight="36.0" prefWidth="239.0" promptText="Password">
             <font>
                 <Font name="Roboto Light" size="17.0" />
             </font></PasswordField>
-        <Button fx:id="btn_signup" layoutX="282.0" layoutY="299.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" style="-fx-background-color: #4169e1; -fx-cursor: hand;" text="Sign Up" textFill="WHITE">
+        <Button fx:id="btn_signup" layoutX="300.0" layoutY="297.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" style="-fx-background-color: #4169e1; -fx-cursor: hand;" text="Sign Up" textFill="WHITE">
             <font>
                 <Font name="Roboto Light" size="14.0" />
             </font></Button>
-        <Button fx:id="btn_alreadyhaveaccount" layoutX="282.0" layoutY="329.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="239.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Already have an account?" textFill="#4b60abbd" underline="true">
+        <Button fx:id="btn_alreadyhaveaccount" layoutX="10.0" layoutY="328.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="239.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Already have an account?" textFill="#4b60abbd" underline="true">
             <font>
                 <Font name="Roboto Light" size="14.0" />
             </font>
         </Button>
-      <TextField fx:id="tf_firstname" layoutX="283.0" layoutY="79.0" prefHeight="36.0" prefWidth="239.0" promptText="First Name">
+      <TextField fx:id="tf_firstname" layoutX="10.0" layoutY="79.0" prefHeight="36.0" prefWidth="239.0" promptText="First Name">
          <font>
             <Font name="Roboto Light" size="17.0" />
          </font>
       </TextField>
-      <TextField fx:id="tf_surname" layoutX="283.0" layoutY="137.0" prefHeight="36.0" prefWidth="239.0" promptText="Surname">
+      <TextField fx:id="tf_surname" layoutX="10.0" layoutY="138.0" prefHeight="36.0" prefWidth="239.0" promptText="Surname">
          <font>
             <Font name="Roboto Light" size="17.0" />
          </font>
       </TextField>
+      <Button fx:id="btn_confirm" layoutX="10.0" layoutY="297.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" style="-fx-background-color: #4169e1; -fx-cursor: hand;" text="Send Confirmation Email" textFill="WHITE">
+         <font>
+            <Font name="Roboto Light" size="14.0" />
+         </font>
+      </Button>
+      <TextField fx:id="tf_code" alignment="CENTER" layoutX="299.0" layoutY="178.0" prefHeight="94.0" prefWidth="239.0" promptText="_ _ _ _ _ _">
+         <font>
+            <Font name="Roboto Light" size="45.0" />
+         </font>
+      </TextField>
+      <Label layoutX="335.0" layoutY="53.0" prefHeight="43.0" prefWidth="183.0" text="A confirmation code has">
+         <font>
+            <Font name="Roboto Light" size="16.0" />
+         </font></Label>
+      <Label layoutX="319.0" layoutY="97.0" prefHeight="70.0" prefWidth="201.0" text="Enter the code:">
+         <font>
+            <Font name="Roboto Light" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="335.0" layoutY="75.0" prefHeight="43.0" prefWidth="202.0" text=" been sent to your email.">
+         <font>
+            <Font name="Roboto Light" size="16.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>

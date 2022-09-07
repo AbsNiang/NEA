@@ -13,7 +13,6 @@ import java.util.Arrays;
 // the first signed-up user will be the owner, and they will be able to edit to add other owners or admins.
 public class DBUtils {
 
-
     public static void signUpUser(ActionEvent event, User user) {
         Connection connection = null;
         PreparedStatement psInsert = null;
@@ -99,7 +98,7 @@ public class DBUtils {
         }
     }
 
-    public static String fetchInfo(String emailAddress, String desiredField) {
+    private static String fetchInfo(String emailAddress, String desiredField) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -124,7 +123,6 @@ public class DBUtils {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
         } finally {
             if (resultSet != null) {
                 try {
@@ -149,5 +147,47 @@ public class DBUtils {
             }
         }
         return info;
+    }
+
+    public static boolean checkUserExists(String email) {
+        Connection connection = null;
+        PreparedStatement psCheckUserExists = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
+            psCheckUserExists = connection.prepareStatement("SELECT * FROM users WHERE emailAddress = ?");
+            psCheckUserExists.setString(1, email);
+            resultSet = psCheckUserExists.executeQuery();
+            if (resultSet.isBeforeFirst()) { //if true, username is taken, if false, it means it is available.
+                System.out.println("User exists.");
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psCheckUserExists != null) {
+                try {
+                    psCheckUserExists.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
     }
 }

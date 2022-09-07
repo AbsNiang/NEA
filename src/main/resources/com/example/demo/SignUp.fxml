@@ -43,7 +43,7 @@
             <Font name="Roboto Light" size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="tf_code" alignment="CENTER" layoutX="299.0" layoutY="178.0" prefHeight="94.0" prefWidth="239.0" promptText="_ _ _ _ _ _">
+      <TextField fx:id="tf_code" alignment="CENTER" layoutX="300.0" layoutY="198.0" prefHeight="94.0" prefWidth="239.0" promptText="_ _ _ _ _ _">
          <font>
             <Font name="Roboto Light" size="45.0" />
          </font>

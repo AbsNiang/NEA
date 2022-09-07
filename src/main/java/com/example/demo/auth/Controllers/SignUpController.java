@@ -1,8 +1,9 @@
 package com.example.demo.auth.Controllers;
 
 import com.example.demo.DBUtils;
+import com.example.demo.auth.EmailHandling.EmailToken;
 import com.example.demo.auth.Objects.User;
-import com.example.demo.auth.Registration.Email;
+import com.example.demo.auth.EmailHandling.Email;
 import com.example.demo.auth.Registration.GenerateConfirmationCode;
 import com.example.demo.auth.Registration.PasswordConverter;
 import com.example.demo.auth.Registration.PasswordHandler;
@@ -54,7 +55,7 @@ public class SignUpController implements Initializable { //Sign up scene
                         byte[] byteDigestPassword = PasswordHandler.getSaltedHash(pf_password.getText(), salt);
                         String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
                         String strSalt = PasswordConverter.toHex(salt);
-                        User user = new User(tf_username.getText(),hashedPassword, strSalt, tf_firstname.getText(), tf_surname.getText(), false, false);
+                        User user = new User(tf_username.getText(), hashedPassword, strSalt, tf_firstname.getText(), tf_surname.getText(), false, false);
                         DBUtils.signUpUser(event, user);
                     } else {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -83,7 +84,8 @@ public class SignUpController implements Initializable { //Sign up scene
             @Override
             public void handle(ActionEvent actionEvent) {
                 code = GenerateConfirmationCode.generateCode(); //gets a random 6 digit code
-                Email.sendEmail(tf_username.getText(), code);
+                EmailToken emailToken = new EmailToken(tf_username.getText(), code, "Use the code below to confirm your email and sign up:", "This is a confirmation email.", true);
+                Email.sendEmail(emailToken);
             }
         });
     }

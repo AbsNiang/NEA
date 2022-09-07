@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.Controllers.LoggedInController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.Controllers.LoggedInController">
    <children>
       <VBox prefHeight="72.0" prefWidth="900.0" style="-fx-background-color: #4169e1;">
          <children>
@@ -21,6 +21,5 @@
             <TableColumn fx:id="DescriptionTableColumn" prefWidth="312.0" text="Description" />
         </columns>
       </TableView>
-      <VBox layoutY="72.0" prefHeight="328.0" prefWidth="155.0" />
    </children>
 </AnchorPane>

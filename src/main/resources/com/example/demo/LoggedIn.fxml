@@ -10,6 +10,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <TextField fx:id="tf_keywords" layoutX="545.0" layoutY="24.0" prefHeight="26.0" prefWidth="323.0" promptText="Search keywords..." />
+                  <Button fx:id="btn_test" layoutX="71.0" layoutY="25.0" mnemonicParsing="false" text="test" />
                </children>
             </AnchorPane>
          </children></VBox>

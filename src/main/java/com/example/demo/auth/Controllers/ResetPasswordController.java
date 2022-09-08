@@ -2,6 +2,7 @@ package com.example.demo.auth.Controllers;
 
 import com.example.demo.DBUtils.UserTable;
 import com.example.demo.SceneHandler;
+import com.example.demo.auth.Objects.User;
 import com.example.demo.auth.Registration.PasswordConverter;
 import com.example.demo.auth.Registration.PasswordHandler;
 import javafx.event.ActionEvent;
@@ -26,7 +27,7 @@ public class ResetPasswordController implements Initializable {
     @FXML
     private Button btn_complete;
 
-    public String email;
+    private String email;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,8 +39,9 @@ public class ResetPasswordController implements Initializable {
                     byte[] byteDigestPassword = PasswordHandler.getSaltedHash(pf_newpassword.getText(), salt);
                     String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
                     String strSalt = PasswordConverter.toHex(salt);
-                    UserTable.alterTable(email, "password", hashedPassword);
-                    UserTable.alterTable(email, "passwordSalt", strSalt);
+                    User user = new User(email, hashedPassword, strSalt, "","",false,false);
+                    System.out.println(user.getEmailAddress());
+                    UserTable.alterPassword(user);
                     SceneHandler.changeScene(actionEvent, "LoggedIn.fxml", "Welcome!", email, 900, 600);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -52,7 +54,7 @@ public class ResetPasswordController implements Initializable {
         });
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String emailAddress) {
+        email = emailAddress;
     }
 }

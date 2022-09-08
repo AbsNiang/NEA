@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.DBUtils.UserTable;
 import com.example.demo.auth.Controllers.LoggedInController;
+import com.example.demo.auth.Controllers.ResetPasswordController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -15,12 +16,12 @@ public class SceneHandler {
     public static void changeScene(ActionEvent event, String fxmlFile, String title, String emailAddress, int width, int height) {
 
         Parent root = null;
-        if (emailAddress != null && fxmlFile.equals("LoggedIn.fxml")) {
+        if (emailAddress != null && fxmlFile.equals("ResetPassword.fxml")) {
             try {
                 FXMLLoader loader = new FXMLLoader(SceneHandler.class.getResource(fxmlFile));
                 root = loader.load();
-                LoggedInController loggedInController = loader.getController();
-                loggedInController.setUserInformation(emailAddress, null);
+                ResetPasswordController resetPasswordController = loader.getController();
+                resetPasswordController.setEmail(emailAddress);
             } catch (Exception e) {
                 e.printStackTrace();
             }

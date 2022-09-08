@@ -191,14 +191,12 @@ public class UserTable {
         return false;
     }
 
-    public static void alterTable(String email, String field, String fieldData) {
+    public static void alterPassword(User user) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
-            psInsert = connection.prepareStatement("UPDATE users SET " + field + " = ? WHERE emailAddress = ?");
-            psInsert.setString(1, fieldData);
-            psInsert.setString(2, email);
+            psInsert = connection.prepareStatement("UPDATE users SET password = '"+user.getPassword()+"', passwordSalt = '"+user.getPasswordSalt()+"' WHERE emailAddress = '"+user.getEmailAddress()+"'");
             psInsert.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

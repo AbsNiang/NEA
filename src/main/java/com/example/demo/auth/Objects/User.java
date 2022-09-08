@@ -20,6 +20,10 @@ public class User {
         this.isOwner = isOwner;
     }
 
+    public User() {
+
+    }
+
     public String getEmailAddress() {
         return emailAddress;
     }

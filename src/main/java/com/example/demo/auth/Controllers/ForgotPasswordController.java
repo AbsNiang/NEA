@@ -4,6 +4,7 @@ import com.example.demo.DBUtils.UserTable;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.EmailHandling.EmailToken;
 import com.example.demo.auth.EmailHandling.Email;
+import com.example.demo.auth.Objects.User;
 import com.example.demo.auth.Registration.GenerateConfirmationCode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -59,10 +60,10 @@ public class ForgotPasswordController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (tf_entercode.getText().equals(code)) {
+
                     SceneHandler.changeScene(actionEvent, "ResetPassword.fxml", "Reset Password",
                             tf_email.getText(), 600, 400);
-                    ResetPasswordController resetPasswordController = new ResetPasswordController();
-                    resetPasswordController.setEmail(tf_email.getText());
+
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -79,5 +80,10 @@ public class ForgotPasswordController implements Initializable {
                 SceneHandler.changeScene(actionEvent, "Login.fxml","Login", null, 600, 400);
             }
         });
+    }
+
+    private void sendData(){
+        User user = new User();
+
     }
 }

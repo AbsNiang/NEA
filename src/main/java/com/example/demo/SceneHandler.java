@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.DBUtils.UserTable;
-import com.example.demo.auth.Controllers.LoggedInController;
 import com.example.demo.auth.Controllers.ResetPasswordController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

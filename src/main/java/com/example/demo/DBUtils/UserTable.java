@@ -43,7 +43,7 @@ public class UserTable {
                 psInsert.setBoolean(6, user.isHasLoyaltyCard());
                 psInsert.setBoolean(7, user.isOwner());
                 psInsert.executeUpdate();
-                SceneHandler.changeScene(event, "LoggedIn.fxml", "Welcome!", user.getEmailAddress(), 900, 600);
+                SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", user.getEmailAddress(), 1014, 651);
             }
 
         } catch (SQLException e) {
@@ -89,7 +89,7 @@ public class UserTable {
 
         if (Arrays.equals(loginPassword, storedPassword)) {
             System.out.println("Passwords are a match.");
-            SceneHandler.changeScene(event, "LoggedIn.fxml", "Welcome!", emailAddress, 900, 600);
+            SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", emailAddress, 1014, 651);
         } else {
             System.out.println("Passwords didn't match.");
             Alert alert = new Alert(Alert.AlertType.ERROR);

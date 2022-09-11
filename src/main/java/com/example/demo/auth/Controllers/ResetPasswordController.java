@@ -42,7 +42,7 @@ public class ResetPasswordController implements Initializable {
                     User user = new User(email, hashedPassword, strSalt, "","",false,false);
                     System.out.println(user.getEmailAddress());
                     UserTable.alterPassword(user);
-                    SceneHandler.changeScene(actionEvent, "AdminLoggedIn.fxml", "Welcome!", email, 1014, 651);
+                    SceneHandler.changeScene(actionEvent, "AdminLoggedIn.fxml", "Welcome!", email, 1100, 651);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

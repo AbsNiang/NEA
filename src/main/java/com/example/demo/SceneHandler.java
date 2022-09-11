@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.auth.Controllers.AdminLoggedInController;
 import com.example.demo.auth.Controllers.ResetPasswordController;
+import com.example.demo.auth.Objects.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -30,10 +32,10 @@ public class SceneHandler {
                 e.printStackTrace();
             }
         }
-
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle(title);
         stage.setScene(new Scene(root, width, height));
+        stage.centerOnScreen();
         stage.show();
     }
 }

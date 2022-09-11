@@ -1,0 +1,55 @@
+.general-buttons{
+    -fx-background-color: transparent;
+    -fx-cursor:hand;
+}
+
+.general-buttons:hover{
+    -fx-background-color: #13a5ec;
+}
+
+.outside-buttons{
+    -fx-background-color:  #4169e1;
+    -fx-cursor:hand;
+}
+
+.outside-buttons:hover{
+    -fx-background-color: #13a5ec;
+}
+
+.table-view{
+    -fx-background-color: #fff;
+    -fx-background-radius: 10px;
+    -fx-border-radius:10px;
+    -fx-border-color:  #4169e1;
+    -fx-fill:#fff;
+}
+
+.table-view .column-header-background{
+    -fx-background-color:  #4169e1;
+    -fx-background-insets: 0 0 0 0;
+    -fx-background-radius: 10px 10px 0px 0px;
+}
+
+.table-view .column-header, .table-view .filler{
+    -fx-background-color: transparent;
+    -fx-size: 50px;
+    -fx-fill: #fff;
+}
+
+.table-view .column-header .label{
+    -fx-text-fill:#fff;
+    -fx-text-color:white;
+}
+
+.info-card{
+    -fx-border-color:  #4169e1;
+    -fx-border-radius: 10px 0px 0px 10px;
+}
+
+.label-info{
+    -fx-border-color: #4169e1;
+    -fx-border-radius: 0px 5px 5px 0px;
+    -fx-border-width: .8px;
+    -fx-padding:.5px;
+    -fx-font-size:14px;
+}

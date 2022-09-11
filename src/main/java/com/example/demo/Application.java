@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Application extends javafx.application.Application { //the first user in the database will be registered as the admin, and they can add others
+public class Application extends javafx.application.Application { //add an order scene to set the stock prices for items to order
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("Login.fxml"));

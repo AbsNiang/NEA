@@ -92,7 +92,7 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane fx:id="logistics_form" layoutX="229.0" layoutY="144.0" prefHeight="651.2" prefWidth="815.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="logistics_form" layoutX="229.0" layoutY="144.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="187.0" prefWidth="794.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                            <children>
@@ -202,7 +202,7 @@
                            </children></AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="editItems_form" prefHeight="651.2" prefWidth="815.2" visible="false">
+                  <AnchorPane fx:id="editItems_form" prefHeight="651.2" prefWidth="815.2">
                      <children>
                         <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                            <children>

@@ -21,7 +21,7 @@ import javafx.scene.layout.Region;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SignUpController implements Initializable { //Add toggle password visibility for QOL improvements
+public class SignUpController implements Initializable { //Add toggle password visibility for QOL improvements, dynamic panes
     @FXML
     private Button btn_signup;
     @FXML

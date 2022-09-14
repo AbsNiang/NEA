@@ -19,4 +19,7 @@ module com.example.demo {
     opens com.example.demo.auth.EmailHandling to javafx.fxml;
     exports com.example.demo.DBUtils;
     opens com.example.demo.DBUtils to javafx.fxml;
+    exports com.example.demo.auth.Objects;
+    opens com.example.demo.auth.Objects to javafx.fxml;
+
 }

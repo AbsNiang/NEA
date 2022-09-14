@@ -127,7 +127,7 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="addItems_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="addItems_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                            <children>
@@ -192,17 +192,19 @@
                            <children>
                               <TableView fx:id="tv_addItems" layoutX="13.0" layoutY="66.0" prefHeight="539.0" prefWidth="571.0" stylesheets="@css/dashboard.css">
                                 <columns>
-                                  <TableColumn fx:id="tvCol_addItemName" prefWidth="142.79995727539062" text="Item Name" />
-                                  <TableColumn fx:id="tvCol_addItemPrice" prefWidth="102.4000244140625" text="Price" />
-                                    <TableColumn fx:id="tvCol_addItemTags" prefWidth="113.0" text="Tags" />
-                                    <TableColumn fx:id="tvCol_addItemDescription" prefWidth="210.4000122070313" text="Description" />
+                                    <TableColumn fx:id="tvCol_addItemID" prefWidth="52.199981689453125" text="ID" />
+                                  <TableColumn fx:id="tvCol_addItemName" prefWidth="133.20001220703125" text="Item Name" />
+                                  <TableColumn fx:id="tvCol_addItemPrice" prefWidth="70.79998779296875" text="Price" />
+                                    <TableColumn fx:id="tvCol_addItemQuantity" prefWidth="64.60003662109375" text="Quantity" />
+                                    <TableColumn fx:id="tvCol_addItemTags" prefWidth="105.0" text="Tags" />
+                                    <TableColumn fx:id="tvCol_addItemDescription" prefWidth="141.5999633789063" text="Description" />
                                 </columns>
                               </TableView>
                               <TextField fx:id="tf_searchAddItems" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />
                            </children></AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="editItems_form" prefHeight="651.2" prefWidth="815.2">
+                  <AnchorPane fx:id="editItems_form" prefHeight="651.2" prefWidth="815.2" visible="false">
                      <children>
                         <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                            <children>
@@ -256,10 +258,12 @@
                            <children>
                               <TableView fx:id="tv_editItems" layoutX="13.0" layoutY="66.0" prefHeight="539.0" prefWidth="571.0" stylesheets="@css/dashboard.css">
                                  <columns>
-                                    <TableColumn fx:id="tvCol_editItemName" prefWidth="142.79995727539062" text="Item Name" />
-                                    <TableColumn fx:id="tvCol_editItemPrice" prefWidth="102.4000244140625" text="Price" />
-                                    <TableColumn fx:id="tv_editItemTags" prefWidth="113.0" text="Tags" />
-                                    <TableColumn fx:id="tvCol_editItemDescription" prefWidth="210.4000122070313" text="Description" />
+                                    <TableColumn fx:id="tvCol_editItemID" prefWidth="44.5999755859375" text="ID" />
+                                    <TableColumn fx:id="tvCol_editItemName" prefWidth="109.0" text="Item Name" />
+                                    <TableColumn fx:id="tvCol_editItemPrice" prefWidth="103.4000244140625" text="Price" />
+                                    <TableColumn fx:id="tvCol_editItemQuantity" prefWidth="59.79998779296875" text="# of" />
+                                    <TableColumn fx:id="tv_editItemTags" minWidth="0.0" prefWidth="89.0" text="Tags" />
+                                    <TableColumn fx:id="tvCol_editItemDescription" prefWidth="161.60002441406255" text="Description" />
                                  </columns>
                               </TableView>
                               <TextField fx:id="tf_searchAddItems1" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />

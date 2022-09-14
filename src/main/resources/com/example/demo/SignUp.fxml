@@ -19,7 +19,7 @@
             <font>
                 <Font name="Roboto Light" size="17.0" />
             </font></PasswordField>
-        <Button fx:id="btn_signup" layoutX="300.0" layoutY="297.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" style="-fx-background-color: #4169e1; -fx-cursor: hand;" text="Sign Up" textFill="WHITE">
+        <Button fx:id="btn_signup" layoutX="300.0" layoutY="297.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" styleClass="buttons" stylesheets="@css/general.css" text="Sign Up" textFill="WHITE">
             <font>
                 <Font name="Roboto Light" size="14.0" />
             </font></Button>
@@ -38,7 +38,7 @@
             <Font name="Roboto Light" size="17.0" />
          </font>
       </TextField>
-      <Button fx:id="btn_confirm" layoutX="10.0" layoutY="297.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" style="-fx-background-color: #4169e1; -fx-cursor: hand;" text="Send Confirmation Email" textFill="WHITE">
+      <Button fx:id="btn_confirm" layoutX="10.0" layoutY="297.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" styleClass="buttons" stylesheets="@css/general.css" text="Send Confirmation Email" textFill="WHITE">
          <font>
             <Font name="Roboto Light" size="14.0" />
          </font>

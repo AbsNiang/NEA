@@ -13,25 +13,33 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ForgotPasswordController implements Initializable {
-
-    @FXML
-    private Button btn_send;
-    @FXML
-    private Button btn_submit;
-    @FXML
-    private TextField tf_email;
-    @FXML
-    private TextField tf_entercode;
     @FXML
     private Button btn_login;
 
+    @FXML
+    private AnchorPane forgotPassword_form;
+    @FXML
+    private Button btn_send;
+    @FXML
+    private TextField tf_email;
+
+    @FXML
+    private AnchorPane enterCode_form;
+    @FXML
+    private Button btn_submit;
+    @FXML
+    private TextField tf_entercode;
+    @FXML
+    private Button btn_resend;
     private String code;
+    private String email;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -39,14 +47,10 @@ public class ForgotPasswordController implements Initializable {
         btn_send.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (UserTable.checkUserExists(tf_email.getText())) {
-                    code = GenerateConfirmationCode.generateCode(); //gets a random 6 digit code
-                    EmailToken emailToken = new EmailToken(tf_email.getText(),
-                            code,
-                            "This email has been sent to reset your password.",
-                            "The code below should be entered to redirect you to the reset password page.",
-                            true);
-                    Email.sendEmail(emailToken);
+                email = tf_email.getText();
+                if (UserTable.checkUserExists(email)) {
+                    sendCode();
+                    switchForm();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -60,9 +64,8 @@ public class ForgotPasswordController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (tf_entercode.getText().equals(code)) {
-
                     SceneHandler.changeScene(actionEvent, "ResetPassword.fxml", "Reset Password",
-                            tf_email.getText(), 600, 400);
+                            email, 600, 400);
 
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -77,13 +80,29 @@ public class ForgotPasswordController implements Initializable {
         btn_login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                SceneHandler.changeScene(actionEvent, "Login.fxml","Login", null, 600, 400);
+                SceneHandler.changeScene(actionEvent, "Login.fxml", "Login", null, 600, 400);
+            }
+        });
+
+        btn_resend.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                sendCode();
             }
         });
     }
 
-    private void sendData(){
-        User user = new User();
-
+    private void switchForm() {
+            forgotPassword_form.setVisible(false);
+            enterCode_form.setVisible(true);
+    }
+    private void sendCode(){
+        code = GenerateConfirmationCode.generateCode(); //gets a random 6 digit code
+        EmailToken emailToken = new EmailToken(email,
+                code,
+                "This email has been sent to reset your password.",
+                "The code below should be entered to redirect you to the reset password page.",
+                true);
+        Email.sendEmail(emailToken);
     }
 }

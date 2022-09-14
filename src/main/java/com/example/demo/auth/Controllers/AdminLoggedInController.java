@@ -1,15 +1,22 @@
 package com.example.demo.auth.Controllers;
 
 import com.example.demo.SceneHandler;
+import com.example.demo.auth.Objects.Item;
 import com.example.demo.auth.Objects.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AdminLoggedInController implements Initializable { //Scene once signed in (admin)
@@ -60,15 +67,19 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TextField tf_searchAddItems;
     @FXML
-    private TableColumn<?, ?> tvCol_addItemName;
+    private TableColumn<Item, String> tvCol_addItemID;
     @FXML
-    private TableColumn<?, ?> tvCol_addItemPrice;
+    private TableColumn<Item, String> tvCol_addItemName;
     @FXML
-    private TableColumn<?, ?> tvCol_addItemTags;
+    private TableColumn<Item, String> tvCol_addItemPrice;
     @FXML
-    private TableColumn<?, ?> tvCol_addItemDescription;
+    private TableColumn<Item, String> tvCol_addItemQuantity;
     @FXML
-    private TableView<?> tv_addItems;
+    private TableColumn<Item, String> tvCol_addItemTags;
+    @FXML
+    private TableColumn<Item, String> tvCol_addItemDescription;
+    @FXML
+    private TableView<Item> tv_addItems;
 
     //Edit Items Anchor Pane:
     @FXML
@@ -88,9 +99,13 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TextArea ta_editItemDescription;
     @FXML
+    private TableColumn<?, ?> tvCol_editItemID;
+    @FXML
     private TableColumn<?, ?> tvCol_editItemName;
     @FXML
     private TableColumn<?, ?> tvCol_editItemPrice;
+    @FXML
+    private TableColumn<?, ?> tvCol_editItemQuantity;
     @FXML
     private TableColumn<?, ?> tvCol_editItemTags;
     @FXML
@@ -130,8 +145,71 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TableView<?> tv_users;
 
+    private ObservableList<Item> listAddItem;
+    public ObservableList<Item> addItemList() {
+        ObservableList<Item> listData = FXCollections.observableArrayList();
+        Connection connection = null;
+        PreparedStatement prepare = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
+            prepare = connection.prepareStatement("SELECT * FROM items");
+            resultSet = prepare.executeQuery();
+            Item item;
+            while (resultSet.next()) {
+                item = new Item(resultSet.getInt("ItemID"),
+                        resultSet.getString("Name"),
+                        resultSet.getBigDecimal("Price"),
+                        resultSet.getInt("Quantity"),
+                        resultSet.getString("Tags"),
+                        resultSet.getString("Description"),
+                        resultSet.getString("Image")); // directory path
+                listData.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prepare != null) {
+                try {
+                    prepare.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return listData;
+    }
+
+    public void showAddItemList(){
+        listAddItem = addItemList();
+
+        tvCol_addItemID.setCellValueFactory(new PropertyValueFactory<>("itemID"));
+        tvCol_addItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tvCol_addItemPrice.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        tvCol_addItemQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        tvCol_addItemTags.setCellValueFactory(new PropertyValueFactory<>("tags"));
+        tvCol_addItemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        tv_addItems.setItems(listAddItem);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        showAddItemList();
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -170,27 +248,43 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
 
     }
 
-    public void switchForm(ActionEvent event){
-        if (event.getSource() == btn_logistics){
+    public void switchForm(ActionEvent event) {
+        if (event.getSource() == btn_logistics) {
             logistics_form.setVisible(true);
             addItems_form.setVisible(false);
             editUsers_form.setVisible(false);
             editItems_form.setVisible(false);
-        }else if (event.getSource() == btn_addItems){
+            btn_logistics.setStyle("-fx-background-color: #13a5ec;");
+            btn_addItems.setStyle("-fx-background-color: transparent;");
+            btn_editUsers.setStyle("-fx-background-color: transparent;");
+            btn_editItems.setStyle("-fx-background-color: transparent;");
+        } else if (event.getSource() == btn_addItems) {
             logistics_form.setVisible(false);
             addItems_form.setVisible(true);
             editUsers_form.setVisible(false);
             editItems_form.setVisible(false);
-        }else if (event.getSource() == btn_editUsers){
+            btn_logistics.setStyle("-fx-background-color: transparent;");
+            btn_addItems.setStyle("-fx-background-color: #13a5ec;");
+            btn_editUsers.setStyle("-fx-background-color: transparent;");
+            btn_editItems.setStyle("-fx-background-color: transparent;");
+        } else if (event.getSource() == btn_editUsers) {
             logistics_form.setVisible(false);
             addItems_form.setVisible(false);
             editUsers_form.setVisible(true);
             editItems_form.setVisible(false);
-        }else if (event.getSource() == btn_editItems){
+            btn_logistics.setStyle("-fx-background-color: transparent;");
+            btn_addItems.setStyle("-fx-background-color: transparent;");
+            btn_editUsers.setStyle("-fx-background-color:#13a5ec; ");
+            btn_editItems.setStyle("-fx-background-color: transparent;");
+        } else if (event.getSource() == btn_editItems) {
             logistics_form.setVisible(false);
             addItems_form.setVisible(false);
             editUsers_form.setVisible(false);
             editItems_form.setVisible(true);
+            btn_logistics.setStyle("-fx-background-color:transparent;");
+            btn_addItems.setStyle("-fx-background-color: transparent;");
+            btn_editUsers.setStyle("-fx-background-color: transparent;");
+            btn_editItems.setStyle("-fx-background-color: #13a5ec;");
         }
     }
 

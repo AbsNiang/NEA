@@ -146,6 +146,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TableView<?> tv_users;
 
     private ObservableList<Item> listAddItem;
+
     public ObservableList<Item> addItemList() {
         ObservableList<Item> listData = FXCollections.observableArrayList();
         Connection connection = null;
@@ -164,7 +165,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                         resultSet.getInt("Quantity"),
                         resultSet.getString("Tags"),
                         resultSet.getString("Description"),
-                        resultSet.getString("Image")); // directory path
+                        resultSet.getString("Image")); // directory path to the image
                 listData.add(item);
             }
         } catch (SQLException e) {
@@ -244,8 +245,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                 switchForm(event);
             }
         });
-
-
     }
 
     public void switchForm(ActionEvent event) {
@@ -287,5 +286,4 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             btn_editItems.setStyle("-fx-background-color: #13a5ec;");
         }
     }
-
 }

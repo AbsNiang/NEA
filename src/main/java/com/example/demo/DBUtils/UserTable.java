@@ -13,6 +13,8 @@ import java.util.Arrays;
 // the first signed-up user will be the owner, and they will be able to edit to add other owners or admins.
 public class UserTable {
 
+    public static final String dbLocation = (System.getProperty("user.dir") + "\\databaseNEA.accdb");
+
     public static void signUpUser(ActionEvent event, User user) {
         Connection connection = null;
         PreparedStatement psInsert = null;
@@ -20,8 +22,9 @@ public class UserTable {
         ResultSet resultSet = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
-            psCheckUserExists = connection.prepareStatement("SELECT * FROM users WHERE emailAddress = ?");
+
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psCheckUserExists = connection.prepareStatement("SELECT * FROM Users WHERE emailAddress = ?");
             psCheckUserExists.setString(1, user.getEmailAddress());
             resultSet = psCheckUserExists.executeQuery();
             if (resultSet.isBeforeFirst()) { //if true, username is taken, if false, it means it is available.
@@ -34,14 +37,14 @@ public class UserTable {
                     user.setOwner(true);
                     System.out.println("User set as owner");
                 }
-                psInsert = connection.prepareStatement("INSERT INTO users (emailAddress, password, passwordSalt, firstName, Surname, hasLoyaltyCard, isOwner) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO Users (emailAddress, password, passwordSalt, firstName, Surname, isOwner,hasLoyaltyCard ) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 psInsert.setString(1, user.getEmailAddress());
                 psInsert.setString(2, user.getPassword());
                 psInsert.setString(3, user.getPasswordSalt());
                 psInsert.setString(4, user.getFirstName());
                 psInsert.setString(5, user.getSurname());
-                psInsert.setBoolean(6, user.isHasLoyaltyCard());
-                psInsert.setBoolean(7, user.isOwner());
+                psInsert.setBoolean(6, user.isOwner());
+                psInsert.setBoolean(7, user.isHasLoyaltyCard());
                 psInsert.executeUpdate();
                 SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", user.getEmailAddress(), 1100, 651);
             }
@@ -105,7 +108,7 @@ public class UserTable {
         String info = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
             preparedStatement = connection.prepareStatement("SELECT " + desiredField + " FROM users WHERE emailAddress = ?");
             preparedStatement.setString(1, emailAddress);
             resultSet = preparedStatement.executeQuery();
@@ -155,7 +158,7 @@ public class UserTable {
         ResultSet resultSet = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
             psCheckUserExists = connection.prepareStatement("SELECT * FROM users WHERE emailAddress = ?");
             psCheckUserExists.setString(1, email);
             resultSet = psCheckUserExists.executeQuery();
@@ -195,8 +198,8 @@ public class UserTable {
         Connection connection = null;
         PreparedStatement psInsert = null;
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
-            psInsert = connection.prepareStatement("UPDATE users SET password = '"+user.getPassword()+"', passwordSalt = '"+user.getPasswordSalt()+"' WHERE emailAddress = '"+user.getEmailAddress()+"'");
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psInsert = connection.prepareStatement("UPDATE Users SET password = '" + user.getPassword() + "', passwordSalt = '" + user.getPasswordSalt() + "' WHERE emailAddress = '" + user.getEmailAddress() + "'");
             psInsert.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

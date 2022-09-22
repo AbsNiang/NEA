@@ -19,6 +19,8 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
+import static com.example.demo.DBUtils.UserTable.dbLocation;
+
 public class AdminLoggedInController implements Initializable { //Scene once signed in (admin)
 
     //Side Controls
@@ -154,7 +156,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         ResultSet resultSet = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/nea-db", "root", "toor");
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
             prepare = connection.prepareStatement("SELECT * FROM items");
             resultSet = prepare.executeQuery();
             Item item;

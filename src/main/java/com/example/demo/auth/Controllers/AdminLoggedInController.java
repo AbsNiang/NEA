@@ -69,8 +69,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TextField tf_searchAddItems;
     @FXML
-    private TableColumn<Item, String> tvCol_addItemID;
-    @FXML
     private TableColumn<Item, String> tvCol_addItemName;
     @FXML
     private TableColumn<Item, String> tvCol_addItemPrice;
@@ -100,8 +98,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TextArea ta_editItemTags;
     @FXML
     private TextArea ta_editItemDescription;
-    @FXML
-    private TableColumn<?, ?> tvCol_editItemID;
     @FXML
     private TableColumn<?, ?> tvCol_editItemName;
     @FXML
@@ -161,8 +157,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             resultSet = prepare.executeQuery();
             Item item;
             while (resultSet.next()) {
-                item = new Item(resultSet.getInt("ItemID"),
-                        resultSet.getString("Name"),
+                item = new Item(resultSet.getString("Name"),
                         resultSet.getBigDecimal("Price"),
                         resultSet.getInt("Quantity"),
                         resultSet.getString("Tags"),
@@ -198,10 +193,11 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         return listData;
     }
 
-    public void showAddItemList(){
+
+    public void showAddItemList() {
         listAddItem = addItemList();
 
-        tvCol_addItemID.setCellValueFactory(new PropertyValueFactory<>("itemID"));
+
         tvCol_addItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvCol_addItemPrice.setCellValueFactory(new PropertyValueFactory<>("cost"));
         tvCol_addItemQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -247,6 +243,13 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                 switchForm(event);
             }
         });
+
+        btn_addItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+            }
+        });
     }
 
     public void switchForm(ActionEvent event) {
@@ -287,5 +290,10 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             btn_editUsers.setStyle("-fx-background-color: transparent;");
             btn_editItems.setStyle("-fx-background-color: #13a5ec;");
         }
+    }
+
+    public void addItem() {//need to add image import, set itemQuantity and ItemPrice to BigDecimal and int
+        Item item = new Item(tf_itemName.getText(),new BigDecimal(tf_itemPrice.getText()),Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(),ta_itemDescription.getText(),"image/directory");//add image directory
+
     }
 }

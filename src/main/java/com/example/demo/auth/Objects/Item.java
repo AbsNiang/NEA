@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 public class Item {
 
-    private int itemID;
     private String name;
     private BigDecimal cost;
     private int quantity;
@@ -12,18 +11,13 @@ public class Item {
     private String description;
     private String image;
 
-    public Item(int itemID, String name, BigDecimal cost, int quantity, String tags, String description,String image) {
-        this.itemID = itemID;
+    public Item( String name, BigDecimal cost, int quantity, String tags, String description,String image) {
         this.name = name;
         this.cost = cost;
         this.quantity = quantity;
         this.tags = tags;
         this.description = description;
         this.image = image;
-    }
-
-    public int getItemID() {
-        return itemID;
     }
 
     public String getName() {
@@ -48,10 +42,6 @@ public class Item {
 
     public String getImage(){
         return image;
-    }
-
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
     }
 
     public void setName(String name) {

@@ -1,5 +1,6 @@
 package com.example.demo.auth.Controllers;
 
+import com.example.demo.DBUtils.ItemTable;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.Objects.Item;
 import com.example.demo.auth.Objects.User;
@@ -158,11 +159,11 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             Item item;
             while (resultSet.next()) {
                 item = new Item(resultSet.getString("Name"),
-                        resultSet.getBigDecimal("Price"),
+                        resultSet.getDouble("Price"),
                         resultSet.getInt("Quantity"),
                         resultSet.getString("Tags"),
                         resultSet.getString("Description"),
-                        resultSet.getString("Image")); // directory path to the image
+                        resultSet.getString("ImageDirectory")); // directory path to the image
                 listData.add(item);
             }
         } catch (SQLException e) {
@@ -247,7 +248,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         btn_addItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
+                addItem();
             }
         });
     }
@@ -292,8 +293,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         }
     }
 
-    public void addItem() {//need to add image import, set itemQuantity and ItemPrice to BigDecimal and int
-        Item item = new Item(tf_itemName.getText(),new BigDecimal(tf_itemPrice.getText()),Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(),ta_itemDescription.getText(),"image/directory");//add image directory
-
+    public void addItem() {//need to add image import
+        Item item = new Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()),Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(),ta_itemDescription.getText(),"image/directory");//add image directory
+        ItemTable.insertItem(item);
     }
 }

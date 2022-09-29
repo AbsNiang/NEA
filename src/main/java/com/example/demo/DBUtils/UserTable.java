@@ -30,13 +30,9 @@ public class UserTable {
             if (resultSet.isBeforeFirst()) { //if true, username is taken, if false, it means it is available.
                 System.out.println("User already exists.");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("You cannot use this username.");
+                alert.setContentText("You cannot use this email address.");
                 alert.show();
             } else {
-                if (resultSet.next()) {
-                    user.setOwner(true);
-                    System.out.println("User set as owner");
-                }
                 psInsert = connection.prepareStatement("INSERT INTO Users (emailAddress, password, passwordSalt, firstName, Surname, isOwner,hasLoyaltyCard ) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 psInsert.setString(1, user.getEmailAddress());
                 psInsert.setString(2, user.getPassword());

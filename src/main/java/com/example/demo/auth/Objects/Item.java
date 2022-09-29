@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 public class Item {
 
     private String name;
-    private BigDecimal cost;
+    private double cost;
     private int quantity;
     private  String tags;
     private String description;
     private String image;
 
-    public Item( String name, BigDecimal cost, int quantity, String tags, String description,String image) {
+    public Item( String name, double cost, int quantity, String tags, String description,String image) {
         this.name = name;
         this.cost = cost;
         this.quantity = quantity;
@@ -24,7 +24,7 @@ public class Item {
         return name;
     }
 
-    public BigDecimal getCost() {
+    public double getCost() {
         return cost;
     }
 
@@ -48,7 +48,7 @@ public class Item {
         this.name = name;
     }
 
-    public void setCost(BigDecimal cost) {
+    public void setCost(double cost) {
         this.cost = cost;
     }
 

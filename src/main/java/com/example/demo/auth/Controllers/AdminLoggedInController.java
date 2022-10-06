@@ -12,10 +12,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.io.File;
+import java.io.IOException;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -70,6 +74,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TextField tf_searchAddItems;
     @FXML
+    private ImageView imgview_addItems;
+    @FXML
     private TableColumn<Item, String> tvCol_addItemName;
     @FXML
     private TableColumn<Item, String> tvCol_addItemPrice;
@@ -81,6 +87,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TableColumn<Item, String> tvCol_addItemDescription;
     @FXML
     private TableView<Item> tv_addItems;
+
+    private Image image;
 
     //Edit Items Anchor Pane:
     @FXML
@@ -207,9 +215,29 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         tv_addItems.setItems(listAddItem);
     }
 
+    public void selectAddItemList() {
+        Item item = tv_addItems.getSelectionModel().getSelectedItem();
+        //int numb = tv_addItems.getSelectionModel().getSelectedIndex();
+        tf_itemName.setText(item.getName());
+        tf_itemPrice.setText(Double.toString(item.getCost()));
+        tf_itemQuantity.setText(Integer.toString(item.getQuantity()));
+        ta_itemTags.setText(item.getTags());
+        ta_itemDescription.setText(item.getDescription());
+        String url = "file:" + item.getImage();
+        image = new Image(url, 200, 200, false, true);
+        imgview_addItems.setImage(image);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showAddItemList();
+
+        tv_addItems.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectAddItemList();
+            }
+        });
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -248,7 +276,17 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         btn_addItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                addItem();
+                Item item = new Item(tf_itemName.getText(),
+                        Double.parseDouble(tf_itemPrice.getText()),
+                        Integer.parseInt(tf_itemQuantity.getText()),
+                        ta_itemTags.getText(),
+                        ta_itemDescription.getText(),
+                        "default");
+                String itemName = item.getName() + item.getCost();
+                File file = new File("src/main/resources/com/example/demo/Images/Items/" + itemName);
+                item.setImage(file.getPath());
+                addItem(item);
+                saveImage(item, file);
             }
         });
     }
@@ -293,8 +331,12 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         }
     }
 
-    public void addItem() {//need to add image import
-        Item item = new Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()),Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(),ta_itemDescription.getText(),"image/directory");//add image directory
+    public void addItem(Item item) {//need to add image import
         ItemTable.insertItem(item);
+    }
+
+    public void saveImage(Item item, File fileLocation) {
+        Image imageToBeSaved = imgview_addItems.getImage();
+
     }
 }

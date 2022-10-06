@@ -4,6 +4,7 @@ module com.example.demo {
     requires java.sql;
     requires java.mail;
     requires javafx.graphics;
+    requires java.desktop;
 
     /*
     exports com.example.demo.auth;

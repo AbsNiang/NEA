@@ -9,7 +9,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class Email {
+public class Email { //add regex
 
     public static void sendEmail(EmailToken emailToken) {
 

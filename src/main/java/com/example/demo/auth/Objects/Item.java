@@ -1,5 +1,8 @@
 package com.example.demo.auth.Objects;
 
+import javafx.event.ActionEvent;
+import javafx.scene.image.Image;
+
 import java.math.BigDecimal;
 
 public class Item {
@@ -67,4 +70,5 @@ public class Item {
     public void setImage(String image) {
         this.image = image;
     }
+
 }

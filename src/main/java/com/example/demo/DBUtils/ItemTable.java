@@ -70,8 +70,4 @@ public class ItemTable {
         }
 
     }
-
-    public static void main (String[] args ){
-        insertItem(new Item("test",2.99,5,"sggssgdsgdgsgssg","ggsssggrgrg","image\\directory"));
-    }
 }

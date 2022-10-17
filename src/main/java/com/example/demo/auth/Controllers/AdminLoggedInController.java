@@ -60,8 +60,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private Button btn_addItem;
     @FXML
-    private Button btn_clearItem;
-    @FXML
     private TextField tf_itemName;
     @FXML
     private TextField tf_itemPrice;
@@ -71,6 +69,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TextArea ta_itemTags;
     @FXML
     private TextArea ta_itemDescription;
+    @FXML
+    private AnchorPane itemNotFound_form; // turns visible if the item isn't found in the grocery item price dataset
     @FXML
     private TextField tf_searchAddItems;
     @FXML
@@ -217,7 +217,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
 
     public void selectAddItemList() {
         Item item = tv_addItems.getSelectionModel().getSelectedItem();
-        //int numb = tv_addItems.getSelectionModel().getSelectedIndex();
         tf_itemName.setText(item.getName());
         tf_itemPrice.setText(Double.toString(item.getCost()));
         tf_itemQuantity.setText(Integer.toString(item.getQuantity()));
@@ -333,6 +332,19 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
 
     public void addItem(Item item) {//need to add image import
         ItemTable.insertItem(item);
+    }
+
+    public void updateItem() {
+        Item item = new Item(tf_itemName.getText(),
+                Double.parseDouble(tf_itemPrice.getText()),
+                Integer.parseInt(tf_itemQuantity.getText()),
+                ta_itemTags.getText(),
+                ta_itemDescription.getText(),
+                "default");
+        String itemName = item.getName() + item.getCost();
+        File file = new File("src/main/resources/com/example/demo/Images/Items/" + itemName);
+        item.setImage(file.getPath());
+
     }
 
     public void saveImage(Item item, File fileLocation) {

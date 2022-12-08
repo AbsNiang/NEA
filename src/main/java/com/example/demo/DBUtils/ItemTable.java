@@ -26,13 +26,12 @@ public class ItemTable {
                 alert.setContentText("An item with this name and price already exists.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO Items (Name, Price, Quantity, Tags, Description, ImageDirectory ) VALUES (?, ?, ?, ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO Items (Name, Price, Quantity, Tags, Description) VALUES (?, ?, ?, ?, ?)");
                 psInsert.setString(1, item.getName());
                 psInsert.setDouble(2, item.getCost());
                 psInsert.setInt(3, item.getQuantity());
                 psInsert.setString(4, item.getTags());
                 psInsert.setString(5, item.getDescription());
-                psInsert.setString(6, item.getImage());
                 psInsert.executeUpdate();
             }
 

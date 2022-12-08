@@ -12,14 +12,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.File;
 import java.io.IOException;
-import java.awt.image.BufferedImage;
+
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -74,8 +73,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TextField tf_searchAddItems;
     @FXML
-    private ImageView imgview_addItems;
-    @FXML
     private TableColumn<Item, String> tvCol_addItemName;
     @FXML
     private TableColumn<Item, String> tvCol_addItemPrice;
@@ -87,8 +84,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TableColumn<Item, String> tvCol_addItemDescription;
     @FXML
     private TableView<Item> tv_addItems;
-
-    private Image image;
 
     //Edit Items Anchor Pane:
     @FXML
@@ -170,8 +165,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                         resultSet.getDouble("Price"),
                         resultSet.getInt("Quantity"),
                         resultSet.getString("Tags"),
-                        resultSet.getString("Description"),
-                        resultSet.getString("ImageDirectory")); // directory path to the image
+                        resultSet.getString("Description"));
                 listData.add(item);
             }
         } catch (SQLException e) {
@@ -222,9 +216,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         tf_itemQuantity.setText(Integer.toString(item.getQuantity()));
         ta_itemTags.setText(item.getTags());
         ta_itemDescription.setText(item.getDescription());
-        String url = "file:" + item.getImage();
-        image = new Image(url, 200, 200, false, true);
-        imgview_addItems.setImage(image);
     }
 
     @Override
@@ -279,13 +270,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                         Double.parseDouble(tf_itemPrice.getText()),
                         Integer.parseInt(tf_itemQuantity.getText()),
                         ta_itemTags.getText(),
-                        ta_itemDescription.getText(),
-                        "default");
-                String itemName = item.getName() + item.getCost();
-                File file = new File("src/main/resources/com/example/demo/Images/Items/" + itemName);
-                item.setImage(file.getPath());
-                addItem(item);
-                saveImage(item, file);
+                        ta_itemDescription.getText());
             }
         });
     }
@@ -329,26 +314,11 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             btn_editItems.setStyle("-fx-background-color: #13a5ec;");
         }
     }
-
-    public void addItem(Item item) {//need to add image import
-        ItemTable.insertItem(item);
-    }
-
     public void updateItem() {
         Item item = new Item(tf_itemName.getText(),
                 Double.parseDouble(tf_itemPrice.getText()),
                 Integer.parseInt(tf_itemQuantity.getText()),
                 ta_itemTags.getText(),
-                ta_itemDescription.getText(),
-                "default");
-        String itemName = item.getName() + item.getCost();
-        File file = new File("src/main/resources/com/example/demo/Images/Items/" + itemName);
-        item.setImage(file.getPath());
-
-    }
-
-    public void saveImage(Item item, File fileLocation) {
-        Image imageToBeSaved = imgview_addItems.getImage();
-
+                ta_itemDescription.getText());
     }
 }

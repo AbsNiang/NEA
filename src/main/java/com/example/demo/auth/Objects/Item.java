@@ -12,15 +12,13 @@ public class Item {
     private int quantity;
     private  String tags;
     private String description;
-    private String image;
 
-    public Item( String name, double cost, int quantity, String tags, String description,String image) {
+    public Item( String name, double cost, int quantity, String tags, String description) {
         this.name = name;
         this.cost = cost;
         this.quantity = quantity;
         this.tags = tags;
         this.description = description;
-        this.image = image;
     }
 
     public String getName() {
@@ -43,10 +41,6 @@ public class Item {
         return description;
     }
 
-    public String getImage(){
-        return image;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -66,9 +60,4 @@ public class Item {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
 }

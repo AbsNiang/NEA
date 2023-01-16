@@ -148,6 +148,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TableView<?> tv_users;
 
     private ObservableList<Item> listAddItem;
+    private ObservableList<User>listEditUsers;
 
     public ObservableList<Item> addItemList() {
         ObservableList<Item> listData = FXCollections.observableArrayList();
@@ -218,6 +219,74 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         ta_itemDescription.setText(item.getDescription());
     }
 
+    public ObservableList<Item> EditUsersList() {
+        ObservableList<User> listData = FXCollections.observableArrayList();
+        Connection connection = null;
+        PreparedStatement prepare = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            prepare = connection.prepareStatement("SELECT * FROM users");
+            resultSet = prepare.executeQuery();
+            User user;
+            while (resultSet.next()) {
+                user = new User(resultSet.getString("EmailAddress"),
+                        resultSet.getString("Password"),
+                        resultSet.getInt("Quantity"),
+                        resultSet.getString("Tags"),
+                        resultSet.getString("Description"));
+                listData.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prepare != null) {
+                try {
+                    prepare.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return listData;
+    }
+
+
+    public void showAddItemList() {
+        listAddItem = addItemList();
+
+
+        tvCol_addItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tvCol_addItemPrice.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        tvCol_addItemQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        tvCol_addItemTags.setCellValueFactory(new PropertyValueFactory<>("tags"));
+        tvCol_addItemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        tv_addItems.setItems(listAddItem);
+    }
+
+    public void selectAddItemList() {
+        Item item = tv_addItems.getSelectionModel().getSelectedItem();
+        tf_itemName.setText(item.getName());
+        tf_itemPrice.setText(Double.toString(item.getCost()));
+        tf_itemQuantity.setText(Integer.toString(item.getQuantity()));
+        ta_itemTags.setText(item.getTags());
+        ta_itemDescription.setText(item.getDescription());
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showAddItemList();

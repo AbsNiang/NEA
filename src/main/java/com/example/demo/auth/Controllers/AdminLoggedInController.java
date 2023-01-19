@@ -1,6 +1,5 @@
 package com.example.demo.auth.Controllers;
 
-import com.example.demo.DBUtils.ItemTable;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.Objects.Item;
 import com.example.demo.auth.Objects.User;
@@ -15,9 +14,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-
-import java.io.File;
-import java.io.IOException;
 
 import java.net.URL;
 import java.sql.*;
@@ -38,6 +34,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private Button btn_editItems;
     @FXML
     private Button btn_editUsers;
+    @FXML
+    private Button btn_customerView;
     @FXML
     private Label lbl_username;
 
@@ -123,7 +121,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private Button btn_deleteUser;
     @FXML
-    private TextField tf_username;
+    private TextField tf_email;
     @FXML
     private TextField tf_firstName;
     @FXML
@@ -135,7 +133,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TextField tf_searchUser;
     @FXML
-    private TableColumn<?, ?> tvCol_editUsername;
+    private TableColumn<?, ?> tvCol_editEmail;
     @FXML
     private TableColumn<?, ?> tvCol_editFirstName;
     @FXML
@@ -145,7 +143,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TableColumn<?, ?> tvCol_editHasLoyaltyCard;
     @FXML
-    private TableView<?> tv_users;
+    private TableView<User> tv_users;
 
     private ObservableList<Item> listAddItem;
     private ObservableList<User>listEditUsers;
@@ -200,8 +198,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
 
     public void showAddItemList() {
         listAddItem = addItemList();
-
-
         tvCol_addItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvCol_addItemPrice.setCellValueFactory(new PropertyValueFactory<>("cost"));
         tvCol_addItemQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -219,7 +215,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         ta_itemDescription.setText(item.getDescription());
     }
 
-    public ObservableList<Item> EditUsersList() {
+    public ObservableList<User> editUsersList() {
         ObservableList<User> listData = FXCollections.observableArrayList();
         Connection connection = null;
         PreparedStatement prepare = null;
@@ -233,9 +229,11 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             while (resultSet.next()) {
                 user = new User(resultSet.getString("EmailAddress"),
                         resultSet.getString("Password"),
-                        resultSet.getInt("Quantity"),
-                        resultSet.getString("Tags"),
-                        resultSet.getString("Description"));
+                        resultSet.getString("PasswordSalt"),
+                        resultSet.getString("FirstName"),
+                        resultSet.getString("Surname"),
+                        resultSet.getBoolean("HasLoyaltyCard"),
+                        resultSet.getBoolean("IsOwner"));
                 listData.add(user);
             }
         } catch (SQLException e) {
@@ -267,34 +265,37 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     }
 
 
-    public void showAddItemList() {
-        listAddItem = addItemList();
-
-
-        tvCol_addItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tvCol_addItemPrice.setCellValueFactory(new PropertyValueFactory<>("cost"));
-        tvCol_addItemQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        tvCol_addItemTags.setCellValueFactory(new PropertyValueFactory<>("tags"));
-        tvCol_addItemDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
-        tv_addItems.setItems(listAddItem);
+    public void showEditUsersList() {
+        listEditUsers = editUsersList();
+        tvCol_editEmail.setCellValueFactory(new PropertyValueFactory<>("emailAddress"));
+        tvCol_editFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        tvCol_editSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        tvCol_editIsAdmin.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
+        tvCol_editHasLoyaltyCard.setCellValueFactory(new PropertyValueFactory<>("hasLoyaltyCard"));
+        tv_users.setItems(listEditUsers);
     }
 
-    public void selectAddItemList() {
-        Item item = tv_addItems.getSelectionModel().getSelectedItem();
-        tf_itemName.setText(item.getName());
-        tf_itemPrice.setText(Double.toString(item.getCost()));
-        tf_itemQuantity.setText(Integer.toString(item.getQuantity()));
-        ta_itemTags.setText(item.getTags());
-        ta_itemDescription.setText(item.getDescription());
+    public void selectEditUsersList() {
+        User user = tv_users.getSelectionModel().getSelectedItem();
+        tf_email.setText(user.getEmailAddress());
+        tf_firstName.setText(user.getFirstName());
+        cb_isAdmin.setSelected(user.isAdmin());
+        cb_hasLoyaltyCard.setSelected(user.isHasLoyaltyCard());
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showAddItemList();
-
+        showEditUsersList();
         tv_addItems.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectAddItemList();
+            }
+        });
+        tv_users.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectEditUsersList();
             }
         });
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {
@@ -329,6 +330,13 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             @Override
             public void handle(ActionEvent event) {
                 switchForm(event);
+            }
+        });
+
+        btn_customerView.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                SceneHandler.changeScene(event, "CustomerLoggedIn.fxml","Welcome","",1100,651);
             }
         });
 

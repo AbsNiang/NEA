@@ -7,21 +7,17 @@ public class User {
     String firstName;
     String surname;
     boolean hasLoyaltyCard;
-    boolean isOwner;
+    boolean isAdmin;
 
     public User(String emailAddress, String password, String passwordSalt, String firstName,
-                String surname, boolean hasLoyaltyCard, boolean isOwner) {
+                String surname, boolean hasLoyaltyCard, boolean isAdmin) {
         this.emailAddress = emailAddress;
         this.password = password;
         this.passwordSalt = passwordSalt;
         this.firstName = firstName;
         this.surname = surname;
         this.hasLoyaltyCard = hasLoyaltyCard;
-        this.isOwner = isOwner;
-    }
-
-    public User() {
-
+        this.isAdmin = isAdmin;
     }
 
     public String getEmailAddress() {
@@ -72,11 +68,11 @@ public class User {
         this.hasLoyaltyCard = hasLoyaltyCard;
     }
 
-    public boolean isOwner() {
-        return isOwner;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setOwner(boolean owner) {
-        isOwner = owner;
+    public void setAdmin(boolean admin) {
+        this.isAdmin = admin;
     }
 }

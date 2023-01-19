@@ -39,10 +39,10 @@ public class UserTable {
                 psInsert.setString(3, user.getPasswordSalt());
                 psInsert.setString(4, user.getFirstName());
                 psInsert.setString(5, user.getSurname());
-                psInsert.setBoolean(6, user.isOwner());
+                psInsert.setBoolean(6, user.isAdmin());
                 psInsert.setBoolean(7, user.isHasLoyaltyCard());
                 psInsert.executeUpdate();
-                SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", user.getEmailAddress(), 1100, 651);
+                SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome!", user.getEmailAddress(), 1100, 651);
             }
 
         } catch (SQLException e) {
@@ -82,13 +82,19 @@ public class UserTable {
     public static void logInUser(ActionEvent event, String emailAddress, String password) {
         String correctPassword = fetchInfo(emailAddress, "password");
         String originalSalt = fetchInfo(emailAddress, "passwordSalt");
+        String isAdmin = fetchInfo(emailAddress, "isOwner");
         byte[] byteSalt = PasswordConverter.fromHex(originalSalt);
         byte[] loginPassword = PasswordHandler.getSaltedHash(password, byteSalt);
         byte[] storedPassword = PasswordConverter.fromHex(correctPassword);
 
         if (Arrays.equals(loginPassword, storedPassword)) {
             System.out.println("Passwords are a match.");
-            SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
+            if (isAdmin.equals("TRUE")) {
+                SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
+            }else {
+                SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
+            }
+
         } else {
             System.out.println("Passwords didn't match.");
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -102,7 +108,6 @@ public class UserTable {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String info = null;
-
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
             preparedStatement = connection.prepareStatement("SELECT " + desiredField + " FROM users WHERE emailAddress = ?");

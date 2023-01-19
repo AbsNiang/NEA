@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.Controllers.AdminLoggedInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.Controllers.AdminLoggedInController">
    <children>
       <BorderPane layoutY="2.0" prefHeight="651.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -85,6 +85,11 @@
                            </image>
                         </ImageView>
                      </graphic>
+                  </Button>
+                  <Button fx:id="btn_customerView" layoutX="24.0" layoutY="524.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Customer View" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Light" size="16.0" />
+                     </font>
                   </Button>
                </children>
             </AnchorPane>
@@ -289,7 +294,7 @@
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="tf_username" layoutX="96.0" layoutY="24.0" />
+                              <TextField fx:id="tf_email" layoutX="96.0" layoutY="24.0" />
                               <Label layoutX="15.0" layoutY="70.0" text="First Name:">
                                  <font>
                                     <Font name="Roboto Light" size="14.0" />
@@ -330,7 +335,7 @@
                            <children>
                               <TableView fx:id="tv_users" layoutX="13.0" layoutY="66.0" prefHeight="539.0" prefWidth="571.0" stylesheets="@css/dashboard.css">
                                  <columns>
-                                    <TableColumn fx:id="tvCol_editUsername" prefWidth="142.79995727539062" text="Email" />
+                                    <TableColumn fx:id="tvCol_editEmail" prefWidth="142.79995727539062" text="Email" />
                                     <TableColumn fx:id="tvCol_editFirstName" prefWidth="102.4000244140625" text="First Name" />
                                     <TableColumn fx:id="tvCol_editSurname" prefWidth="113.0" text="Surname" />
                                     <TableColumn fx:id="tvCol_editIsAdmin" prefWidth="84.199951171875" text="Admin?" />

@@ -33,7 +33,7 @@ public class UserTable {
                 alert.setContentText("You cannot use this email address.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO Users (emailAddress, password, passwordSalt, firstName, Surname, isOwner,hasLoyaltyCard ) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO Users (emailAddress, password, passwordSalt, firstName, Surname, isAdmin,hasLoyaltyCard ) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 psInsert.setString(1, user.getEmailAddress());
                 psInsert.setString(2, user.getPassword());
                 psInsert.setString(3, user.getPasswordSalt());
@@ -82,7 +82,7 @@ public class UserTable {
     public static void logInUser(ActionEvent event, String emailAddress, String password) {
         String correctPassword = fetchInfo(emailAddress, "password");
         String originalSalt = fetchInfo(emailAddress, "passwordSalt");
-        String isAdmin = fetchInfo(emailAddress, "isOwner");
+        String isAdmin = fetchInfo(emailAddress, "isAdmin");
         byte[] byteSalt = PasswordConverter.fromHex(originalSalt);
         byte[] loginPassword = PasswordHandler.getSaltedHash(password, byteSalt);
         byte[] storedPassword = PasswordConverter.fromHex(correctPassword);
@@ -220,5 +220,33 @@ public class UserTable {
                 }
             }
         }
+    }
+
+    public static void updateUserField(User user, String field, String newInfo){
+        Connection connection = null;
+        PreparedStatement psInsert = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psInsert = connection.prepareStatement("UPDATE Users SET "+ field +" = '" + newInfo + "' WHERE emailAddress = '" + user.getEmailAddress() + "'");
+            psInsert.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (psInsert != null) {
+                try {
+                    psInsert.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 }

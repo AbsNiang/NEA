@@ -233,7 +233,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                         resultSet.getString("FirstName"),
                         resultSet.getString("Surname"),
                         resultSet.getBoolean("HasLoyaltyCard"),
-                        resultSet.getBoolean("IsOwner"));
+                        resultSet.getBoolean("IsAdmin"));
                 listData.add(user);
             }
         } catch (SQLException e) {
@@ -270,7 +270,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         tvCol_editEmail.setCellValueFactory(new PropertyValueFactory<>("emailAddress"));
         tvCol_editFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         tvCol_editSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        tvCol_editIsAdmin.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
+        tvCol_editIsAdmin.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));// error for debug stage
         tvCol_editHasLoyaltyCard.setCellValueFactory(new PropertyValueFactory<>("hasLoyaltyCard"));
         tv_users.setItems(listEditUsers);
     }
@@ -296,6 +296,12 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectEditUsersList();
+            }
+        });
+        btn_submitUserChanges.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                //update users method
             }
         });
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {

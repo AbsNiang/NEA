@@ -222,7 +222,7 @@ public class UserTable {
         }
     }
 
-    public static void updateUserField(User user, String field, String newInfo){
+    public static void updateInfo(User user, String field, String newInfo){
         Connection connection = null;
         PreparedStatement psInsert = null;
         try {
@@ -249,4 +249,58 @@ public class UserTable {
         }
 
     }
+    public static void updateBooleanInfo(User user, String field, boolean newInfo){
+        Connection connection = null;
+        PreparedStatement psInsert = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psInsert = connection.prepareStatement("UPDATE Users SET "+ field +" = '" + newInfo + "' WHERE emailAddress = '" + user.getEmailAddress() + "'");
+            psInsert.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (psInsert != null) {
+                try {
+                    psInsert.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void deleteUser(String emailAddress){
+        Connection connection = null;
+        PreparedStatement psInsert = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psInsert = connection.prepareStatement("DELETE FROM Users WHERE emailAddress = '" + emailAddress + "'");
+            psInsert.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (psInsert != null) {
+                try {
+                    psInsert.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

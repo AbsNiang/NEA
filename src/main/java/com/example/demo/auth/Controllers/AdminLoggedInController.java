@@ -1,5 +1,6 @@
 package com.example.demo.auth.Controllers;
 
+import com.example.demo.DBUtils.UserTable;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.Objects.Item;
 import com.example.demo.auth.Objects.User;
@@ -279,6 +280,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         User user = tv_users.getSelectionModel().getSelectedItem();
         tf_email.setText(user.getEmailAddress());
         tf_firstName.setText(user.getFirstName());
+        tf_surname.setText(user.getSurname());
         cb_isAdmin.setSelected(user.isAdmin());
         cb_hasLoyaltyCard.setSelected(user.isHasLoyaltyCard());
     }
@@ -286,22 +288,37 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showAddItemList();
         showEditUsersList();
+        //Item TableView
         tv_addItems.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectAddItemList();
             }
         });
+        //User TableView
         tv_users.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectEditUsersList();
             }
         });
-        btn_submitUserChanges.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        btn_submitUserChanges.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent) {
-                //update users method
+            public void handle(ActionEvent event) {
+              User user = new User(tf_email.getText(),"","",tf_firstName.getText(),tf_surname.getText(),cb_hasLoyaltyCard.isSelected(),cb_isAdmin.isSelected());
+              UserTable.updateInfo(user,"EmailAddress",user.getEmailAddress());
+              UserTable.updateInfo(user,"FirstName",user.getFirstName());
+              UserTable.updateInfo(user,"Surname",user.getSurname());
+              UserTable.updateBooleanInfo(user,"IsAdmin",user.isAdmin());
+              UserTable.updateBooleanInfo(user,"HasLoyaltyCard",user.isHasLoyaltyCard());
+              refreshAdminPage(event);
+            }
+        });
+        btn_deleteUser.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                UserTable.deleteUser(tf_email.getText());
+                refreshAdminPage(event);
             }
         });
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {
@@ -403,5 +420,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                 Integer.parseInt(tf_itemQuantity.getText()),
                 ta_itemTags.getText(),
                 ta_itemDescription.getText());
+    }
+    public void refreshAdminPage(ActionEvent event){
+        SceneHandler.changeScene(event,"AdminLoggedIn.fxml","Welcome!","",1100,651);
     }
 }

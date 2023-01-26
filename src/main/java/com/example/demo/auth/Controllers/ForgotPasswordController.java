@@ -1,10 +1,9 @@
 package com.example.demo.auth.Controllers;
 
-import com.example.demo.DBUtils.UserTable;
+import com.example.demo.Database.UserTable;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.EmailHandling.EmailToken;
 import com.example.demo.auth.EmailHandling.Email;
-import com.example.demo.auth.Objects.User;
 import com.example.demo.auth.Registration.GenerateConfirmationCode;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

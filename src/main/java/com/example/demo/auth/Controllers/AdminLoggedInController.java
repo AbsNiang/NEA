@@ -1,6 +1,8 @@
 package com.example.demo.auth.Controllers;
 
-import com.example.demo.DBUtils.UserTable;
+import com.example.demo.Database.ItemTable;
+import com.example.demo.Database.UserTable;
+import com.example.demo.Database.Utils;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.Objects.Item;
 import com.example.demo.auth.Objects.User;
@@ -20,7 +22,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-import static com.example.demo.DBUtils.UserTable.dbLocation;
+import static com.example.demo.Database.UserTable.dbLocation;
 
 public class AdminLoggedInController implements Initializable { //Scene once signed in (admin)
 
@@ -31,8 +33,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private Button btn_logistics;
     @FXML
     private Button btn_addItems;
-    @FXML
-    private Button btn_editItems;
     @FXML
     private Button btn_editUsers;
     @FXML
@@ -84,36 +84,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TableView<Item> tv_addItems;
 
-    //Edit Items Anchor Pane:
-    @FXML
-    private AnchorPane editItems_form;
-    @FXML
-    private Button btn_submitItemChanges;
-    @FXML
-    private Button btn_deleteItem;
-    @FXML
-    private Button btn_importEditItem;
-    @FXML
-    private TextField tf_editItemName;
-    @FXML
-    private TextField tf_editItemPrice;
-    @FXML
-    private TextArea ta_editItemTags;
-    @FXML
-    private TextArea ta_editItemDescription;
-    @FXML
-    private TableColumn<?, ?> tvCol_editItemName;
-    @FXML
-    private TableColumn<?, ?> tvCol_editItemPrice;
-    @FXML
-    private TableColumn<?, ?> tvCol_editItemQuantity;
-    @FXML
-    private TableColumn<?, ?> tvCol_editItemTags;
-    @FXML
-    private TableColumn<?, ?> tvCol_editItemDescription;
-    @FXML
-    private TableView<?> tv_editItems;
-
     //Edit Users Anchor Pane:
     @FXML
     private AnchorPane editUsers_form;
@@ -146,8 +116,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TableView<User> tv_users;
 
-    private ObservableList<Item> listAddItem;
-    private ObservableList<User>listEditUsers;
+    private User selectedUser;
+    private Item selectedItem;
 
     public ObservableList<Item> addItemList() {
         ObservableList<Item> listData = FXCollections.observableArrayList();
@@ -161,7 +131,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             resultSet = prepare.executeQuery();
             Item item;
             while (resultSet.next()) {
-                item = new Item(resultSet.getString("Name"),
+                item = new Item(resultSet.getString("ItemName"),
                         resultSet.getDouble("Price"),
                         resultSet.getInt("Quantity"),
                         resultSet.getString("Tags"),
@@ -198,7 +168,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
 
 
     public void showAddItemList() {
-        listAddItem = addItemList();
+        ObservableList<Item> listAddItem = addItemList();
         tvCol_addItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvCol_addItemPrice.setCellValueFactory(new PropertyValueFactory<>("cost"));
         tvCol_addItemQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -267,7 +237,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
 
 
     public void showEditUsersList() {
-        listEditUsers = editUsersList();
+        ObservableList<User> listEditUsers = editUsersList();
         tvCol_editEmail.setCellValueFactory(new PropertyValueFactory<>("emailAddress"));
         tvCol_editFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         tvCol_editSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
@@ -284,6 +254,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         cb_isAdmin.setSelected(user.isAdmin());
         cb_hasLoyaltyCard.setSelected(user.isHasLoyaltyCard());
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showAddItemList();
@@ -293,6 +264,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectAddItemList();
+                selectedItem = new  Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()),Integer.parseInt(tf_itemQuantity.getText()),ta_itemTags.getText(),ta_itemDescription.getText());
             }
         });
         //User TableView
@@ -300,25 +272,39 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectEditUsersList();
+                selectedUser = new User(tf_email.getText(),null,null,tf_firstName.getText(),tf_surname.getText(),cb_hasLoyaltyCard.isSelected(),cb_isAdmin.isSelected());
             }
         });
         btn_submitUserChanges.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-              User user = new User(tf_email.getText(),"","",tf_firstName.getText(),tf_surname.getText(),cb_hasLoyaltyCard.isSelected(),cb_isAdmin.isSelected());
-              UserTable.updateInfo(user,"EmailAddress",user.getEmailAddress());
-              UserTable.updateInfo(user,"FirstName",user.getFirstName());
-              UserTable.updateInfo(user,"Surname",user.getSurname());
-              UserTable.updateBooleanInfo(user,"IsAdmin",user.isAdmin());
-              UserTable.updateBooleanInfo(user,"HasLoyaltyCard",user.isHasLoyaltyCard());
-              refreshAdminPage(event);
+                try {
+                    Utils.updateInfo(selectedUser.getEmailAddress(), "EmailAddress", tf_email.getText(), UserTable.dbLocation, "USERS", "EmailAddress");
+                    Utils.updateInfo(selectedUser.getEmailAddress(), "FirstName", tf_firstName.getText(), UserTable.dbLocation, "USERS", "EmailAddress");
+                    Utils.updateInfo(selectedUser.getEmailAddress(), "Surname", tf_surname.getText(), UserTable.dbLocation, "USERS", "EmailAddress");
+                    UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "IsAdmin", cb_isAdmin.isSelected());
+                    UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "HasLoyaltyCard", cb_hasLoyaltyCard.isSelected());
+                    showEditUsersList();
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("This isn't a pre-existing account.");
+                    alert.show();
+                }
+
             }
         });
         btn_deleteUser.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                UserTable.deleteUser(tf_email.getText());
-                refreshAdminPage(event);
+                try {
+                    UserTable.deleteUser(tf_email.getText());
+                    showEditUsersList();
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Can't do that!");
+                    alert.show();
+                }
+                showEditUsersList();
             }
         });
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {
@@ -349,17 +335,10 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             }
         });
 
-        btn_editItems.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                switchForm(event);
-            }
-        });
-
         btn_customerView.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                SceneHandler.changeScene(event, "CustomerLoggedIn.fxml","Welcome","",1100,651);
+                SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome", "", 1100, 651);
             }
         });
 
@@ -371,6 +350,23 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                         Integer.parseInt(tf_itemQuantity.getText()),
                         ta_itemTags.getText(),
                         ta_itemDescription.getText());
+                ItemTable.insertItem(item);
+                showAddItemList();
+            }
+        });
+
+        btn_updateItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {//name, price, quantity, tags, desc.
+                String name = selectedItem.getName();
+                String location = ItemTable.dbLocation;
+                Utils.updateInfo(name, "ItemName",tf_itemName.getText() , location, "ITEMS", "ItemName");
+                Utils.updateInfo(name, "Price", tf_itemPrice.getText(), location, "ITEMS", "ItemName");
+                Utils.updateInfo(name, "Quantity", tf_itemQuantity.getText(), location, "ITEMS", "ItemName");
+                Utils.updateInfo(name, "Tags", ta_itemTags.getText(), location, "ITEMS", "ItemName");
+                Utils.updateInfo(name, "Description", ta_itemDescription.getText(), location, "ITEMS", "ItemName");
+                showAddItemList();
+
             }
         });
     }
@@ -380,48 +376,24 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             logistics_form.setVisible(true);
             addItems_form.setVisible(false);
             editUsers_form.setVisible(false);
-            editItems_form.setVisible(false);
             btn_logistics.setStyle("-fx-background-color: #13a5ec;");
             btn_addItems.setStyle("-fx-background-color: transparent;");
             btn_editUsers.setStyle("-fx-background-color: transparent;");
-            btn_editItems.setStyle("-fx-background-color: transparent;");
+
         } else if (event.getSource() == btn_addItems) {
             logistics_form.setVisible(false);
             addItems_form.setVisible(true);
             editUsers_form.setVisible(false);
-            editItems_form.setVisible(false);
             btn_logistics.setStyle("-fx-background-color: transparent;");
             btn_addItems.setStyle("-fx-background-color: #13a5ec;");
             btn_editUsers.setStyle("-fx-background-color: transparent;");
-            btn_editItems.setStyle("-fx-background-color: transparent;");
         } else if (event.getSource() == btn_editUsers) {
             logistics_form.setVisible(false);
             addItems_form.setVisible(false);
             editUsers_form.setVisible(true);
-            editItems_form.setVisible(false);
             btn_logistics.setStyle("-fx-background-color: transparent;");
             btn_addItems.setStyle("-fx-background-color: transparent;");
             btn_editUsers.setStyle("-fx-background-color:#13a5ec; ");
-            btn_editItems.setStyle("-fx-background-color: transparent;");
-        } else if (event.getSource() == btn_editItems) {
-            logistics_form.setVisible(false);
-            addItems_form.setVisible(false);
-            editUsers_form.setVisible(false);
-            editItems_form.setVisible(true);
-            btn_logistics.setStyle("-fx-background-color:transparent;");
-            btn_addItems.setStyle("-fx-background-color: transparent;");
-            btn_editUsers.setStyle("-fx-background-color: transparent;");
-            btn_editItems.setStyle("-fx-background-color: #13a5ec;");
         }
-    }
-    public void updateItem() {
-        Item item = new Item(tf_itemName.getText(),
-                Double.parseDouble(tf_itemPrice.getText()),
-                Integer.parseInt(tf_itemQuantity.getText()),
-                ta_itemTags.getText(),
-                ta_itemDescription.getText());
-    }
-    public void refreshAdminPage(ActionEvent event){
-        SceneHandler.changeScene(event,"AdminLoggedIn.fxml","Welcome!","",1100,651);
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo.auth.Controllers;
 
-import com.example.demo.DBUtils.UserTable;
+import com.example.demo.Database.UserTable;
 import com.example.demo.SceneHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

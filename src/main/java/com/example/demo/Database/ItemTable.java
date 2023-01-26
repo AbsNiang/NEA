@@ -1,4 +1,4 @@
-package com.example.demo.DBUtils;
+package com.example.demo.Database;
 
 import com.example.demo.auth.Objects.Item;
 import javafx.scene.control.Alert;
@@ -6,9 +6,9 @@ import javafx.scene.control.Alert;
 import java.sql.*;
 
 public class ItemTable {
-    private static final String dbLocation = (System.getProperty("user.dir") + "\\databaseNEA.accdb");
+    public static final String dbLocation = (System.getProperty("user.dir") + "\\databaseNEA.accdb");
 
-    public static void insertItem(Item item){
+    public static void insertItem(Item item) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         PreparedStatement psCheckItemExists = null;
@@ -17,16 +17,16 @@ public class ItemTable {
         try {
 
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            psCheckItemExists = connection.prepareStatement("SELECT * FROM Items WHERE Name = ? ");
+            psCheckItemExists = connection.prepareStatement("SELECT * FROM Items WHERE ItemName = ? ");
             psCheckItemExists.setString(1, item.getName());
             resultSet = psCheckItemExists.executeQuery();
             if (resultSet.isBeforeFirst()) { //if true, item already exists.
                 System.out.println("Item already exists.");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("An item with this name and price already exists.");
+                alert.setContentText("An item with this name already exists.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO Items (Name, Price, Quantity, Tags, Description) VALUES (?, ?, ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO Items (ItemName, Price, Quantity, Tags, Description) VALUES (?, ?, ?, ?, ?)");
                 psInsert.setString(1, item.getName());
                 psInsert.setDouble(2, item.getCost());
                 psInsert.setInt(3, item.getQuantity());

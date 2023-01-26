@@ -202,11 +202,11 @@
                                     <children>
                                         <TableView fx:id="tv_Items" layoutX="13.0" layoutY="66.0" prefHeight="539.0" prefWidth="571.0" stylesheets="@css/dashboard.css">
                                             <columns>
-                                                <TableColumn fx:id="tvCol_addItemName" prefWidth="133.20001220703125" text="Item Name" />
-                                                <TableColumn fx:id="tvCol_addItemPrice" prefWidth="70.79998779296875" text="Price" />
-                                                <TableColumn fx:id="tvCol_addItemQuantity" prefWidth="64.60003662109375" text="Quantity" />
-                                                <TableColumn fx:id="tvCol_addItemTags" prefWidth="105.0" text="Tags" />
-                                                <TableColumn fx:id="tvCol_addItemDescription" prefWidth="194.0" text="Description" />
+                                                <TableColumn fx:id="tvCol_ItemName" prefWidth="133.20001220703125" text="Item Name" />
+                                                <TableColumn fx:id="tvCol_ItemPrice" prefWidth="70.79998779296875" text="Price" />
+                                                <TableColumn fx:id="tvCol_ItemQuantity" prefWidth="64.60003662109375" text="Quantity" />
+                                                <TableColumn fx:id="tvCol_ItemTags" prefWidth="105.0" text="Tags" />
+                                                <TableColumn fx:id="tvCol_ItemDescription" prefWidth="194.0" text="Description" />
                                             </columns>
                                         </TableView>
                                         <TextField fx:id="tf_searchItems" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />

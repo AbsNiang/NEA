@@ -62,19 +62,7 @@
                         <Font name="Roboto Light" size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btn_editItems" layoutX="24.0" layoutY="297.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Edit Items" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto Light" size="16.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="24.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/items.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btn_editUsers" layoutX="24.0" layoutY="339.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Edit Users" textFill="WHITE">
+                  <Button fx:id="btn_editUsers" layoutX="23.0" layoutY="303.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Edit Users" textFill="WHITE">
                      <font>
                         <Font name="Roboto Light" size="16.0" />
                      </font>
@@ -86,10 +74,17 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="btn_customerView" layoutX="24.0" layoutY="524.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Customer View" textFill="WHITE">
+                  <Button fx:id="btn_customerView" layoutX="15.0" layoutY="524.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="167.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Customer View" textFill="WHITE">
                      <font>
                         <Font name="Roboto Light" size="16.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/items.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children>
             </AnchorPane>
@@ -132,7 +127,7 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="addItems_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <AnchorPane fx:id="addItems_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                            <children>
@@ -218,74 +213,7 @@
                            </children></AnchorPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="editItems_form" prefHeight="651.2" prefWidth="815.2" visible="false">
-                     <children>
-                        <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
-                           <children>
-                              <AnchorPane layoutX="26.0" layoutY="20.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #4169e1;">
-                                 <children>
-                                    <ImageView fx:id="imgview_editItems" fitHeight="200.0" fitWidth="200.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </AnchorPane>
-                              <Button fx:id="btn_importEditItem" layoutX="96.0" layoutY="228.0" mnemonicParsing="false" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Import" textFill="WHITE">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Button>
-                              <Label layoutX="14.0" layoutY="270.0" text="Item Name:">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tf_editItemName" layoutX="86.0" layoutY="267.0" />
-                              <Label layoutX="17.0" layoutY="300.0" text="Item Price:">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="tf_editItemPrice" layoutX="86.0" layoutY="297.0" />
-                              <Label layoutX="17.0" layoutY="361.0" text="Item Tags:">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Label>
-                              <TextArea fx:id="ta_editItemTags" layoutX="16.0" layoutY="381.0" prefHeight="60.0" prefWidth="219.0" />
-                              <Label layoutX="13.0" layoutY="448.0" text="Description:">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Label>
-                              <TextArea fx:id="ta_editItemDescription" layoutX="16.0" layoutY="468.0" prefHeight="60.0" prefWidth="219.0" />
-                              <Button fx:id="btn_submitItemChanges" layoutX="54.0" layoutY="537.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="143.0" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Submit Changes" textFill="WHITE">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="btn_deleteItem" layoutX="54.0" layoutY="581.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="143.0" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Delete" textFill="WHITE">
-                                 <font>
-                                    <Font name="Roboto Light" size="14.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane layoutX="286.0" layoutY="16.0" prefHeight="620.0" prefWidth="597.0" style="-fx-background-color: white; -fx-background-radius: 8;">
-                           <children>
-                              <TableView fx:id="tv_editItems" layoutX="13.0" layoutY="66.0" prefHeight="539.0" prefWidth="571.0" stylesheets="@css/dashboard.css">
-                                 <columns>
-                                    <TableColumn fx:id="tvCol_editItemID" prefWidth="44.5999755859375" text="ID" />
-                                    <TableColumn fx:id="tvCol_editItemName" prefWidth="109.0" text="Item Name" />
-                                    <TableColumn fx:id="tvCol_editItemPrice" prefWidth="103.4000244140625" text="Price" />
-                                    <TableColumn fx:id="tvCol_editItemQuantity" prefWidth="59.79998779296875" text="# of" />
-                                    <TableColumn fx:id="tv_editItemTags" minWidth="0.0" prefWidth="89.0" text="Tags" />
-                                    <TableColumn fx:id="tvCol_editItemDescription" prefWidth="161.60002441406255" text="Description" />
-                                 </columns>
-                              </TableView>
-                              <TextField fx:id="tf_searchAddItems1" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="editUsers_form" prefHeight="651.2" prefWidth="815.2">
+                  <AnchorPane fx:id="editUsers_form" prefHeight="651.2" prefWidth="815.2" visible="false">
                      <children>
                         <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                            <children>

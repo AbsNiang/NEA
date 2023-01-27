@@ -136,7 +136,7 @@
                                                 <Font name="Roboto Light" size="14.0" />
                                             </font>
                                         </Label>
-                                        <Label layoutX="30.0" layoutY="249.0" text="Total:">
+                                        <Label layoutX="17.0" layoutY="245.0" text="Description:">
                                             <font>
                                                 <Font name="Roboto Light" size="14.0" />
                                             </font>
@@ -166,22 +166,22 @@
                                                 </Label>
                                             </children>
                                         </AnchorPane>
-                              <Label fx:id="lbl_ItemName" layoutX="125.0" layoutY="14.0" text="Item Name">
+                              <Label fx:id="lbl_itemName" layoutX="125.0" layoutY="14.0" text="Item Name">
                                  <font>
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lbl_ItemPrice" layoutX="128.0" layoutY="95.0" text="Item Price">
+                              <Label fx:id="lbl_itemPrice" layoutX="128.0" layoutY="95.0" text="Item Price">
                                  <font>
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lbl_ItemQuantity" layoutX="128.0" layoutY="176.0" text="Quantity Left">
+                              <Label fx:id="lbl_itemQuantity" layoutX="128.0" layoutY="176.0" text="Quantity Left">
                                  <font>
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lbl_ItemAmount" layoutX="144.0" layoutY="249.0" text="Total">
+                              <Label fx:id="lbl_itemDescription" alignment="TOP_LEFT" layoutX="17.0" layoutY="273.0" prefHeight="86.0" prefWidth="186.0" text="Desc" wrapText="true">
                                  <font>
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
@@ -191,7 +191,17 @@
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
                               </Button>
-                              <Label fx:id="lbl_ItemTotal" layoutX="143.0" layoutY="320.0" text="Total">
+                              <Label fx:id="lbl_itemTotal" layoutX="145.0" layoutY="412.0" text="Cost">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="20.0" layoutY="368.0" text="Total:">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_itemAmount" layoutX="155.0" layoutY="368.0" text="0">
                                  <font>
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
@@ -200,13 +210,13 @@
                                 </AnchorPane>
                                 <AnchorPane layoutX="286.0" layoutY="16.0" prefHeight="620.0" prefWidth="597.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                                     <children>
-                                        <TableView fx:id="tv_Items" layoutX="13.0" layoutY="66.0" prefHeight="539.0" prefWidth="571.0" stylesheets="@css/dashboard.css">
+                                        <TableView fx:id="tv_items" layoutX="13.0" layoutY="66.0" prefHeight="539.0" prefWidth="571.0" stylesheets="@css/dashboard.css">
                                             <columns>
-                                                <TableColumn fx:id="tvCol_ItemName" prefWidth="133.20001220703125" text="Item Name" />
-                                                <TableColumn fx:id="tvCol_ItemPrice" prefWidth="70.79998779296875" text="Price" />
-                                                <TableColumn fx:id="tvCol_ItemQuantity" prefWidth="64.60003662109375" text="Quantity" />
-                                                <TableColumn fx:id="tvCol_ItemTags" prefWidth="105.0" text="Tags" />
-                                                <TableColumn fx:id="tvCol_ItemDescription" prefWidth="194.0" text="Description" />
+                                                <TableColumn fx:id="tvCol_itemName" prefWidth="133.20001220703125" text="Item Name" />
+                                                <TableColumn fx:id="tvCol_itemPrice" prefWidth="70.79998779296875" text="Price" />
+                                                <TableColumn fx:id="tvCol_itemQuantity" prefWidth="64.60003662109375" text="Quantity" />
+                                                <TableColumn fx:id="tvCol_itemTags" prefWidth="105.0" text="Tags" />
+                                                <TableColumn fx:id="tvCol_itemDescription" prefWidth="194.0" text="Description" />
                                             </columns>
                                         </TableView>
                                         <TextField fx:id="tf_searchItems" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />

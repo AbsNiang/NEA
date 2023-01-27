@@ -119,6 +119,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private User selectedUser;
     private Item selectedItem;
 
+    //Item TableView Stuff
     public ObservableList<Item> addItemList() {
         ObservableList<Item> listData = FXCollections.observableArrayList();
         Connection connection = null;
@@ -186,6 +187,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         ta_itemDescription.setText(item.getDescription());
     }
 
+    //Users TableView Stuff
     public ObservableList<User> editUsersList() {
         ObservableList<User> listData = FXCollections.observableArrayList();
         Connection connection = null;

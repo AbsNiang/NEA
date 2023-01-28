@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.auth.Controllers.AdminLoggedInController;
+import com.example.demo.auth.Controllers.CustomerLoggedInController;
 import com.example.demo.auth.Controllers.ResetPasswordController;
 import com.example.demo.auth.Objects.User;
 import javafx.event.ActionEvent;
@@ -14,14 +15,21 @@ import java.io.IOException;
 
 public class SceneHandler {
     public static void changeScene(ActionEvent event, String fxmlFile, String title, String emailAddress, int width, int height) {
-
         Parent root = null;
-        if (emailAddress != null && fxmlFile.equals("ResetPassword.fxml")) {
+        if ((emailAddress != null)) {
             try {
                 FXMLLoader loader = new FXMLLoader(SceneHandler.class.getResource(fxmlFile));
                 root = loader.load();
-                ResetPasswordController resetPasswordController = loader.getController();
-                resetPasswordController.setEmail(emailAddress);
+                switch (fxmlFile){
+                    case "CustomerLoggedIn.fxml":
+                        CustomerLoggedInController customerLoggedInController = loader.getController();
+                        customerLoggedInController.setCustomerEmail(emailAddress);
+                        break;
+                    case "ResetPassword.fxml":
+                        ResetPasswordController resetPasswordController = loader.getController();
+                        resetPasswordController.setEmail(emailAddress);
+                        break;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

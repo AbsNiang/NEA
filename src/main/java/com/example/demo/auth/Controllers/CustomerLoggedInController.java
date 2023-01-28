@@ -1,5 +1,7 @@
 package com.example.demo.auth.Controllers;
 
+import com.example.demo.Database.BasketItemTable;
+import com.example.demo.Database.BasketTable;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.Objects.Item;
 import javafx.collections.FXCollections;
@@ -85,6 +87,9 @@ public class CustomerLoggedInController implements Initializable {
     public TableColumn tvCol_basketItemTags;
     @FXML
     public TableColumn tvCol_basketItemDescription;
+
+    private boolean basketMade = false;
+    private String customerEmail;
 
     //Item TableView Stuff
     public ObservableList<Item> addItemList() {
@@ -177,7 +182,12 @@ public class CustomerLoggedInController implements Initializable {
         btn_addToBasket.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                if (!basketMade) {
+                    BasketTable.createBasket(customerEmail);
+                    basketMade = true;
+                } else {
+                    BasketItemTable.addItemToBasket(lbl_itemName.getText(), BasketTable.returnBasketID(), Integer.parseInt(lbl_itemAmount.getText()));
+                }
             }
         });
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {
@@ -250,6 +260,7 @@ public class CustomerLoggedInController implements Initializable {
             alert.show();
         }
     }
+
     private void minusOne() {
         try {
             int currentAmount = Integer.parseInt(lbl_itemAmount.getText());
@@ -267,5 +278,10 @@ public class CustomerLoggedInController implements Initializable {
             alert.setContentText("No item selected");
             alert.show();
         }
+    }
+
+    public void setCustomerEmail(String forwardedEmail) {
+        customerEmail = forwardedEmail;
+        System.out.println(customerEmail);
     }
 }

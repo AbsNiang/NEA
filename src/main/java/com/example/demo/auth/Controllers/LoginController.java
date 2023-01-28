@@ -38,14 +38,14 @@ public class LoginController implements Initializable {
         btn_signup.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                SceneHandler.changeScene(event, "SignUp.fxml", "Sign-Up", null, 600, 400);
+                SceneHandler.changeScene(event, "SignUp.fxml", "Sign-Up", tf_username.getText(), 600, 400);
             }
         });
 
         btn_forgot.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                SceneHandler.changeScene(actionEvent,"ForgotPassword.fxml","Forgot Password",null,600,400);
+                SceneHandler.changeScene(actionEvent,"ForgotPassword.fxml","Forgot Password", tf_username.getText(), 600,400);
             }
         });
     }

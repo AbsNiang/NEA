@@ -265,8 +265,12 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         tv_addItems.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                selectAddItemList();
-                selectedItem = new  Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()),Integer.parseInt(tf_itemQuantity.getText()),ta_itemTags.getText(),ta_itemDescription.getText());
+                try {
+                    selectAddItemList();
+                    selectedItem = new Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()), Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(), ta_itemDescription.getText());
+                } catch (Exception e) {
+                    System.out.println("item not selected.");
+                }
             }
         });
         //User TableView
@@ -274,7 +278,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectEditUsersList();
-                selectedUser = new User(tf_email.getText(),null,null,tf_firstName.getText(),tf_surname.getText(),cb_hasLoyaltyCard.isSelected(),cb_isAdmin.isSelected());
+                selectedUser = new User(tf_email.getText(), null, null, tf_firstName.getText(), tf_surname.getText(), cb_hasLoyaltyCard.isSelected(), cb_isAdmin.isSelected());
             }
         });
         btn_submitUserChanges.setOnAction(new EventHandler<ActionEvent>() {
@@ -362,7 +366,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             public void handle(ActionEvent event) {//name, price, quantity, tags, desc.
                 String name = selectedItem.getName();
                 String location = ItemTable.dbLocation;
-                Utils.updateInfo(name, "ItemName",tf_itemName.getText() , location, "ITEMS", "ItemName");
+                Utils.updateInfo(name, "ItemName", tf_itemName.getText(), location, "ITEMS", "ItemName");
                 Utils.updateInfo(name, "Price", tf_itemPrice.getText(), location, "ITEMS", "ItemName");
                 Utils.updateInfo(name, "Quantity", tf_itemQuantity.getText(), location, "ITEMS", "ItemName");
                 Utils.updateInfo(name, "Tags", ta_itemTags.getText(), location, "ITEMS", "ItemName");

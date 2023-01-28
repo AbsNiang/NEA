@@ -5,8 +5,9 @@ import javafx.scene.control.Alert;
 
 import java.sql.*;
 
+import static com.example.demo.Database.Utils.dbLocation;
+
 public class ItemTable {
-    public static final String dbLocation = (System.getProperty("user.dir") + "\\databaseNEA.accdb");
 
     public static void insertItem(Item item) {
         Connection connection = null;
@@ -67,6 +68,13 @@ public class ItemTable {
                 }
             }
         }
+    }
 
+
+
+    //Removes the amount added to the basket from the Item in DB
+    public static void updateItemAmount(String itemName, int amount){
+        int previousQuantity = Integer.parseInt(Utils.selectFromRecord("Quantity","Items","ItemName",itemName));
+        Utils.updateInfo(itemName, "Quantity", Integer.toString(previousQuantity-amount), "Items", "ItemName");
     }
 }

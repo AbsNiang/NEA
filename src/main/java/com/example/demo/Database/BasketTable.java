@@ -5,9 +5,10 @@ import javafx.scene.control.Alert;
 
 import java.sql.*;
 
+import static com.example.demo.Database.Utils.dbLocation;
+
 //customer should be able to search through their old purchased baskets
 public class BasketTable {
-    public static final String dbLocation = (System.getProperty("user.dir") + "\\databaseNEA.accdb");
 
     public static int createBasket(String emailAddress) {
         Connection connection = null;

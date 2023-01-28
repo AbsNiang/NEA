@@ -4,8 +4,10 @@ import javafx.scene.control.Alert;
 
 import java.sql.*;
 
+import static com.example.demo.Database.Utils.dbLocation;
+
 public class BasketItemTable {
-    public static final String dbLocation = (System.getProperty("user.dir") + "\\databaseNEA.accdb");
+
 
     public static void addItemToBasket(String itemName, int basketID, int QuantityToAdd) {
         Connection connection = null;
@@ -14,14 +16,15 @@ public class BasketItemTable {
         ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            psCheckItemAlreadyInBasket = connection.prepareStatement("SELECT * FROM BasketItem WHERE ItemName = ? ");
+            psCheckItemAlreadyInBasket = connection.prepareStatement("SELECT * FROM BasketItem WHERE ItemName = ? AND BasketID = ?");
             psCheckItemAlreadyInBasket.setString(1, itemName);
+            psCheckItemAlreadyInBasket.setInt(2, basketID);
             resultSet = psCheckItemAlreadyInBasket.executeQuery();
             if (resultSet.next()) { //if true, item already exists.
                 int quantityInDatabase = resultSet.getInt(4);
                 System.out.println("Item already in basket. " +
                         "\nItem quantity needs to be added to quantity in basket.");
-                Utils.updateInfo(itemName,"QuantityAdded",Integer.toString(QuantityToAdd+quantityInDatabase),dbLocation,"BasketItem","ItemName");//doesn't need to be the primary key
+                Utils.updateInfo(itemName,"QuantityAdded",Integer.toString(QuantityToAdd+quantityInDatabase),"BasketItem","ItemName");//doesn't need to be the primary key
                 System.out.println("Incremented quantity in database.");
             } else {
                 psInsert = connection.prepareStatement("INSERT INTO BasketItem (ItemName, BasketID, QuantityAdded) VALUES (?, ?, ?)");

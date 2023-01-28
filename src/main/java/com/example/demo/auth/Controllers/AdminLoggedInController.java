@@ -22,7 +22,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-import static com.example.demo.Database.UserTable.dbLocation;
+import static com.example.demo.Database.Utils.dbLocation;
 
 public class AdminLoggedInController implements Initializable { //Scene once signed in (admin)
 
@@ -285,9 +285,9 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    Utils.updateInfo(selectedUser.getEmailAddress(), "EmailAddress", tf_email.getText(), UserTable.dbLocation, "USERS", "EmailAddress");
-                    Utils.updateInfo(selectedUser.getEmailAddress(), "FirstName", tf_firstName.getText(), UserTable.dbLocation, "USERS", "EmailAddress");
-                    Utils.updateInfo(selectedUser.getEmailAddress(), "Surname", tf_surname.getText(), UserTable.dbLocation, "USERS", "EmailAddress");
+                    Utils.updateInfo(selectedUser.getEmailAddress(), "EmailAddress", tf_email.getText(), "USERS", "EmailAddress");
+                    Utils.updateInfo(selectedUser.getEmailAddress(), "FirstName", tf_firstName.getText(), "USERS", "EmailAddress");
+                    Utils.updateInfo(selectedUser.getEmailAddress(), "Surname", tf_surname.getText(), "USERS", "EmailAddress");
                     UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "IsAdmin", cb_isAdmin.isSelected());
                     UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "HasLoyaltyCard", cb_hasLoyaltyCard.isSelected());
                     showEditUsersList();
@@ -365,12 +365,12 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             @Override
             public void handle(ActionEvent event) {//name, price, quantity, tags, desc.
                 String name = selectedItem.getName();
-                String location = ItemTable.dbLocation;
-                Utils.updateInfo(name, "ItemName", tf_itemName.getText(), location, "ITEMS", "ItemName");
-                Utils.updateInfo(name, "Price", tf_itemPrice.getText(), location, "ITEMS", "ItemName");
-                Utils.updateInfo(name, "Quantity", tf_itemQuantity.getText(), location, "ITEMS", "ItemName");
-                Utils.updateInfo(name, "Tags", ta_itemTags.getText(), location, "ITEMS", "ItemName");
-                Utils.updateInfo(name, "Description", ta_itemDescription.getText(), location, "ITEMS", "ItemName");
+                String location = dbLocation;
+                Utils.updateInfo(name, "ItemName", tf_itemName.getText(), "ITEMS", "ItemName");
+                Utils.updateInfo(name, "Price", tf_itemPrice.getText(), "ITEMS", "ItemName");
+                Utils.updateInfo(name, "Quantity", tf_itemQuantity.getText(), "ITEMS", "ItemName");
+                Utils.updateInfo(name, "Tags", ta_itemTags.getText(), "ITEMS", "ItemName");
+                Utils.updateInfo(name, "Description", ta_itemDescription.getText(),"ITEMS", "ItemName");
                 showAddItemList();
 
             }

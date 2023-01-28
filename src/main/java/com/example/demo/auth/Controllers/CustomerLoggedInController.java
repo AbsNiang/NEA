@@ -2,6 +2,8 @@ package com.example.demo.auth.Controllers;
 
 import com.example.demo.Database.BasketItemTable;
 import com.example.demo.Database.BasketTable;
+import com.example.demo.Database.ItemTable;
+import com.example.demo.Database.Utils;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.Objects.Item;
 import javafx.collections.FXCollections;
@@ -19,7 +21,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-import static com.example.demo.Database.UserTable.dbLocation;
+import static com.example.demo.Database.Utils.dbLocation;
 
 public class CustomerLoggedInController implements Initializable {
 
@@ -188,10 +190,11 @@ public class CustomerLoggedInController implements Initializable {
                     basketMade = true;
                 }
                 BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
+                ItemTable.updateItemAmount(lbl_itemName.getText(),Integer.parseInt(lbl_itemAmount.getText()));
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("Item has been added to basket.");
                 alert.show();
-
+                showItemList();
             }
         });
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {

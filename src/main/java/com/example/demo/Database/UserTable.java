@@ -10,10 +10,10 @@ import javafx.scene.control.Alert;
 import java.sql.*;
 import java.util.Arrays;
 
+import static com.example.demo.Database.Utils.dbLocation;
+
 // the first signed-up user will be the owner, and they will be able to edit to add other owners or admins.
 public class UserTable {
-
-    public static final String dbLocation = (System.getProperty("user.dir") + "\\databaseNEA.accdb");
 
     public static void signUpUser(ActionEvent event, User user) {
         Connection connection = null;

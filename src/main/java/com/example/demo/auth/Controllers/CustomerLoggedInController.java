@@ -186,9 +186,12 @@ public class CustomerLoggedInController implements Initializable {
                 if (!basketMade) {
                     basketID = BasketTable.createBasket(customerEmail);
                     basketMade = true;
-                } else {
-                    BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
                 }
+                BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Item has been added to basket.");
+                alert.show();
+
             }
         });
         btn_signout.setOnAction(new EventHandler<ActionEvent>() {

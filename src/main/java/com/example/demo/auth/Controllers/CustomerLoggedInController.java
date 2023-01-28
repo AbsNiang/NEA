@@ -168,6 +168,7 @@ public class CustomerLoggedInController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectAddItemList();
+                lbl_itemAmount.setText("0");
             }
         });
         btn_plus1.setOnAction(new EventHandler<ActionEvent>() {

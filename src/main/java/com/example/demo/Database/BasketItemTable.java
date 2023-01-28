@@ -17,9 +17,12 @@ public class BasketItemTable {
             psCheckItemAlreadyInBasket = connection.prepareStatement("SELECT * FROM BasketItem WHERE ItemName = ? ");
             psCheckItemAlreadyInBasket.setString(1, itemName);
             resultSet = psCheckItemAlreadyInBasket.executeQuery();
-            if (resultSet.isBeforeFirst()) { //if true, item already exists.
+            if (resultSet.next()) { //if true, item already exists.
+                int quantityInDatabase = resultSet.getInt(4);
                 System.out.println("Item already in basket. " +
                         "\nItem quantity needs to be added to quantity in basket.");
+                Utils.updateInfo(itemName,"QuantityAdded",Integer.toString(QuantityToAdd+quantityInDatabase),dbLocation,"BasketItem","ItemName");//doesn't need to be the primary key
+                System.out.println("Incremented quantity in database.");
             } else {
                 psInsert = connection.prepareStatement("INSERT INTO BasketItem (ItemName, BasketID, QuantityAdded) VALUES (?, ?, ?)");
                 psInsert.setString(1, itemName);

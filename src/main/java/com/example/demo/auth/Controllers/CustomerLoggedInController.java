@@ -90,6 +90,7 @@ public class CustomerLoggedInController implements Initializable {
 
     private boolean basketMade = false;
     private String customerEmail;
+    private int basketID;
 
     //Item TableView Stuff
     public ObservableList<Item> addItemList() {
@@ -183,10 +184,10 @@ public class CustomerLoggedInController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 if (!basketMade) {
-                    BasketTable.createBasket(customerEmail);
+                    basketID = BasketTable.createBasket(customerEmail);
                     basketMade = true;
                 } else {
-                    BasketItemTable.addItemToBasket(lbl_itemName.getText(), BasketTable.returnBasketID(), Integer.parseInt(lbl_itemAmount.getText()));
+                    BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
                 }
             }
         });

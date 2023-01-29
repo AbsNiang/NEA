@@ -6,6 +6,7 @@ import com.example.demo.Database.ItemTable;
 import com.example.demo.Database.Utils;
 import com.example.demo.SceneHandler;
 import com.example.demo.auth.Objects.BasketItem;
+import com.example.demo.auth.Objects.Discount;
 import com.example.demo.auth.Objects.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +32,7 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private Button btn_browse;
     @FXML
-    private Button btn_coupons;
+    private Button btn_discounts;
     @FXML
     private Button btn_basket;
     @FXML
@@ -73,14 +74,15 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private TableColumn<Item, String> tvCol_itemDescription;
 
-    //Coupons Anchor Pane:
+    //discounts Anchor Pane:
     @FXML
-    private AnchorPane coupons_form;
+    private AnchorPane discounts_form;
+
 
     //Basket Anchor Pane:
     @FXML
     private AnchorPane basket_form;
-    @FXML
+    @FXML //BasketItem Table
     private TableView<BasketItem> tv_basketItem;
     @FXML
     private TableColumn<BasketItem, String> tvCol_basketItemName;
@@ -96,9 +98,12 @@ public class CustomerLoggedInController implements Initializable {
     private Button btn_removeItemFromBasket;
     @FXML
     private Button btn_checkout;
-
-
-
+    @FXML //Discount Table
+    private TableView<BasketItem> tv_basketDiscounts;
+    @FXML
+    private TableColumn<Discount, Integer> tvCol_basketDiscountPercentageOff;
+    @FXML
+    private  TableColumn<Discount, Double> tvCol_basketDiscountThreshold;
 
 
     private boolean basketMade = false;
@@ -181,7 +186,7 @@ public class CustomerLoggedInController implements Initializable {
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
             prepare = connection.prepareStatement("SELECT * FROM BasketItem WHERE BasketID = ?");
-            prepare.setInt(1,basketID);
+            prepare.setInt(1, basketID);
             resultSet = prepare.executeQuery();
             BasketItem basketItem;
             while (resultSet.next()) {
@@ -238,6 +243,7 @@ public class CustomerLoggedInController implements Initializable {
             public void handle(MouseEvent mouseEvent) {
                 selectAddItemList();
                 lbl_itemAmount.setText("0");
+                lbl_itemTotal.setText("£0");
             }
         });
         btn_plus1.setOnAction(new EventHandler<ActionEvent>() {
@@ -279,7 +285,7 @@ public class CustomerLoggedInController implements Initializable {
                 switchForm(event);
             }
         });
-        btn_coupons.setOnAction(new EventHandler<ActionEvent>() {
+        btn_discounts.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 switchForm(event);
@@ -296,6 +302,7 @@ public class CustomerLoggedInController implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selectBasketItemList();
+                lbl_basketItemTotalCost.setText(Double.toString(BasketItemTable.fetchTotalPriceForItems(lbl_basketItemName.getText(), basketID)));
             }
         });
     }
@@ -304,24 +311,24 @@ public class CustomerLoggedInController implements Initializable {
     public void switchForm(ActionEvent event) {
         if (event.getSource() == btn_browse) {
             browse_form.setVisible(true);
-            coupons_form.setVisible(false);
+            discounts_form.setVisible(false);
             basket_form.setVisible(false);
             btn_browse.setStyle("-fx-background-color: #13a5ec;");
-            btn_coupons.setStyle("-fx-background-color: transparent;");
+            btn_discounts.setStyle("-fx-background-color: transparent;");
             btn_basket.setStyle("-fx-background-color: transparent;");
-        } else if (event.getSource() == btn_coupons) {
+        } else if (event.getSource() == btn_discounts) {
             browse_form.setVisible(false);
-            coupons_form.setVisible(true);
+            discounts_form.setVisible(true);
             basket_form.setVisible(false);
             btn_browse.setStyle("-fx-background-color: transparent;");
-            btn_coupons.setStyle("-fx-background-color: #13a5ec;");
+            btn_discounts.setStyle("-fx-background-color: #13a5ec;");
             btn_basket.setStyle("-fx-background-color: transparent;");
         } else if (event.getSource() == btn_basket) {
             browse_form.setVisible(false);
-            coupons_form.setVisible(false);
+            discounts_form.setVisible(false);
             basket_form.setVisible(true);
             btn_browse.setStyle("-fx-background-color: transparent;");
-            btn_coupons.setStyle("-fx-background-color: transparent;");
+            btn_discounts.setStyle("-fx-background-color: transparent;");
             btn_basket.setStyle("-fx-background-color:#13a5ec; ");
         }
     }
@@ -333,12 +340,14 @@ public class CustomerLoggedInController implements Initializable {
             if (quantityLeft > 0) {
                 lbl_itemAmount.setText(Integer.toString(currentAmount + 1));
                 lbl_itemQuantity.setText(Integer.toString(quantityLeft - 1));
+                lbl_itemTotal.setText("£" + (currentAmount + 1) * Double.parseDouble(lbl_itemPrice.getText()));
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("No More of this item to add.");
                 alert.show();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("No item selected");
             alert.show();
@@ -352,12 +361,14 @@ public class CustomerLoggedInController implements Initializable {
             if (currentAmount > 0) {
                 lbl_itemAmount.setText(Integer.toString(currentAmount - 1));
                 lbl_itemQuantity.setText(Integer.toString(quantityLeft + 1));
+                lbl_itemTotal.setText("£" + (currentAmount - 1) * Double.parseDouble(lbl_itemPrice.getText()));
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("You already have 0.");
                 alert.show();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("No item selected");
             alert.show();

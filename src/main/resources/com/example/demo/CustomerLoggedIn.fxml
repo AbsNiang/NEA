@@ -16,7 +16,7 @@
                                 <Image url="@Images/user.png" />
                             </image>
                         </ImageView>
-                        <Button fx:id="btn_coupons" layoutX="24.0" layoutY="255.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Coupons" textFill="WHITE">
+                        <Button fx:id="btn_discounts" layoutX="24.0" layoutY="255.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Discounts" textFill="WHITE">
                             <font>
                                 <Font name="Roboto Light" size="16.0" />
                             </font>
@@ -154,7 +154,7 @@
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
                               </Button>
-                              <Label fx:id="lbl_itemTotal" layoutX="145.0" layoutY="412.0" text="Cost">
+                              <Label fx:id="lbl_itemTotal" layoutX="145.0" layoutY="412.0" text="£0.00">
                                  <font>
                                     <Font name="Roboto Light" size="14.0" />
                                  </font>
@@ -187,7 +187,7 @@
                                 </AnchorPane>
                             </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="coupons_form" prefHeight="651.2" prefWidth="815.2" visible="false">
+                        <AnchorPane fx:id="discounts_form" prefHeight="651.2" prefWidth="815.2" visible="false">
                             <children>
                                 <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                                     <children>
@@ -251,7 +251,7 @@
                         </AnchorPane>
                   <AnchorPane fx:id="basket_form" layoutX="10.0" layoutY="10.0" prefHeight="651.0" prefWidth="882.0">
                      <children>
-                        <AnchorPane layoutX="325.0" layoutY="14.0" prefHeight="312.0" prefWidth="255.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+                        <AnchorPane layoutX="339.0" layoutY="35.0" prefHeight="312.0" prefWidth="255.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                            <children>
                               <Label layoutX="15.0" layoutY="14.0" text="Item Name:">
                                  <font>
@@ -290,7 +290,7 @@
                               </Button>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="581.0" layoutY="14.0" prefHeight="306.0" prefWidth="286.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+                        <AnchorPane layoutX="595.0" layoutY="35.0" prefHeight="306.0" prefWidth="286.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                            <children>
                               <TableView fx:id="tv_basketItem" prefHeight="311.0" prefWidth="286.0" stylesheets="@css/dashboard.css">
                                  <columns>
@@ -305,6 +305,22 @@
                               <Font name="Roboto Light" size="14.0" />
                            </font>
                         </Button>
+                        <Label layoutX="339.0" text="Basket:" textFill="ROYALBLUE" underline="true">
+                           <font>
+                              <Font name="Roboto Light" size="25.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tv_basketDiscounts" layoutX="23.0" layoutY="35.0" prefHeight="311.0" prefWidth="286.0" stylesheets="@css/dashboard.css">
+                           <columns>
+                              <TableColumn fx:id="tvCol_basketDiscountThreshold" prefWidth="132.80000686645508" text="Threshold Spend" />
+                              <TableColumn fx:id="tvCol_basketDiscountPercentageOff" prefWidth="156.00001525878906" text="Percentage Off" />
+                           </columns>
+                        </TableView>
+                        <Label layoutX="23.0" text="Discounts Available:" textFill="ROYALBLUE" underline="true">
+                           <font>
+                              <Font name="Roboto Light" size="25.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                     </children>

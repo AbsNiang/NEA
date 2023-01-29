@@ -5,6 +5,7 @@ import com.example.demo.Database.BasketTable;
 import com.example.demo.Database.ItemTable;
 import com.example.demo.Database.Utils;
 import com.example.demo.SceneHandler;
+import com.example.demo.auth.Objects.BasketItem;
 import com.example.demo.auth.Objects.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -80,15 +81,25 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private AnchorPane basket_form;
     @FXML
-    public TableColumn tvCol_basketItemPrice;
+    private TableView<BasketItem> tv_basketItem;
     @FXML
-    public TableColumn tvCol_basketItemName;
+    private TableColumn<BasketItem, String> tvCol_basketItemName;
     @FXML
-    public TableColumn tvCol_basketItemQuantity;
+    private TableColumn<BasketItem, String> tvCol_basketItemQuantityAdded;
     @FXML
-    public TableColumn tvCol_basketItemTags;
+    private Label lbl_basketItemName;
     @FXML
-    public TableColumn tvCol_basketItemDescription;
+    private Label lbl_basketItemQuantity;
+    @FXML
+    private Label lbl_basketItemTotalCost;
+    @FXML
+    private Button btn_removeItemFromBasket;
+    @FXML
+    private Button btn_checkout;
+
+
+
+
 
     private boolean basketMade = false;
     private String customerEmail;
@@ -161,6 +172,64 @@ public class CustomerLoggedInController implements Initializable {
         lbl_itemDescription.setText(item.getDescription());
     }
 
+    public ObservableList<BasketItem> basketItemList() {
+        ObservableList<BasketItem> listData = FXCollections.observableArrayList();
+        Connection connection = null;
+        PreparedStatement prepare = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            prepare = connection.prepareStatement("SELECT * FROM BasketItem WHERE BasketID = ?");
+            prepare.setInt(1,basketID);
+            resultSet = prepare.executeQuery();
+            BasketItem basketItem;
+            while (resultSet.next()) {
+                basketItem = new BasketItem(resultSet.getString("ItemName"), resultSet.getInt("QuantityAdded"));
+                listData.add(basketItem);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prepare != null) {
+                try {
+                    prepare.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return listData;
+    }
+
+
+    public void showBasketItemList() {
+        ObservableList<BasketItem> listAddItem = basketItemList();
+        tvCol_basketItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        tvCol_basketItemQuantityAdded.setCellValueFactory(new PropertyValueFactory<>("quantityAdded"));
+        tv_basketItem.setItems(listAddItem);
+    }
+
+    public void selectBasketItemList() {
+        BasketItem basketItem = tv_basketItem.getSelectionModel().getSelectedItem();
+        lbl_basketItemName.setText(basketItem.getItemName());
+        lbl_basketItemQuantity.setText(Integer.toString(basketItem.getQuantityAdded()));
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showItemList();
@@ -191,7 +260,7 @@ public class CustomerLoggedInController implements Initializable {
                     basketMade = true;
                 }
                 BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
-                ItemTable.updateItemAmount(lbl_itemName.getText(),Integer.parseInt(lbl_itemAmount.getText()));
+                ItemTable.updateItemAmount(lbl_itemName.getText(), Integer.parseInt(lbl_itemAmount.getText()));
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("Item has been added to basket.");
                 alert.show();
@@ -220,6 +289,13 @@ public class CustomerLoggedInController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 switchForm(event);
+                showBasketItemList();
+            }
+        });
+        tv_basketItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectBasketItemList();
             }
         });
     }

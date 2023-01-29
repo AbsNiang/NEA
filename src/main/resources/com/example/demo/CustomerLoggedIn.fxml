@@ -80,44 +80,7 @@
             <center>
                 <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <children>
-                        <AnchorPane fx:id="basket_form" layoutX="229.0" layoutY="144.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <children>
-                                <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="187.0" prefWidth="794.0" style="-fx-background-color: white; -fx-background-radius: 8;">
-                                    <children>
-                                        <AnchorPane layoutX="26.0" layoutY="10.0" prefHeight="168.0" prefWidth="222.0" style="-fx-background-color: #4169e1; -fx-background-radius: 0px 10px 10px 0px;">
-                                            <children>
-                                                <Label layoutX="14.0" layoutY="14.0" prefHeight="39.0" prefWidth="109.0" text="Total Profits:" textFill="WHITE">
-                                                    <font>
-                                                        <Font name="Roboto Light" size="18.0" />
-                                                    </font>
-                                                </Label>
-                                                <Label fx:id="lbl_profits" layoutX="98.0" layoutY="114.0" prefHeight="39.0" prefWidth="109.0" text="£2000.00" textFill="WHITE">
-                                                    <font>
-                                                        <Font name="Roboto Light" size="18.0" />
-                                                    </font>
-                                                </Label>
-                                            </children>
-                                        </AnchorPane>
-                                        <AnchorPane layoutX="286.0" layoutY="10.0" prefHeight="168.0" prefWidth="222.0" style="-fx-background-color: #4169e1; -fx-background-radius: 0px 10px 10px 0px;">
-                                            <children>
-                                                <Label layoutX="14.0" layoutY="14.0" prefHeight="39.0" prefWidth="136.0" text="Available Items:" textFill="WHITE">
-                                                    <font>
-                                                        <Font name="Roboto Light" size="18.0" />
-                                                    </font>
-                                                </Label>
-                                                <Label fx:id="lbl_availableItems" layoutX="98.0" layoutY="114.0" prefHeight="39.0" prefWidth="109.0" text="£2000.00" textFill="WHITE">
-                                                    <font>
-                                                        <Font name="Roboto Light" size="18.0" />
-                                                    </font>
-                                                </Label>
-                                            </children>
-                                        </AnchorPane>
-                                        <AnchorPane layoutX="543.0" layoutY="10.0" prefHeight="168.0" prefWidth="222.0" style="-fx-background-color: #4169e1; -fx-background-radius: 0px 10px 10px 0px;" />
-                                    </children>
-                                </AnchorPane>
-                            </children>
-                        </AnchorPane>
-                        <AnchorPane fx:id="browse_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="browse_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
                                 <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                                     <children>
@@ -286,6 +249,64 @@
                                 </AnchorPane>
                             </children>
                         </AnchorPane>
+                  <AnchorPane fx:id="basket_form" layoutX="10.0" layoutY="10.0" prefHeight="651.0" prefWidth="882.0">
+                     <children>
+                        <AnchorPane layoutX="325.0" layoutY="14.0" prefHeight="312.0" prefWidth="255.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+                           <children>
+                              <Label layoutX="15.0" layoutY="14.0" text="Item Name:">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="22.0" layoutY="91.0" text="Quantity :">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_basketItemName" layoutX="125.0" layoutY="14.0" text="Item Name">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_basketItemQuantity" layoutX="133.0" layoutY="91.0" text="Quantity">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lbl_basketItemTotalCost" layoutX="145.0" layoutY="162.0" text="Cost">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="33.0" layoutY="162.0" text="Total:">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btn_removeItemFromBasket" layoutX="40.0" layoutY="267.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" style="-fx-background-color: red;" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Remove Item" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Light" size="14.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="581.0" layoutY="14.0" prefHeight="306.0" prefWidth="286.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+                           <children>
+                              <TableView fx:id="tv_basketItem" prefHeight="311.0" prefWidth="286.0" stylesheets="@css/dashboard.css">
+                                 <columns>
+                                    <TableColumn fx:id="tvCol_basketItemName" prefWidth="158.60000610351562" text="Item Name" />
+                                    <TableColumn fx:id="tvCol_basketItemQuantityAdded" prefWidth="127.0" text="Amount Selected" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                        <Button fx:id="btn_checkout" layoutX="55.0" layoutY="489.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="173.0" style="-fx-background-color: green;" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Checkout" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Light" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
                     </children>
                 </AnchorPane>
             </center>

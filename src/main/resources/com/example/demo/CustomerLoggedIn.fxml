@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.Controllers.CustomerLoggedInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.auth.Controllers.CustomerLoggedInController">
     <children>
         <BorderPane layoutY="2.0" prefHeight="651.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <left>
@@ -319,6 +319,16 @@
                         <Label layoutX="23.0" text="Discounts Available:" textFill="ROYALBLUE" underline="true">
                            <font>
                               <Font name="Roboto Light" size="25.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="23.0" layoutY="368.0" text="Total BasketCost:" textFill="ROYALBLUE" underline="true">
+                           <font>
+                              <Font name="Roboto Light" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lbl_basketTotalOrderCost" layoutX="217.0" layoutY="368.0" text="£0" textFill="ROYALBLUE" underline="true">
+                           <font>
+                              <Font name="Roboto Light" size="19.0" />
                            </font>
                         </Label>
                      </children>

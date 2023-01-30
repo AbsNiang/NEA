@@ -82,6 +82,8 @@ public class CustomerLoggedInController implements Initializable {
     //Basket Anchor Pane:
     @FXML
     private AnchorPane basket_form;
+    @FXML
+    private  Label lbl_basketTotalOrderCost;
     @FXML //BasketItem Table
     private TableView<BasketItem> tv_basketItem;
     @FXML
@@ -104,6 +106,7 @@ public class CustomerLoggedInController implements Initializable {
     private TableColumn<Discount, Integer> tvCol_basketDiscountPercentageOff;
     @FXML
     private  TableColumn<Discount, Double> tvCol_basketDiscountThreshold;
+
 
 
     private boolean basketMade = false;
@@ -296,6 +299,7 @@ public class CustomerLoggedInController implements Initializable {
             public void handle(ActionEvent event) {
                 switchForm(event);
                 showBasketItemList();
+                lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
             }
         });
         tv_basketItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -303,6 +307,15 @@ public class CustomerLoggedInController implements Initializable {
             public void handle(MouseEvent mouseEvent) {
                 selectBasketItemList();
                 lbl_basketItemTotalCost.setText(Double.toString(BasketItemTable.fetchTotalPriceForItems(lbl_basketItemName.getText(), basketID)));
+            }
+        });
+
+        btn_removeItemFromBasket.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                BasketItemTable.deleteRecord(basketID,lbl_basketItemName.getText());
+                showBasketItemList();
+                lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
             }
         });
     }

@@ -2,7 +2,9 @@ package com.example.demo.Database;
 
 import javafx.scene.control.Alert;
 
+import java.math.RoundingMode;
 import java.sql.*;
+import java.text.DecimalFormat;
 
 import static com.example.demo.Database.Utils.dbLocation;
 
@@ -76,18 +78,55 @@ public class BasketItemTable {
             ps.setString(1, itemName);
             ps.setInt(2, basketID);
             resultSet = ps.executeQuery();
-            if (!resultSet.isBeforeFirst()) { //if item doesn't exist
-                System.out.println("Item doesn't exists.");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("An item with this name already exists.");
-                alert.show();
-            } else {
-                while (resultSet.next()) {
-                    double price = resultSet.getDouble("Price");
-                    int quantity = resultSet.getInt("QuantityAdded");
-                    content = price * quantity;
+            while (resultSet.next()) {
+                double price = resultSet.getDouble("Price");
+                int quantity = resultSet.getInt("QuantityAdded");
+                content = price * quantity;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return content;
+    }
 
+    public static double sumItems(int basketID) {
+        double orderTotal = -1;
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            ps = connection.prepareStatement("SELECT Price, QuantityAdded " +
+                    "FROM BasketItem, Items " +
+                    "WHERE BasketItem.ItemName = Items.ItemName AND BasketID = ?");
+            ps.setInt(1, basketID);
+            resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                double price = resultSet.getDouble("Price");
+                int quantity = resultSet.getInt("QuantityAdded");
+                orderTotal += price * quantity;
             }
 
         } catch (SQLException e) {
@@ -115,6 +154,40 @@ public class BasketItemTable {
                 }
             }
         }
-        return content;
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.DOWN);
+        return Double.parseDouble(df.format(orderTotal));
+    }
+
+    public static void deleteRecord( int basketID, String itemName){
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            ps = connection.prepareStatement("DELETE FROM BasketItem WHERE BasketID = ? AND ItemName = ?");
+            ps.setInt(1, basketID);
+            ps.setString(2, itemName);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Item has been deleted.");
+            alert.show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

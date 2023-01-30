@@ -162,15 +162,12 @@ public class BasketItemTable {
     public static void deleteRecord( int basketID, String itemName){
         Connection connection = null;
         PreparedStatement ps = null;
-        ResultSet resultSet = null;
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
             ps = connection.prepareStatement("DELETE FROM BasketItem WHERE BasketID = ? AND ItemName = ?");
             ps.setInt(1, basketID);
             ps.setString(2, itemName);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Item has been deleted.");
-            alert.show();
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

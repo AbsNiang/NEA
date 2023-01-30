@@ -83,7 +83,7 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private AnchorPane basket_form;
     @FXML
-    private  Label lbl_basketTotalOrderCost;
+    private Label lbl_basketTotalOrderCost;
     @FXML //BasketItem Table
     private TableView<BasketItem> tv_basketItem;
     @FXML
@@ -105,8 +105,7 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private TableColumn<Discount, Integer> tvCol_basketDiscountPercentageOff;
     @FXML
-    private  TableColumn<Discount, Double> tvCol_basketDiscountThreshold;
-
+    private TableColumn<Discount, Double> tvCol_basketDiscountThreshold;
 
 
     private boolean basketMade = false;
@@ -286,6 +285,7 @@ public class CustomerLoggedInController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 switchForm(event);
+                showItemList();
             }
         });
         btn_discounts.setOnAction(new EventHandler<ActionEvent>() {
@@ -310,12 +310,10 @@ public class CustomerLoggedInController implements Initializable {
             }
         });
 
-        btn_removeItemFromBasket.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        btn_removeItemFromBasket.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(MouseEvent mouseEvent) {
-                BasketItemTable.deleteRecord(basketID,lbl_basketItemName.getText());
-                showBasketItemList();
-                lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
+            public void handle(ActionEvent event) {
+                deleteItemFromBasket();
             }
         });
     }
@@ -386,6 +384,14 @@ public class CustomerLoggedInController implements Initializable {
             alert.setContentText("No item selected");
             alert.show();
         }
+    }
+
+    private void deleteItemFromBasket() {
+        BasketItemTable.deleteRecord(basketID, lbl_basketItemName.getText());
+        ItemTable.updateItemAmount(lbl_basketItemName.getText(), -Integer.parseInt(lbl_basketItemQuantity.getText()));
+        showBasketItemList();
+        lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
+
     }
 
     public void setCustomerEmail(String forwardedEmail) {

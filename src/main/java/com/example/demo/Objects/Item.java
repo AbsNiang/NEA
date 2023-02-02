@@ -1,9 +1,4 @@
-package com.example.demo.auth.Objects;
-
-import javafx.event.ActionEvent;
-import javafx.scene.image.Image;
-
-import java.math.BigDecimal;
+package com.example.demo.Objects;
 
 public class Item {
 

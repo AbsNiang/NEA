@@ -1,11 +1,11 @@
-package com.example.demo.auth.Controllers;
+package com.example.demo.Controllers;
 
 import com.example.demo.Database.ItemTable;
 import com.example.demo.Database.UserTable;
 import com.example.demo.Database.Utils;
 import com.example.demo.SceneHandler;
-import com.example.demo.auth.Objects.Item;
-import com.example.demo.auth.Objects.User;
+import com.example.demo.Objects.Item;
+import com.example.demo.Objects.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

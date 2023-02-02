@@ -1,9 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.auth.Controllers.AdminLoggedInController;
-import com.example.demo.auth.Controllers.CustomerLoggedInController;
-import com.example.demo.auth.Controllers.ResetPasswordController;
-import com.example.demo.auth.Objects.User;
+import com.example.demo.Controllers.CustomerLoggedInController;
+import com.example.demo.Controllers.ResetPasswordController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

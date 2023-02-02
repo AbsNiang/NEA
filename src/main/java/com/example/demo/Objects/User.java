@@ -1,4 +1,4 @@
-package com.example.demo.auth.Objects;
+package com.example.demo.Objects;
 
 public class User {
     String emailAddress;

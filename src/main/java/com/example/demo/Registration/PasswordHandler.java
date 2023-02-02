@@ -1,12 +1,8 @@
-package com.example.demo.auth.Registration;
+package com.example.demo.Registration;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.KeySpec;
-import java.util.Arrays;
 
 public class PasswordHandler {
 

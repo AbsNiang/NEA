@@ -1,9 +1,9 @@
 package com.example.demo.Database;
 
 import com.example.demo.SceneHandler;
-import com.example.demo.auth.Objects.User;
-import com.example.demo.auth.Registration.PasswordConverter;
-import com.example.demo.auth.Registration.PasswordHandler;
+import com.example.demo.Objects.User;
+import com.example.demo.Registration.PasswordConverter;
+import com.example.demo.Registration.PasswordHandler;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 
@@ -275,5 +275,6 @@ public class UserTable {
             }
         }
     }
+
 
 }

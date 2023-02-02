@@ -1,4 +1,4 @@
-package com.example.demo.auth.EmailHandling;
+package com.example.demo.EmailHandling;
 
 import java.util.Properties;
 import javax.mail.Message;

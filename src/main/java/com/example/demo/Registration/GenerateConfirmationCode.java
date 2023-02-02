@@ -1,4 +1,4 @@
-package com.example.demo.auth.Registration;
+package com.example.demo.Registration;
 
 import java.util.Random;
 

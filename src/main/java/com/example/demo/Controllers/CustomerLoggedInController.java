@@ -1,13 +1,12 @@
-package com.example.demo.auth.Controllers;
+package com.example.demo.Controllers;
 
 import com.example.demo.Database.BasketItemTable;
 import com.example.demo.Database.BasketTable;
 import com.example.demo.Database.ItemTable;
-import com.example.demo.Database.Utils;
 import com.example.demo.SceneHandler;
-import com.example.demo.auth.Objects.BasketItem;
-import com.example.demo.auth.Objects.Discount;
-import com.example.demo.auth.Objects.Item;
+import com.example.demo.Objects.BasketItem;
+import com.example.demo.Objects.Discount;
+import com.example.demo.Objects.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

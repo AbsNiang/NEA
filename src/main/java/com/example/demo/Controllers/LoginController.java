@@ -1,4 +1,4 @@
-package com.example.demo.auth.Controllers;
+package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
 import com.example.demo.SceneHandler;

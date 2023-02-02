@@ -1,13 +1,13 @@
-package com.example.demo.auth.Controllers;
+package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
 import com.example.demo.SceneHandler;
-import com.example.demo.auth.EmailHandling.EmailToken;
-import com.example.demo.auth.Objects.User;
-import com.example.demo.auth.EmailHandling.Email;
-import com.example.demo.auth.Registration.GenerateConfirmationCode;
-import com.example.demo.auth.Registration.PasswordConverter;
-import com.example.demo.auth.Registration.PasswordHandler;
+import com.example.demo.EmailHandling.EmailToken;
+import com.example.demo.Objects.User;
+import com.example.demo.EmailHandling.Email;
+import com.example.demo.Registration.GenerateConfirmationCode;
+import com.example.demo.Registration.PasswordConverter;
+import com.example.demo.Registration.PasswordHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

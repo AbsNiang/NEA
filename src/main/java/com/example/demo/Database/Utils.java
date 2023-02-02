@@ -1,6 +1,5 @@
 package com.example.demo.Database;
 
-import com.example.demo.auth.Objects.User;
 import javafx.scene.control.Alert;
 
 import java.sql.*;

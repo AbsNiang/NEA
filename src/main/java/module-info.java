@@ -23,5 +23,7 @@ module com.example.demo {
     opens com.example.demo.Database to javafx.fxml;
     exports com.example.demo.Objects;
     opens com.example.demo.Objects to javafx.fxml;
+    exports com.example.demo.General;
+    opens com.example.demo.General to javafx.fxml;
 
 }

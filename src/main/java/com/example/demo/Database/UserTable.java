@@ -1,5 +1,6 @@
 package com.example.demo.Database;
 
+import com.example.demo.General.Repository;
 import com.example.demo.SceneHandler;
 import com.example.demo.Objects.User;
 import com.example.demo.Registration.PasswordConverter;
@@ -83,6 +84,7 @@ public class UserTable {
         String correctPassword = fetchInfo(emailAddress, "password");
         String originalSalt = fetchInfo(emailAddress, "passwordSalt");
         String isAdmin = fetchInfo(emailAddress, "isAdmin");
+        System.out.println("Admin? = "+isAdmin);
         byte[] byteSalt = PasswordConverter.fromHex(originalSalt);
         byte[] loginPassword = PasswordHandler.getSaltedHash(password, byteSalt);
         byte[] storedPassword = PasswordConverter.fromHex(correctPassword);
@@ -91,7 +93,7 @@ public class UserTable {
             System.out.println("Passwords are a match.");
             if (isAdmin.equals("TRUE")) {
                 SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
-            }else {
+            } else {
                 SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
             }
 
@@ -113,8 +115,7 @@ public class UserTable {
             preparedStatement = connection.prepareStatement("SELECT " + desiredField + " FROM users WHERE emailAddress = ?");
             preparedStatement.setString(1, emailAddress);
             resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.isBeforeFirst()) {
+            if (!checkUserExists(emailAddress)) {
                 System.out.println("User not found.");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Provided credentials are incorrect.");
@@ -122,7 +123,6 @@ public class UserTable {
             } else {
                 while (resultSet.next()) {
                     info = resultSet.getString(desiredField);
-                    System.out.println(info);
                 }
             }
         } catch (SQLException e) {
@@ -155,17 +155,18 @@ public class UserTable {
 
     public static boolean checkUserExists(String email) {
         Connection connection = null;
-        PreparedStatement psCheckUserExists = null;
+        PreparedStatement prepare = null;
         ResultSet resultSet = null;
-
+        int numbOfUsers = countUsers();
+        String[] emailAddresses = new String[numbOfUsers];
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            psCheckUserExists = connection.prepareStatement("SELECT * FROM users WHERE emailAddress = ?");
-            psCheckUserExists.setString(1, email);
-            resultSet = psCheckUserExists.executeQuery();
-            if (resultSet.isBeforeFirst()) { //if true, username is taken, if false, it means it is available.
-                System.out.println("User exists.");
-                return true;
+            prepare = connection.prepareStatement("SELECT EmailAddress FROM Users");
+            resultSet = prepare.executeQuery();
+            int i = 0;
+            while (resultSet.next()) {
+                emailAddresses[i] = resultSet.getString("EmailAddress");
+                i++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -177,9 +178,9 @@ public class UserTable {
                     e.printStackTrace();
                 }
             }
-            if (psCheckUserExists != null) {
+            if (prepare != null) {
                 try {
-                    psCheckUserExists.close();
+                    prepare.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -192,7 +193,9 @@ public class UserTable {
                 }
             }
         }
-        return false;
+        Repository.mergeSort(emailAddresses);
+        System.out.println("Ordered List: "+Arrays.toString(emailAddresses));
+        return Repository.binarySearch(email, emailAddresses);
     }
 
     public static void alterPassword(User user) {
@@ -222,12 +225,12 @@ public class UserTable {
         }
     }
 
-    public static void updateBooleanInfo(String email, String field, boolean newInfo){
+    public static void updateBooleanInfo(String email, String field, boolean newInfo) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            psInsert = connection.prepareStatement("UPDATE Users SET "+ field +" = '" + newInfo + "' WHERE emailAddress = '" + email + "'");
+            psInsert = connection.prepareStatement("UPDATE Users SET " + field + " = '" + newInfo + "' WHERE emailAddress = '" + email + "'");
             psInsert.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -249,7 +252,7 @@ public class UserTable {
         }
     }
 
-    public static void deleteUser(String emailAddress){
+    public static void deleteUser(String emailAddress) {
         Connection connection = null;
         PreparedStatement psInsert = null;
         try {
@@ -276,5 +279,43 @@ public class UserTable {
         }
     }
 
-
+    public static int countUsers() {
+        Connection connection = null;
+        PreparedStatement psInsert = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psInsert = connection.prepareStatement("SELECT COUNT(*) AS userTotal FROM Users ");
+            rs = psInsert.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("userTotal");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psInsert != null) {
+                try {
+                    psInsert.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return count;
+    }
 }

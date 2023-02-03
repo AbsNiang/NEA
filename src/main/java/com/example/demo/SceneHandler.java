@@ -18,21 +18,22 @@ public class SceneHandler {
             try {
                 FXMLLoader loader = new FXMLLoader(SceneHandler.class.getResource(fxmlFile));
                 root = loader.load();
-                switch (fxmlFile){
-                    case "CustomerLoggedIn.fxml":
+                switch (fxmlFile) {
+                    case "CustomerLoggedIn.fxml" -> {
                         CustomerLoggedInController customerLoggedInController = loader.getController();
                         customerLoggedInController.setCustomerEmail(emailAddress);
-                        break;
-                    case "ResetPassword.fxml":
+                    }
+                    case "ResetPassword.fxml" -> {
                         ResetPasswordController resetPasswordController = loader.getController();
                         resetPasswordController.setEmail(emailAddress);
-                        break;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             try {
+
                 root = FXMLLoader.load(SceneHandler.class.getResource(fxmlFile));
             } catch (IOException e) {
                 e.printStackTrace();

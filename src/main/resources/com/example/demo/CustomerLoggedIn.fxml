@@ -336,6 +336,11 @@
                               <Font name="Roboto Light" size="19.0" />
                            </font>
                         </Label>
+                        <Button fx:id="btn_viewPreviousBasket" layoutX="525.0" layoutY="359.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="View Previous Basket" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Light" size="14.0" />
+                           </font>
+                        </Button>
                      </children>
                   </AnchorPane>
                     </children>

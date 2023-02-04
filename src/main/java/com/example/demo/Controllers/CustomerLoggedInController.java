@@ -1,9 +1,6 @@
 package com.example.demo.Controllers;
 
-import com.example.demo.Database.BasketItemTable;
-import com.example.demo.Database.BasketTable;
-import com.example.demo.Database.ItemTable;
-import com.example.demo.Database.TransactionTable;
+import com.example.demo.Database.*;
 import com.example.demo.EmailHandling.Email;
 import com.example.demo.EmailHandling.EmailToken;
 import com.example.demo.Objects.Transaction;
@@ -109,6 +106,8 @@ public class CustomerLoggedInController implements Initializable {
     private Button btn_removeItemFromBasket;
     @FXML
     private Button btn_purchase;
+    @FXML
+    private Button btn_viewPreviousBasket;
     @FXML //Discount Table
     private TableView<BasketItem> tv_basketDiscounts;
     @FXML
@@ -120,6 +119,7 @@ public class CustomerLoggedInController implements Initializable {
     private boolean basketMade = false;
     private String customerEmail;
     private int basketID;
+    private boolean purchased = false;
 
     //Item TableView Stuff
     public ObservableList<Item> addItemList() {
@@ -281,7 +281,7 @@ public class CustomerLoggedInController implements Initializable {
             selectBasketItemList();
             lbl_basketItemTotalCost.setText(Double.toString(BasketItemTable.fetchTotalPriceForItems(lbl_basketItemName.getText(), basketID)));
         });
-        btn_removeItemFromBasket.setOnAction(event -> deleteItemFromBasket());
+        btn_removeItemFromBasket.setOnAction(event -> deleteItemFromBasket(lbl_basketItemName.getText(), Integer.parseInt(lbl_basketItemQuantity.getText())));
         btn_purchase.setOnAction(event -> {
             if (Double.parseDouble(lbl_basketTotalOrderCost.getText()) > 0) {
                 LocalTime localTime = LocalTime.now();
@@ -291,6 +291,7 @@ public class CustomerLoggedInController implements Initializable {
                         LocalDate.now(),
                         localTime.format(timeFormatter));
                 TransactionTable.addTransaction(transaction);
+                BasketTable.makeBasketPurchased(basketID);
                 sendReceipt();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Purchase has gone through.\nReceipt has been sent to your email address.");
@@ -374,10 +375,10 @@ public class CustomerLoggedInController implements Initializable {
         }
     }
 
-    private void deleteItemFromBasket() {
+    private void deleteItemFromBasket(String itemName, int quantityOfItem) {
         try {
-            BasketItemTable.deleteRecord(basketID, lbl_basketItemName.getText());
-            ItemTable.updateItemAmount(lbl_basketItemName.getText(), -Integer.parseInt(lbl_basketItemQuantity.getText()));
+            BasketItemTable.deleteRecord(basketID, itemName);
+            ItemTable.updateItemAmount(itemName, -quantityOfItem);
             showBasketItemList();
             lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
         } catch (Exception e) {
@@ -434,6 +435,17 @@ public class CustomerLoggedInController implements Initializable {
         text.append("\nTotal Order Cost: £").append(BasketItemTable.sumItems(basketID));
         EmailToken emailToken = new EmailToken(customerEmail, null, "Receipt for Purchase", text.toString(), false);
         Email.sendEmail(emailToken);
+    }
+
+    public void closeCustomerWindow() {
+        if (basketID > 0) {
+            if (Utils.selectFromRecord("Purchased", "Basket", "BasketID", Integer.toString(basketID)).equalsIgnoreCase("FALSE")) {
+                ArrayList<BasketItem> basketItems = BasketItemTable.createBasketItemList(basketID);
+                for (BasketItem basketItem : basketItems) {
+                    deleteItemFromBasket(basketItem.getItemName(), basketItem.getQuantityAdded());
+                }
+            }
+        }
     }
 
     public void setCustomerEmail(String forwardedEmail) {

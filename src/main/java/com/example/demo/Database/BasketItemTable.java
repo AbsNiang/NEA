@@ -1,10 +1,12 @@
 package com.example.demo.Database;
 
+import com.example.demo.Objects.BasketItem;
 import javafx.scene.control.Alert;
 
 import java.math.RoundingMode;
 import java.sql.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import static com.example.demo.Database.Utils.dbLocation;
 
@@ -159,7 +161,49 @@ public class BasketItemTable {
         return Double.parseDouble(df.format(orderTotal));
     }
 
-    public static void deleteRecord( int basketID, String itemName){
+    public static ArrayList<BasketItem> createBasketItemList(int basketID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ArrayList<BasketItem> basketItemList = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            preparedStatement = connection.prepareStatement("SELECT ItemName, QuantityAdded FROM BasketItem WHERE BasketID = ?");
+            preparedStatement.setInt(1, basketID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                basketItemList.add(new BasketItem(resultSet.getString("ItemName"), resultSet.getInt("QuantityAdded")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return basketItemList;
+    }
+
+    public static void deleteRecord(int basketID, String itemName) {
         Connection connection = null;
         PreparedStatement ps = null;
         try {

@@ -53,6 +53,7 @@ public class Utils {
             } else {
                 while (resultSet.next()) {
                     content = resultSet.getString(wantedField);
+                    System.out.println("Content from wanted field is: " + content);
                 }
             }
 

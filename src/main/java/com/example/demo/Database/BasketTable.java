@@ -44,4 +44,33 @@ public class BasketTable {
         }
         return primaryKey;
     }
+
+    public static void makeBasketPurchased(int basketID) {
+        Connection connection = null;
+        PreparedStatement psUpdate = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psUpdate = connection.prepareStatement("UPDATE Basket SET Purchased = ? WHERE BasketID = ?");
+            psUpdate.setBoolean(1, true);
+            psUpdate.setInt(2, basketID);
+            psUpdate.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (psUpdate != null) {
+                try {
+                    psUpdate.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

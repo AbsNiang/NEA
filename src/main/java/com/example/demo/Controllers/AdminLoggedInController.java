@@ -48,7 +48,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private Label lbl_availableItems;
 
-    //Add Items Anchor Pane:
+    //Add Items Anchor Pane: //add items will count as a transaction for the business as it costs money to get stock irl
     @FXML
     private AnchorPane addItems_form;
     @FXML

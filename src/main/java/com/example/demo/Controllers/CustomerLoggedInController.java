@@ -3,6 +3,7 @@ package com.example.demo.Controllers;
 import com.example.demo.Database.BasketItemTable;
 import com.example.demo.Database.BasketTable;
 import com.example.demo.Database.ItemTable;
+import com.example.demo.Objects.Transaction;
 import com.example.demo.SceneHandler;
 import com.example.demo.Objects.BasketItem;
 import com.example.demo.Objects.Discount;
@@ -20,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static com.example.demo.Database.Utils.dbLocation;
@@ -159,7 +161,6 @@ public class CustomerLoggedInController implements Initializable {
         return listData;
     }
 
-
     public void showItemList() {
         ObservableList<Item> listAddItem = addItemList();
         tvCol_itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -221,7 +222,6 @@ public class CustomerLoggedInController implements Initializable {
         }
         return listData;
     }
-
 
     public void showBasketItemList() {
         ObservableList<BasketItem> listAddItem = basketItemList();
@@ -308,11 +308,19 @@ public class CustomerLoggedInController implements Initializable {
                 lbl_basketItemTotalCost.setText(Double.toString(BasketItemTable.fetchTotalPriceForItems(lbl_basketItemName.getText(), basketID)));
             }
         });
-
         btn_removeItemFromBasket.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 deleteItemFromBasket();
+            }
+        });
+        btn_checkout.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (Double.parseDouble(lbl_basketTotalOrderCost.getText()) > 0) {
+                    LocalDate localDate;
+                    Transaction transaction = new Transaction(customerEmail, Double.parseDouble(lbl_basketTotalOrderCost.getText()), null, null);
+                }
             }
         });
     }

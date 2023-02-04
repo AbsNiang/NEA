@@ -3,20 +3,18 @@ package com.example.demo.Controllers;
 import com.example.demo.Database.*;
 import com.example.demo.EmailHandling.Email;
 import com.example.demo.EmailHandling.EmailToken;
+import com.example.demo.Objects.Discount;
 import com.example.demo.Objects.Transaction;
 import com.example.demo.SceneHandler;
 import com.example.demo.Objects.BasketItem;
-import com.example.demo.Objects.Discount;
 import com.example.demo.Objects.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -26,13 +24,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 
 import static com.example.demo.Database.Utils.dbLocation;
 
 public class CustomerLoggedInController implements Initializable {
-
 
     //Side Controls
     @FXML
@@ -83,6 +79,12 @@ public class CustomerLoggedInController implements Initializable {
     //discounts Anchor Pane:
     @FXML
     private AnchorPane discounts_form;
+    @FXML
+    private TableView<Discount> tv_discounts; //discounts that are available to user
+    @FXML
+    private TableColumn<Discount, String> tvCol_discountsPercentageOff;
+    @FXML
+    private TableColumn<Discount, String> tvCol_discountsThresholdSpend;
 
 
     //Basket Anchor Pane:
@@ -119,7 +121,6 @@ public class CustomerLoggedInController implements Initializable {
     private boolean basketMade = false;
     private String customerEmail;
     private int basketID;
-    private boolean purchased = false;
 
     //Item TableView Stuff
     public ObservableList<Item> addItemList() {
@@ -187,7 +188,8 @@ public class CustomerLoggedInController implements Initializable {
         lbl_itemDescription.setText(item.getDescription());
     }
 
-    public ObservableList<BasketItem> basketItemList() {
+    //BasketItem TableView Stuff
+    public ObservableList<BasketItem> basketItemList() { //might be able to use interface to better abstraction
         ObservableList<BasketItem> listData = FXCollections.observableArrayList();
         Connection connection = null;
         PreparedStatement prepare = null;
@@ -244,6 +246,57 @@ public class CustomerLoggedInController implements Initializable {
         lbl_basketItemQuantity.setText(Integer.toString(basketItem.getQuantityAdded()));
     }
 
+    public ObservableList<Discount> discountList() {
+        ObservableList<Discount> listData = FXCollections.observableArrayList();
+        Connection connection = null;
+        PreparedStatement prepare = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            prepare = connection.prepareStatement("SELECT PercentageOff, ThresholdSpend FROM Discounts, UserDiscountLink " +
+                    "WHERE EmailAddress = ? AND UserDiscountLink.PercentageOff = Discounts.PercentageOff");
+            prepare.setString(1, customerEmail);
+            resultSet = prepare.executeQuery();
+            Discount discount;
+            while (resultSet.next()) {
+                discount = new Discount(resultSet.getInt("PercentageOff"), resultSet.getDouble("ThresholdSpend"));
+                listData.add(discount);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prepare != null) {
+                try {
+                    prepare.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return listData;
+    }
+
+    public void showDiscountList() {
+        ObservableList<Discount> listDiscounts = discountList();
+        tvCol_discountsPercentageOff.setCellValueFactory(new PropertyValueFactory<>("percentageOff"));
+        tvCol_discountsThresholdSpend.setCellValueFactory(new PropertyValueFactory<>("purchaseThreshold"));
+        tv_discounts.setItems(listDiscounts);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showItemList();
@@ -271,7 +324,10 @@ public class CustomerLoggedInController implements Initializable {
             switchForm(event);
             showItemList();
         });
-        btn_discounts.setOnAction(this::switchForm);
+        btn_discounts.setOnAction(event -> {
+            switchForm(event);
+            showDiscountList();
+        });
         btn_basket.setOnAction(event -> {
             switchForm(event);
             showBasketItemList();

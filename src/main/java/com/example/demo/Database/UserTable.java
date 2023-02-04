@@ -281,13 +281,13 @@ public class UserTable {
 
     public static int countUsers() {
         Connection connection = null;
-        PreparedStatement psInsert = null;
+        PreparedStatement psCount = null;
         ResultSet rs = null;
         int count = 0;
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            psInsert = connection.prepareStatement("SELECT COUNT(*) AS userTotal FROM Users ");
-            rs = psInsert.executeQuery();
+            psCount = connection.prepareStatement("SELECT COUNT(*) AS userTotal FROM Users ");
+            rs = psCount.executeQuery();
             if (rs.next()) {
                 count = rs.getInt("userTotal");
             }
@@ -301,9 +301,9 @@ public class UserTable {
                     e.printStackTrace();
                 }
             }
-            if (psInsert != null) {
+            if (psCount != null) {
                 try {
-                    psInsert.close();
+                    psCount.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

@@ -10,17 +10,17 @@ public class Utils {
 
     public static void updateInfo(String primaryKey, String field, String newInfo, String tableName, String primaryKeyName) {
         Connection connection = null;
-        PreparedStatement psInsert = null;
+        PreparedStatement psUpdate = null;
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            psInsert = connection.prepareStatement("UPDATE " + tableName + " SET " + field + " = '" + newInfo + "' WHERE " + primaryKeyName + " = '" + primaryKey + "'");
-            psInsert.executeUpdate();
+            psUpdate = connection.prepareStatement("UPDATE " + tableName + " SET " + field + " = '" + newInfo + "' WHERE " + primaryKeyName + " = '" + primaryKey + "'");
+            psUpdate.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (psInsert != null) {
+            if (psUpdate != null) {
                 try {
-                    psInsert.close();
+                    psUpdate.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

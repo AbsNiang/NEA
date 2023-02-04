@@ -112,7 +112,7 @@ public class BasketItemTable {
     }
 
     public static double sumItems(int basketID) {
-        double orderTotal = -1;
+        double orderTotal = 0;
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;

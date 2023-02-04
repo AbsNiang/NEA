@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Controllers.AdminLoggedInController;
 import com.example.demo.Controllers.CustomerLoggedInController;
 import com.example.demo.Controllers.ResetPasswordController;
 import javafx.event.ActionEvent;
@@ -22,6 +23,10 @@ public class SceneHandler {
                     case "CustomerLoggedIn.fxml" -> {
                         CustomerLoggedInController customerLoggedInController = loader.getController();
                         customerLoggedInController.setCustomerEmail(emailAddress);
+                    }
+                    case "AdminLoggedIn.fxml" -> {
+                        AdminLoggedInController adminLoggedInController = loader.getController();
+                        adminLoggedInController.setAdminEmail(emailAddress);
                     }
                     case "ResetPassword.fxml" -> {
                         ResetPasswordController resetPasswordController = loader.getController();

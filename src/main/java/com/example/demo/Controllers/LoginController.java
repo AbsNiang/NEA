@@ -2,8 +2,6 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
 import com.example.demo.SceneHandler;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -28,26 +26,11 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        btn_login.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                UserTable.logInUser(event, tf_username.getText(), pf_password.getText());
-            }
-        });
+        btn_login.setOnAction(event -> UserTable.logInUser(event, tf_username.getText(), pf_password.getText()));
 
-        btn_signup.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                SceneHandler.changeScene(event, "SignUp.fxml", "Sign-Up", tf_username.getText(), 600, 400);
-            }
-        });
+        btn_signup.setOnAction(event -> SceneHandler.changeScene(event, "SignUp.fxml", "Sign-Up", tf_username.getText(), 600, 400));
 
-        btn_forgot.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                SceneHandler.changeScene(actionEvent,"ForgotPassword.fxml","Forgot Password", tf_username.getText(), 600,400);
-            }
-        });
+        btn_forgot.setOnAction(actionEvent -> SceneHandler.changeScene(actionEvent,"ForgotPassword.fxml","Forgot Password", tf_username.getText(), 600,400));
     }
 
 }

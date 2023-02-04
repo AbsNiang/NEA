@@ -8,8 +8,6 @@ import com.example.demo.EmailHandling.Email;
 import com.example.demo.Registration.GenerateConfirmationCode;
 import com.example.demo.Registration.PasswordConverter;
 import com.example.demo.Registration.PasswordHandler;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -53,42 +51,33 @@ public class SignUpController implements Initializable { //Add toggle password v
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        btn_signup.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (tf_code.getText().equals(code)) {
-                    System.out.println("code is correct");
-                    byte[] salt = PasswordHandler.generateSalt();
-                    byte[] byteDigestPassword = PasswordHandler.getSaltedHash(password, salt);
-                    String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
-                    String strSalt = PasswordConverter.toHex(salt);
-                    User user = new User(email, hashedPassword, strSalt, firstName, surname, false, false);
-                    UserTable.signUpUser(event, user);
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                    alert.setContentText("Code entered is incorrect.");
-                    alert.show();
-                }
+        btn_signup.setOnAction(event -> {
+            if (tf_code.getText().equals(code)) {
+                System.out.println("code is correct");
+                byte[] salt = PasswordHandler.generateSalt();
+                byte[] byteDigestPassword = PasswordHandler.getSaltedHash(password, salt);
+                String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
+                String strSalt = PasswordConverter.toHex(salt);
+                User user = new User(email, hashedPassword, strSalt, firstName, surname, false, false);
+                UserTable.signUpUser(event, user);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.setContentText("Code entered is incorrect.");
+                alert.show();
             }
         });
 
-        btn_alreadyhaveaccount.setOnAction(new EventHandler<ActionEvent>() {//redirects to login page
-            @Override
-            public void handle(ActionEvent event) {
-                SceneHandler.changeScene(event, "Login.fxml", "Log-in", null, 600, 400);
-            }
-        });
+        //redirects to login page
+        btn_alreadyhaveaccount.setOnAction(event -> SceneHandler.changeScene(event, "Login.fxml", "Log-in", null, 600, 400));
 
-        btn_confirm.setOnAction(new EventHandler<ActionEvent>() { //send confirmation email
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                code = GenerateConfirmationCode.generateCode(); //gets a random 6 digit code
-                setDetails();
-                EmailToken emailToken = new EmailToken(email, code, "Use the code below to confirm your email and sign up:", "This is a confirmation email.", true);
-                Email.sendEmail(emailToken);
-                switchForm();
-            }
+        //send confirmation email
+        btn_confirm.setOnAction(actionEvent -> {
+            code = GenerateConfirmationCode.generateCode(); //gets a random 6 digit code
+            setDetails();
+            EmailToken emailToken = new EmailToken(email, code, "Use the code below to confirm your email and sign up:", "This is a confirmation email.", true);
+            Email.sendEmail(emailToken);
+            switchForm();
         });
     }
 

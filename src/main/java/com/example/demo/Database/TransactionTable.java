@@ -23,6 +23,7 @@ public class TransactionTable {
             psInsert.setDate(3, (Date.valueOf(transaction.getDateOfTransaction())));
             psInsert.setTime(4, (Time.valueOf(transaction.getTimeOfTransaction())));
             psInsert.executeUpdate();
+            System.out.println("Transaction has been added.");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

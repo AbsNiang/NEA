@@ -5,8 +5,6 @@ import com.example.demo.SceneHandler;
 import com.example.demo.Objects.User;
 import com.example.demo.Registration.PasswordConverter;
 import com.example.demo.Registration.PasswordHandler;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -31,25 +29,22 @@ public class ResetPasswordController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        btn_complete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (pf_newpassword.getText().equals(pf_confirmpassword.getText()) && PasswordHandler.passwordCheck(pf_newpassword.getText())) {
-                    byte[] salt = PasswordHandler.generateSalt();
-                    byte[] byteDigestPassword = PasswordHandler.getSaltedHash(pf_newpassword.getText(), salt);
-                    String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
-                    String strSalt = PasswordConverter.toHex(salt);
-                    User user = new User(email, hashedPassword, strSalt, "","",false,false);
-                    System.out.println(user.getEmailAddress());
-                    UserTable.alterPassword(user);
-                    SceneHandler.changeScene(actionEvent, "AdminLoggedIn.fxml", "Welcome!", email, 1100, 651);
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                    alert.setContentText("Both passwords need to be identical " +
-                            "and contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.");
-                    alert.show();
-                }
+        btn_complete.setOnAction(actionEvent -> {
+            if (pf_newpassword.getText().equals(pf_confirmpassword.getText()) && PasswordHandler.passwordCheck(pf_newpassword.getText())) {
+                byte[] salt = PasswordHandler.generateSalt();
+                byte[] byteDigestPassword = PasswordHandler.getSaltedHash(pf_newpassword.getText(), salt);
+                String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
+                String strSalt = PasswordConverter.toHex(salt);
+                User user = new User(email, hashedPassword, strSalt, "","",false,false);
+                System.out.println(user.getEmailAddress());
+                UserTable.alterPassword(user);
+                SceneHandler.changeScene(actionEvent, "AdminLoggedIn.fxml", "Welcome!", email, 1100, 651);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.setContentText("Both passwords need to be identical " +
+                        "and contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.");
+                alert.show();
             }
         });
     }

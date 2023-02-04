@@ -1,15 +1,14 @@
 package com.example.demo.Objects;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-public class Transaction {//format LocalDate into access form dd/mm/yyyy, LocalTime into hh:mm:ss
+public class Transaction {//format date into access form dd/mm/yyyy, time into hh:mm:ss
     private String emailAddress;
     private double moneySpent;
     private LocalDate dateOfTransaction;
-    private LocalTime timeOfTransaction;
+    private String timeOfTransaction;
 
-    public Transaction(String emailAddress, double moneySpent, LocalDate dateOfTransaction, LocalTime timeOfTransaction) {
+    public Transaction(String emailAddress, double moneySpent, LocalDate dateOfTransaction, String timeOfTransaction) {
         this.emailAddress = emailAddress;
         this.moneySpent = moneySpent;
         this.dateOfTransaction = dateOfTransaction;
@@ -40,11 +39,11 @@ public class Transaction {//format LocalDate into access form dd/mm/yyyy, LocalT
         this.dateOfTransaction = dateOfTransaction;
     }
 
-    public LocalTime getTimeOfTransaction() {
+    public String getTimeOfTransaction() {
         return timeOfTransaction;
     }
 
-    public void setTimeOfTransaction(LocalTime timeOfTransaction) {
+    public void setTimeOfTransaction(String timeOfTransaction) {
         this.timeOfTransaction = timeOfTransaction;
     }
 }

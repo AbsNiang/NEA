@@ -5,8 +5,6 @@ import com.example.demo.SceneHandler;
 import com.example.demo.EmailHandling.EmailToken;
 import com.example.demo.EmailHandling.Email;
 import com.example.demo.Registration.GenerateConfirmationCode;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -43,52 +41,36 @@ public class ForgotPasswordController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        btn_send.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                email = tf_email.getText();
-                if (UserTable.checkUserExists(email)) {
-                    sendCode();
-                    switchForm();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                    alert.setContentText("This user doesn't exist.");
-                    alert.show();
-                }
-            }
-        });
-
-        btn_submit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if (tf_entercode.getText().equals(code)) {
-                    SceneHandler.changeScene(actionEvent, "ResetPassword.fxml", "Reset Password",
-                            email, 600, 400);
-
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                    alert.setContentText("The entered code is incorrect. " +
-                            "\nPress the send code button again or re enter the code correctly.");
-                    alert.show();
-                }
-            }
-        });
-
-        btn_login.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                SceneHandler.changeScene(actionEvent, "Login.fxml", "Login", null, 600, 400);
-            }
-        });
-
-        btn_resend.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        btn_send.setOnAction(actionEvent -> {
+            email = tf_email.getText();
+            if (UserTable.checkUserExists(email)) {
                 sendCode();
+                switchForm();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.setContentText("This user doesn't exist.");
+                alert.show();
             }
         });
+
+        btn_submit.setOnAction(actionEvent -> {
+            if (tf_entercode.getText().equals(code)) {
+                SceneHandler.changeScene(actionEvent, "ResetPassword.fxml", "Reset Password",
+                        email, 600, 400);
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.setContentText("The entered code is incorrect. " +
+                        "\nPress the send code button again or re enter the code correctly.");
+                alert.show();
+            }
+        });
+
+        btn_login.setOnAction(actionEvent -> SceneHandler.changeScene(actionEvent, "Login.fxml", "Login", null, 600, 400));
+
+        btn_resend.setOnAction(event -> sendCode());
     }
 
     private void switchForm() {

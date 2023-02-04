@@ -3,6 +3,8 @@ package com.example.demo.Controllers;
 import com.example.demo.Database.BasketItemTable;
 import com.example.demo.Database.BasketTable;
 import com.example.demo.Database.ItemTable;
+import com.example.demo.Database.TransactionTable;
+import com.example.demo.EmailHandling.EmailToken;
 import com.example.demo.Objects.Transaction;
 import com.example.demo.SceneHandler;
 import com.example.demo.Objects.BasketItem;
@@ -22,6 +24,9 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 
 import static com.example.demo.Database.Utils.dbLocation;
@@ -100,7 +105,7 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private Button btn_removeItemFromBasket;
     @FXML
-    private Button btn_checkout;
+    private Button btn_purchase;
     @FXML //Discount Table
     private TableView<BasketItem> tv_basketDiscounts;
     @FXML
@@ -239,88 +244,59 @@ public class CustomerLoggedInController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showItemList();
-        tv_items.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                selectAddItemList();
-                lbl_itemAmount.setText("0");
-                lbl_itemTotal.setText("£0");
-            }
+        tv_items.setOnMouseClicked(mouseEvent -> {
+            selectAddItemList();
+            lbl_itemAmount.setText("0");
+            lbl_itemTotal.setText("£0");
         });
-        btn_plus1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                addOne();
+        btn_plus1.setOnAction(event -> addOne());
+        btn_minus1.setOnAction(event -> minusOne());
+        btn_addToBasket.setOnAction(event -> {
+            if (!basketMade) {
+                basketID = BasketTable.createBasket(customerEmail);
+                basketMade = true;
             }
+            BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
+            ItemTable.updateItemAmount(lbl_itemName.getText(), Integer.parseInt(lbl_itemAmount.getText()));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Item has been added to basket.");
+            alert.show();
+            showItemList();
         });
-        btn_minus1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                minusOne();
-            }
+        btn_signout.setOnAction(event -> SceneHandler.changeScene(event, "Login.fxml", "Login", null, 600, 400));
+        btn_browse.setOnAction(event -> {
+            switchForm(event);
+            showItemList();
         });
-        btn_addToBasket.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (!basketMade) {
-                    basketID = BasketTable.createBasket(customerEmail);
-                    basketMade = true;
-                }
-                BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
-                ItemTable.updateItemAmount(lbl_itemName.getText(), Integer.parseInt(lbl_itemAmount.getText()));
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Item has been added to basket.");
+        btn_discounts.setOnAction(this::switchForm);
+        btn_basket.setOnAction(event -> {
+            switchForm(event);
+            showBasketItemList();
+            lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
+        });
+        tv_basketItem.setOnMouseClicked(mouseEvent -> {
+            selectBasketItemList();
+            lbl_basketItemTotalCost.setText(Double.toString(BasketItemTable.fetchTotalPriceForItems(lbl_basketItemName.getText(), basketID)));
+        });
+        btn_removeItemFromBasket.setOnAction(event -> deleteItemFromBasket());
+        btn_purchase.setOnAction(event -> {
+            if (Double.parseDouble(lbl_basketTotalOrderCost.getText()) > 0) {
+                LocalTime localTime = LocalTime.now();
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                Transaction transaction = new Transaction(customerEmail,
+                        Double.parseDouble(lbl_basketTotalOrderCost.getText()),
+                        LocalDate.now(),
+                        localTime.format(timeFormatter));
+                TransactionTable.addTransaction(transaction);
+                EmailToken emailToken = new EmailToken(customerEmail,null,"Receipt for Purchase","",false);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Purchase has gone through.\nReceipt has been sent to your email address.");
                 alert.show();
-                showItemList();
-            }
-        });
-        btn_signout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                SceneHandler.changeScene(event, "Login.fxml", "Login", null, 600, 400);
-            }
-        });
-        btn_browse.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                switchForm(event);
-                showItemList();
-            }
-        });
-        btn_discounts.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                switchForm(event);
-            }
-        });
-        btn_basket.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                switchForm(event);
-                showBasketItemList();
-                lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
-            }
-        });
-        tv_basketItem.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                selectBasketItemList();
-                lbl_basketItemTotalCost.setText(Double.toString(BasketItemTable.fetchTotalPriceForItems(lbl_basketItemName.getText(), basketID)));
-            }
-        });
-        btn_removeItemFromBasket.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                deleteItemFromBasket();
-            }
-        });
-        btn_checkout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (Double.parseDouble(lbl_basketTotalOrderCost.getText()) > 0) {
-                    LocalDate localDate;
-                    Transaction transaction = new Transaction(customerEmail, Double.parseDouble(lbl_basketTotalOrderCost.getText()), null, null);
-                }
+            } else {
+                System.out.println("basket is empty.");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Basket is empty.");
+                alert.show();
             }
         });
     }
@@ -394,15 +370,20 @@ public class CustomerLoggedInController implements Initializable {
     }
 
     private void deleteItemFromBasket() {
-        BasketItemTable.deleteRecord(basketID, lbl_basketItemName.getText());
-        ItemTable.updateItemAmount(lbl_basketItemName.getText(), -Integer.parseInt(lbl_basketItemQuantity.getText()));
-        showBasketItemList();
-        lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
-
+        try {
+            BasketItemTable.deleteRecord(basketID, lbl_basketItemName.getText());
+            ItemTable.updateItemAmount(lbl_basketItemName.getText(), -Integer.parseInt(lbl_basketItemQuantity.getText()));
+            showBasketItemList();
+            lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You haven't selected an item to remove.");
+            alert.show();
+        }
     }
 
     public void setCustomerEmail(String forwardedEmail) {
         customerEmail = forwardedEmail;
-        System.out.println(customerEmail);
+        System.out.println("Email: " + customerEmail);
     }
 }

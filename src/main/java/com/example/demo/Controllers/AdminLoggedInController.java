@@ -118,6 +118,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
 
     private User selectedUser;
     private Item selectedItem;
+    private String adminEmailAddress;
 
     //Item TableView Stuff
     public ObservableList<Item> addItemList() {
@@ -262,118 +263,74 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         showAddItemList();
         showEditUsersList();
         //Item TableView
-        tv_addItems.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                try {
-                    selectAddItemList();
-                    selectedItem = new Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()), Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(), ta_itemDescription.getText());
-                } catch (Exception e) {
-                    System.out.println("item not selected.");
-                }
+        tv_addItems.setOnMouseClicked(mouseEvent -> {
+            try {
+                selectAddItemList();
+                selectedItem = new Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()), Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(), ta_itemDescription.getText());
+            } catch (Exception e) {
+                System.out.println("item not selected.");
             }
         });
         //User TableView
-        tv_users.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                selectEditUsersList();
-                selectedUser = new User(tf_email.getText(), null, null, tf_firstName.getText(), tf_surname.getText(), cb_hasLoyaltyCard.isSelected(), cb_isAdmin.isSelected());
-            }
+        tv_users.setOnMouseClicked(mouseEvent -> {
+            selectEditUsersList();
+            selectedUser = new User(tf_email.getText(), null, null, tf_firstName.getText(), tf_surname.getText(), cb_hasLoyaltyCard.isSelected(), cb_isAdmin.isSelected());
         });
-        btn_submitUserChanges.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    Utils.updateInfo(selectedUser.getEmailAddress(), "EmailAddress", tf_email.getText(), "USERS", "EmailAddress");
-                    Utils.updateInfo(selectedUser.getEmailAddress(), "FirstName", tf_firstName.getText(), "USERS", "EmailAddress");
-                    Utils.updateInfo(selectedUser.getEmailAddress(), "Surname", tf_surname.getText(), "USERS", "EmailAddress");
-                    UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "IsAdmin", cb_isAdmin.isSelected());
-                    UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "HasLoyaltyCard", cb_hasLoyaltyCard.isSelected());
-                    showEditUsersList();
-                } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("This isn't a pre-existing account.");
-                    alert.show();
-                }
-
-            }
-        });
-        btn_deleteUser.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    UserTable.deleteUser(tf_email.getText());
-                    showEditUsersList();
-                } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Can't do that!");
-                    alert.show();
-                }
+        btn_submitUserChanges.setOnAction(event -> {
+            try {
+                Utils.updateInfo(selectedUser.getEmailAddress(), "EmailAddress", tf_email.getText(), "USERS", "EmailAddress");
+                Utils.updateInfo(selectedUser.getEmailAddress(), "FirstName", tf_firstName.getText(), "USERS", "EmailAddress");
+                Utils.updateInfo(selectedUser.getEmailAddress(), "Surname", tf_surname.getText(), "USERS", "EmailAddress");
+                UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "IsAdmin", cb_isAdmin.isSelected());
+                UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "HasLoyaltyCard", cb_hasLoyaltyCard.isSelected());
                 showEditUsersList();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("This isn't a pre-existing account.");
+                alert.show();
             }
-        });
-        btn_signout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                SceneHandler.changeScene(actionEvent, "Login.fxml", "Login", null, 600, 400);
-            }
-        });
 
-        btn_logistics.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                switchForm(event);
-            }
         });
-
-        btn_addItems.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                switchForm(event);
+        btn_deleteUser.setOnAction(event -> {
+            try {
+                UserTable.deleteUser(tf_email.getText());
+                showEditUsersList();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Can't do that!");
+                alert.show();
             }
+            showEditUsersList();
         });
+        btn_signout.setOnAction(actionEvent -> SceneHandler.changeScene(actionEvent, "Login.fxml", "Login", adminEmailAddress, 600, 400));
 
-        btn_editUsers.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                switchForm(event);
-            }
-        });
+        btn_logistics.setOnAction(this::switchForm);
 
-        btn_customerView.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome", "", 1100, 651);
-            }
-        });
+        btn_addItems.setOnAction(this::switchForm);
 
-        btn_addItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Item item = new Item(tf_itemName.getText(),
-                        Double.parseDouble(tf_itemPrice.getText()),
-                        Integer.parseInt(tf_itemQuantity.getText()),
-                        ta_itemTags.getText(),
-                        ta_itemDescription.getText());
-                ItemTable.insertItem(item);
-                showAddItemList();
-            }
+        btn_editUsers.setOnAction(this::switchForm);
+
+        btn_customerView.setOnAction(event -> SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome", adminEmailAddress, 1100, 651));
+
+        btn_addItem.setOnAction(actionEvent -> {
+            Item item = new Item(tf_itemName.getText(),
+                    Double.parseDouble(tf_itemPrice.getText()),
+                    Integer.parseInt(tf_itemQuantity.getText()),
+                    ta_itemTags.getText(),
+                    ta_itemDescription.getText());
+            ItemTable.insertItem(item);
+            showAddItemList();
         });
 
-        btn_updateItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {//name, price, quantity, tags, desc.
-                String name = selectedItem.getName();
-                String location = dbLocation;
-                Utils.updateInfo(name, "ItemName", tf_itemName.getText(), "ITEMS", "ItemName");
-                Utils.updateInfo(name, "Price", tf_itemPrice.getText(), "ITEMS", "ItemName");
-                Utils.updateInfo(name, "Quantity", tf_itemQuantity.getText(), "ITEMS", "ItemName");
-                Utils.updateInfo(name, "Tags", ta_itemTags.getText(), "ITEMS", "ItemName");
-                Utils.updateInfo(name, "Description", ta_itemDescription.getText(),"ITEMS", "ItemName");
-                showAddItemList();
+        btn_updateItem.setOnAction(event -> {//name, price, quantity, tags, desc.
+            String name = selectedItem.getName();
+            Utils.updateInfo(name, "ItemName", tf_itemName.getText(), "ITEMS", "ItemName");
+            Utils.updateInfo(name, "Price", tf_itemPrice.getText(), "ITEMS", "ItemName");
+            Utils.updateInfo(name, "Quantity", tf_itemQuantity.getText(), "ITEMS", "ItemName");
+            Utils.updateInfo(name, "Tags", ta_itemTags.getText(), "ITEMS", "ItemName");
+            Utils.updateInfo(name, "Description", ta_itemDescription.getText(), "ITEMS", "ItemName");
+            showAddItemList();
 
-            }
         });
     }
 
@@ -401,5 +358,10 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             btn_addItems.setStyle("-fx-background-color: transparent;");
             btn_editUsers.setStyle("-fx-background-color:#13a5ec; ");
         }
+    }
+
+    public void setAdminEmail(String forwardedEmail) {
+        adminEmailAddress = forwardedEmail;
+        System.out.println("Email: " + adminEmailAddress);
     }
 }

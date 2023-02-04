@@ -4,6 +4,7 @@ import com.example.demo.Database.BasketItemTable;
 import com.example.demo.Database.BasketTable;
 import com.example.demo.Database.ItemTable;
 import com.example.demo.Database.TransactionTable;
+import com.example.demo.EmailHandling.Email;
 import com.example.demo.EmailHandling.EmailToken;
 import com.example.demo.Objects.Transaction;
 import com.example.demo.SceneHandler;
@@ -20,12 +21,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.ResourceBundle;
 
@@ -288,10 +291,12 @@ public class CustomerLoggedInController implements Initializable {
                         LocalDate.now(),
                         localTime.format(timeFormatter));
                 TransactionTable.addTransaction(transaction);
-                EmailToken emailToken = new EmailToken(customerEmail,null,"Receipt for Purchase","",false);
+                sendReceipt();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Purchase has gone through.\nReceipt has been sent to your email address.");
                 alert.show();
+                Stage stage = (Stage) btn_purchase.getScene().getWindow();
+                stage.close();
             } else {
                 System.out.println("basket is empty.");
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -380,6 +385,55 @@ public class CustomerLoggedInController implements Initializable {
             alert.setContentText("You haven't selected an item to remove.");
             alert.show();
         }
+    }
+
+    private void sendReceipt() {
+        Connection connection = null;
+        PreparedStatement prepare = null;
+        ResultSet resultSet = null;
+        ArrayList<BasketItem> basketItems = new ArrayList<>();
+        StringBuilder text = new StringBuilder();
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            prepare = connection.prepareStatement("SELECT * FROM BasketItem WHERE BasketID = ?");
+            prepare.setInt(1, basketID);
+            resultSet = prepare.executeQuery();
+            BasketItem basketItem;
+            while (resultSet.next()) {
+                basketItem = new BasketItem(resultSet.getString("ItemName"), resultSet.getInt("QuantityAdded"));
+                basketItems.add(basketItem);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prepare != null) {
+                try {
+                    prepare.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        for (BasketItem basketItem : basketItems) {
+            text.append("\n Item Name: ").append(basketItem.getItemName()).append(" - ").append("Quantity: ").append(basketItem.getQuantityAdded());
+        }
+        text.append("\nTotal Order Cost: £").append(BasketItemTable.sumItems(basketID));
+        EmailToken emailToken = new EmailToken(customerEmail, null, "Receipt for Purchase", text.toString(), false);
+        Email.sendEmail(emailToken);
     }
 
     public void setCustomerEmail(String forwardedEmail) {

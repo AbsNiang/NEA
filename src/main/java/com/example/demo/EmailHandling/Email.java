@@ -8,8 +8,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-public class Email { //add regex
+//email app password expires after certain amount of time
+public class Email {//neaprojectemailsend@gmail.com, normal password is NEAP4ssword!, app password is gabdgvnjigejtkzz
 
     public static void sendEmail(EmailToken emailToken) {
 
@@ -24,7 +24,8 @@ public class Email { //add regex
         properties.put("mail.smtp.starttls.enable", "true");
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("NEA.EmailConfirmation@gmail.com", "smvzdjmkgejryknh"); //App password
+                //return new PasswordAuthentication("NEA.EmailConfirmation@gmail.com", "smvzdjmkgejryknh"); //alternative sender email
+                return new PasswordAuthentication("neaprojectemailsend@gmail.com", "gabdgvnjigejtkzz"); //App password
             }
         });
         session.setDebug(true);

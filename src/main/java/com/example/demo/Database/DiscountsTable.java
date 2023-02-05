@@ -11,14 +11,15 @@ public class DiscountsTable {
     public static void giveUserDiscount(String customerEmail) {
         double customerTransactionSum = TransactionTable.sumTransactionsForCustomer(customerEmail);
         double thresholdPassed = 0;
-        if (customerTransactionSum > 10) { //all possible discount thresholds
-            if (customerTransactionSum > 15) {
-                if (customerTransactionSum > 20) {
-                    if (customerTransactionSum > 30) {
-                        if (customerTransactionSum > 40) {
-                            if (customerTransactionSum > 50) {
-                                if (customerTransactionSum > 70) {
-                                    if (customerTransactionSum > 100) {
+        int nearest100 = (((int) customerTransactionSum) / 100) * 100;// rounded down so every 100 you can get discounts again
+        if (customerTransactionSum - nearest100 > 10) { //all possible discount thresholds
+            if (customerTransactionSum - nearest100 > 15) {
+                if (customerTransactionSum - nearest100 > 20) {
+                    if (customerTransactionSum - nearest100 > 30) {
+                        if (customerTransactionSum - nearest100 > 40) {
+                            if (customerTransactionSum - nearest100 > 50) {
+                                if (customerTransactionSum - nearest100 > 70) {
+                                    if (customerTransactionSum - nearest100 > 100) {
                                         thresholdPassed = 100;
                                     } else {
                                         thresholdPassed = 70;
@@ -59,7 +60,7 @@ public class DiscountsTable {
 
             } else {
                 connection.close();
-                connection =  DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+                connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
                 PreparedStatement ps = connection.prepareStatement("SELECT PercentageOff FROM Discounts WHERE ThresholdSpend = ?");
                 ps.setDouble(1, thresholdPassed);
                 ResultSet rs = ps.executeQuery();
@@ -97,6 +98,35 @@ public class DiscountsTable {
             if (psInsert != null) {
                 try {
                     psInsert.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void removeDiscount(String customerEmail, int percentageOff) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            ps = connection.prepareStatement("DELETE FROM UserDiscountLink WHERE EmailAddress = ? AND PercentageOff = ?");
+            ps.setString(1, customerEmail);
+            ps.setInt(2, percentageOff);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

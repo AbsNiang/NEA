@@ -18,8 +18,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -92,6 +94,8 @@ public class CustomerLoggedInController implements Initializable {
     private AnchorPane basket_form;
     @FXML
     private Label lbl_basketTotalOrderCost;
+    @FXML
+    private Label lbl_basketAdjustedOrderCost;
     @FXML //BasketItem Table
     private TableView<BasketItem> tv_basketItem;
     @FXML
@@ -111,11 +115,13 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private Button btn_viewPreviousBasket;
     @FXML //Discount Table
-    private TableView<BasketItem> tv_basketDiscounts;
+    private TableView<Discount> tv_basketDiscounts;
     @FXML
     private TableColumn<Discount, Integer> tvCol_basketDiscountPercentageOff;
     @FXML
     private TableColumn<Discount, Double> tvCol_basketDiscountThreshold;
+    @FXML
+    private Label lbl_basketPercentageOff;
 
 
     private boolean basketMade = false;
@@ -297,6 +303,18 @@ public class CustomerLoggedInController implements Initializable {
         tv_discounts.setItems(listDiscounts);
     }
 
+    public void showBasketDiscountList() {
+        ObservableList<Discount> listDiscounts = discountList();
+        tvCol_basketDiscountPercentageOff.setCellValueFactory(new PropertyValueFactory<>("percentageOff"));
+        tvCol_basketDiscountThreshold.setCellValueFactory(new PropertyValueFactory<>("purchaseThreshold"));
+        tv_basketDiscounts.setItems(listDiscounts);
+    }
+
+    public void selectBasketDiscountList() {
+        Discount discount = tv_basketDiscounts.getSelectionModel().getSelectedItem();
+        lbl_basketPercentageOff.setText(Integer.toString(discount.getPercentageOff()));
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         showItemList();
@@ -331,11 +349,23 @@ public class CustomerLoggedInController implements Initializable {
         btn_basket.setOnAction(event -> {
             switchForm(event);
             showBasketItemList();
-            lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
+            showBasketDiscountList();
+            String normalTotalOrderCost = Double.toString(BasketItemTable.sumItems(basketID));
+            lbl_basketTotalOrderCost.setText(normalTotalOrderCost);
+            lbl_basketAdjustedOrderCost.setText(normalTotalOrderCost);
         });
         tv_basketItem.setOnMouseClicked(mouseEvent -> {
             selectBasketItemList();
             lbl_basketItemTotalCost.setText(Double.toString(BasketItemTable.fetchTotalPriceForItems(lbl_basketItemName.getText(), basketID)));
+        });
+        tv_basketDiscounts.setOnMouseClicked(mouseEvent -> {
+            selectBasketDiscountList();
+            double currentOrderCost = Double.parseDouble(lbl_basketTotalOrderCost.getText());
+            double percentageOff = Double.parseDouble(lbl_basketPercentageOff.getText());
+            double adjustedOrderCost = currentOrderCost - (currentOrderCost * (percentageOff / 100));
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.DOWN);
+            lbl_basketAdjustedOrderCost.setText(df.format(adjustedOrderCost));
         });
         btn_removeItemFromBasket.setOnAction(event -> deleteItemFromBasket(lbl_basketItemName.getText(), Integer.parseInt(lbl_basketItemQuantity.getText())));
         btn_purchase.setOnAction(event -> {
@@ -343,11 +373,12 @@ public class CustomerLoggedInController implements Initializable {
                 LocalTime localTime = LocalTime.now();
                 DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
                 Transaction transaction = new Transaction(customerEmail,
-                        Double.parseDouble(lbl_basketTotalOrderCost.getText()),
+                        Double.parseDouble(lbl_basketAdjustedOrderCost.getText()),
                         LocalDate.now(),
                         localTime.format(timeFormatter));
                 TransactionTable.addTransaction(transaction);//adds transaction to db
                 BasketTable.makeBasketPurchased(basketID);//sets basket to purchased
+                DiscountsTable.removeDiscount(customerEmail, Integer.parseInt(lbl_basketPercentageOff.getText()));
                 DiscountsTable.giveUserDiscount(customerEmail);
                 sendReceipt();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -489,7 +520,7 @@ public class CustomerLoggedInController implements Initializable {
         for (BasketItem basketItem : basketItems) {
             text.append("\n Item Name: ").append(basketItem.getItemName()).append(" - ").append("Quantity: ").append(basketItem.getQuantityAdded());
         }
-        text.append("\nTotal Order Cost: £").append(BasketItemTable.sumItems(basketID));
+        text.append("\nTotal Order Cost: £").append(lbl_basketAdjustedOrderCost.getText());
         EmailToken emailToken = new EmailToken(customerEmail, null, "Receipt for Purchase", text.toString(), false);
         Email.sendEmail(emailToken);
     }

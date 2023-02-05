@@ -5,75 +5,60 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0"
-            prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.demo.Controllers.CustomerLoggedInController">
-    <BorderPane layoutY="2.0" prefHeight="651.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0"
-                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Controllers.CustomerLoggedInController">
+    <BorderPane layoutY="2.0" prefHeight="651.0" prefWidth="1014.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <left>
-            <AnchorPane prefHeight="651.0" prefWidth="199.0" style="-fx-background-color: #4169e1;"
-                        BorderPane.alignment="CENTER">
-                <ImageView fitHeight="101.0" fitWidth="101.0" layoutX="52.0" layoutY="14.0" pickOnBounds="true"
-                           preserveRatio="true">
-                    <Image url="@Images/user.png"/>
+            <AnchorPane prefHeight="651.0" prefWidth="199.0" style="-fx-background-color: #4169e1;" BorderPane.alignment="CENTER">
+                <ImageView fitHeight="101.0" fitWidth="101.0" layoutX="52.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@Images/user.png" />
                 </ImageView>
-                <Button fx:id="btn_discounts" layoutX="24.0" layoutY="255.0" mnemonicParsing="false"
-                        prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons"
-                        stylesheets="@css/dashboard.css" text="Discounts" textFill="WHITE">
+                <Button fx:id="btn_discounts" layoutX="24.0" layoutY="255.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Discounts" textFill="WHITE">
                     <font>
-                        <Font name="Roboto Light" size="16.0"/>
+                        <Font name="Roboto Light" size="16.0" />
                     </font>
                     <graphic>
                         <ImageView fitHeight="21.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@Images/plus.png"/>
+                            <Image url="@Images/plus.png" />
                         </ImageView>
                     </graphic>
                 </Button>
-                <Label layoutX="60.0" layoutY="127.0" prefHeight="39.0" prefWidth="78.0" text="Welcome"
-                       textFill="WHITE">
+                <Label layoutX="60.0" layoutY="127.0" prefHeight="39.0" prefWidth="78.0" text="Welcome" textFill="WHITE">
                     <font>
-                        <Font name="Roboto Light" size="18.0"/>
+                        <Font name="Roboto Light" size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="lbl_username" alignment="CENTER" layoutX="60.0" layoutY="159.0" prefHeight="26.0"
-                       prefWidth="78.0" text="Guest" textFill="WHITE">
+                <Label fx:id="lbl_username" alignment="CENTER" layoutX="60.0" layoutY="159.0" prefHeight="26.0" prefWidth="78.0" text="Guest" textFill="WHITE">
                     <font>
-                        <Font name="Roboto Light" size="18.0"/>
+                        <Font name="Roboto Light" size="18.0" />
                     </font>
                 </Label>
-                <Button fx:id="btn_signout" layoutX="26.0" layoutY="576.0" mnemonicParsing="false" prefHeight="51.0"
-                        prefWidth="129.0" styleClass="general-buttons" stylesheets="@css/dashboard.css"
-                        text="Sign Out" textFill="WHITE">
+                <Button fx:id="btn_signout" layoutX="26.0" layoutY="576.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="129.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Sign Out" textFill="WHITE">
                     <graphic>
                         <ImageView fitHeight="36.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@Images/signout.png"/>
+                            <Image url="@Images/signout.png" />
                         </ImageView>
                     </graphic>
                     <font>
-                        <Font name="Roboto Light" size="14.0"/>
+                        <Font name="Roboto Light" size="14.0" />
                     </font>
                 </Button>
-                <Button fx:id="btn_browse" layoutX="24.0" layoutY="212.0" mnemonicParsing="false" prefHeight="17.0"
-                        prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Shop"
-                        textFill="WHITE">
+                <Button fx:id="btn_browse" layoutX="24.0" layoutY="212.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Shop" textFill="WHITE">
                     <font>
-                        <Font name="Roboto Light" size="16.0"/>
+                        <Font name="Roboto Light" size="16.0" />
                     </font>
                     <graphic>
                         <ImageView fitHeight="24.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@Images/items.png"/>
+                            <Image url="@Images/items.png" />
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="btn_basket" layoutX="24.0" layoutY="287.0" mnemonicParsing="false" prefHeight="17.0"
-                        prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css"
-                        text="Basket" textFill="WHITE">
+                <Button fx:id="btn_basket" layoutX="24.0" layoutY="287.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="150.0" styleClass="general-buttons" stylesheets="@css/dashboard.css" text="Basket" textFill="WHITE">
                     <font>
-                        <Font name="Roboto Light" size="16.0"/>
+                        <Font name="Roboto Light" size="16.0" />
                     </font>
                     <graphic>
                         <ImageView fitHeight="38.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@Images/cart.png"/>
+                            <Image url="@Images/cart.png" />
                         </ImageView>
                     </graphic>
                 </Button>
@@ -81,254 +66,237 @@
         </left>
         <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <AnchorPane fx:id="browse_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2"
-                            visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0"
-                                style="-fx-background-color: white; -fx-background-radius: 8;">
+                <AnchorPane fx:id="browse_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                         <Label layoutX="15.0" layoutY="14.0" text="Item Name:">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label layoutX="15.0" layoutY="95.0" text="Item Price:">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label layoutX="16.0" layoutY="176.0" text="Quantity Left:">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label layoutX="17.0" layoutY="245.0" text="Description:">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
-                        <Button fx:id="btn_plus1" layoutX="19.0" layoutY="479.0" mnemonicParsing="false"
-                                prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: green;"
-                                styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="+1"
-                                textFill="WHITE">
+                        <Button fx:id="btn_plus1" layoutX="19.0" layoutY="479.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: green;" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="+1" textFill="WHITE">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Button>
-                        <Button fx:id="btn_addToBasket" layoutX="39.0" layoutY="540.0"
-                                mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0"
-                                styleClass="outside-buttons" stylesheets="@css/dashboard.css"
-                                text="Add to Basket" textFill="WHITE">
+                        <Button fx:id="btn_addToBasket" layoutX="39.0" layoutY="540.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Add to Basket" textFill="WHITE">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Button>
-                        <AnchorPane fx:id="itemNotFound_form" layoutX="1.0" layoutY="378.0"
-                                    prefHeight="54.0" prefWidth="253.0" visible="false">
-                            <Label layoutX="40.0" layoutY="3.0" text="Item couldnt be found in dataset."
-                                   textFill="#f80000">
+                        <AnchorPane fx:id="itemNotFound_form" layoutX="1.0" layoutY="378.0" prefHeight="54.0" prefWidth="253.0" visible="false">
+                            <Label layoutX="40.0" layoutY="3.0" text="Item couldnt be found in dataset." textFill="#f80000">
                                 <font>
-                                    <Font name="Roboto Light" size="11.0"/>
+                                    <Font name="Roboto Light" size="11.0" />
                                 </font>
                             </Label>
-                            <TextField fx:id="tf_OrderPrice" layoutX="143.0" layoutY="21.0"
-                                       prefHeight="26.0" prefWidth="94.0"/>
-                            <Label layoutY="24.0" prefHeight="20.0" prefWidth="143.0"
-                                   text="Price of Item for Order:">
+                            <TextField fx:id="tf_OrderPrice" layoutX="143.0" layoutY="21.0" prefHeight="26.0" prefWidth="94.0" />
+                            <Label layoutY="24.0" prefHeight="20.0" prefWidth="143.0" text="Price of Item for Order:">
                                 <font>
-                                    <Font name="Roboto Light" size="14.0"/>
+                                    <Font name="Roboto Light" size="14.0" />
                                 </font>
                             </Label>
                         </AnchorPane>
                         <Label fx:id="lbl_itemName" layoutX="125.0" layoutY="14.0" text="Item Name">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label fx:id="lbl_itemPrice" layoutX="128.0" layoutY="95.0" text="Item Price">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
-                        <Label fx:id="lbl_itemQuantity" layoutX="128.0" layoutY="176.0"
-                               text="Quantity Left">
+                        <Label fx:id="lbl_itemQuantity" layoutX="128.0" layoutY="176.0" text="Quantity Left">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
-                        <Label fx:id="lbl_itemDescription" alignment="TOP_LEFT" layoutX="17.0"
-                               layoutY="273.0" prefHeight="86.0" prefWidth="186.0" text="Desc"
-                               wrapText="true">
+                        <Label fx:id="lbl_itemDescription" alignment="TOP_LEFT" layoutX="17.0" layoutY="273.0" prefHeight="86.0" prefWidth="186.0" text="Desc" wrapText="true">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
-                        <Button fx:id="btn_minus1" layoutX="150.0" layoutY="479.0" mnemonicParsing="false"
-                                prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: red;"
-                                styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="-1"
-                                textFill="WHITE">
+                        <Button fx:id="btn_minus1" layoutX="150.0" layoutY="479.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="83.0" style="-fx-background-color: red;" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="-1" textFill="WHITE">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Button>
                         <Label fx:id="lbl_itemTotal" layoutX="145.0" layoutY="412.0" text="£0.00">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label layoutX="20.0" layoutY="368.0" text="Total:">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label fx:id="lbl_itemAmount" layoutX="155.0" layoutY="368.0" text="0">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                     </AnchorPane>
-                    <AnchorPane layoutX="286.0" layoutY="16.0" prefHeight="620.0" prefWidth="597.0"
-                                style="-fx-background-color: white; -fx-background-radius: 8;">
-                        <TableView fx:id="tv_items" layoutX="13.0" layoutY="66.0" prefHeight="539.0"
-                                   prefWidth="571.0" stylesheets="@css/dashboard.css">
+                    <AnchorPane layoutX="286.0" layoutY="16.0" prefHeight="620.0" prefWidth="597.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+                        <TableView fx:id="tv_items" layoutX="13.0" layoutY="66.0" prefHeight="539.0" prefWidth="571.0" stylesheets="@css/dashboard.css">
                             <columns>
-                                <TableColumn fx:id="tvCol_itemName" prefWidth="133.20001220703125"
-                                             text="Item Name"/>
-                                <TableColumn fx:id="tvCol_itemPrice" prefWidth="70.79998779296875"
-                                             text="Price"/>
-                                <TableColumn fx:id="tvCol_itemQuantity" prefWidth="64.60003662109375"
-                                             text="Quantity"/>
-                                <TableColumn fx:id="tvCol_itemTags" prefWidth="105.0" text="Tags"/>
-                                <TableColumn fx:id="tvCol_itemDescription" prefWidth="194.0"
-                                             text="Description"/>
+                                <TableColumn fx:id="tvCol_itemName" prefWidth="133.20001220703125" text="Item Name" />
+                                <TableColumn fx:id="tvCol_itemPrice" prefWidth="70.79998779296875" text="Price" />
+                                <TableColumn fx:id="tvCol_itemQuantity" prefWidth="64.60003662109375" text="Quantity" />
+                                <TableColumn fx:id="tvCol_itemTags" prefWidth="105.0" text="Tags" />
+                                <TableColumn fx:id="tvCol_itemDescription" prefWidth="194.0" text="Description" />
                             </columns>
                         </TableView>
-                        <TextField fx:id="tf_searchItems" layoutX="15.0" layoutY="21.0" prefHeight="26.0"
-                                   prefWidth="184.0" promptText="Type to search"/>
+                        <TextField fx:id="tf_searchItems" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />
                     </AnchorPane>
                 </AnchorPane>
-                <AnchorPane fx:id="discounts_form" prefHeight="651.2" prefWidth="815.2">
-                    <AnchorPane layoutX="36.0" layoutY="19.0" prefHeight="617.0" prefWidth="848.0"
-                                style="-fx-background-color: white; -fx-background-radius: 8;">
-                        <TableView fx:id="tv_discounts" layoutX="14.0" layoutY="14.0" prefHeight="593.0"
-                                   prefWidth="823.0" stylesheets="@css/dashboard.css">
+                <AnchorPane fx:id="discounts_form" prefHeight="651.2" prefWidth="815.2" visible="false">
+                    <AnchorPane layoutX="36.0" layoutY="19.0" prefHeight="617.0" prefWidth="848.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+                        <TableView fx:id="tv_discounts" layoutX="14.0" layoutY="56.0" prefHeight="552.0" prefWidth="823.0" stylesheets="@css/dashboard.css">
                             <columns>
-                                <TableColumn fx:id="tvCol_discountsPercentageOff"
-                                             prefWidth="313.1999855041504" text="Percentage Off"/>
-                                <TableColumn fx:id="tvCol_discountsThresholdSpend"
-                                             prefWidth="508.39996337890625"
-                                             text="Money Spent To Get Discount"/>
+                                <TableColumn fx:id="tvCol_discountsPercentageOff" prefWidth="313.1999855041504" text="Percentage Off" />
+                                <TableColumn fx:id="tvCol_discountsThresholdSpend" prefWidth="508.39996337890625" text="Money Spent To Get Discount" />
                             </columns>
                         </TableView>
+                  <Label layoutX="45.0" layoutY="21.0" text="Discounts Available:" textFill="ROYALBLUE" underline="true">
+                     <font>
+                        <Font name="Roboto Light" size="25.0" />
+                     </font>
+                  </Label>
                     </AnchorPane>
                 </AnchorPane>
-                <AnchorPane fx:id="basket_form" layoutX="10.0" layoutY="10.0" prefHeight="651.0" prefWidth="882.0"
-                            visible="false">
-                    <AnchorPane layoutX="339.0" layoutY="35.0" prefHeight="312.0" prefWidth="255.0"
-                                style="-fx-background-color: white; -fx-background-radius: 8;">
+                <AnchorPane fx:id="basket_form" layoutX="10.0" layoutY="10.0" prefHeight="651.0" prefWidth="882.0">
+                    <AnchorPane layoutX="339.0" layoutY="35.0" prefHeight="312.0" prefWidth="255.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                         <Label layoutX="15.0" layoutY="14.0" text="Item Name:">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label layoutX="22.0" layoutY="91.0" text="Quantity :">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label fx:id="lbl_basketItemName" layoutX="125.0" layoutY="14.0" text="Item Name">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
-                        <Label fx:id="lbl_basketItemQuantity" layoutX="133.0" layoutY="91.0"
-                               text="Quantity">
+                        <Label fx:id="lbl_basketItemQuantity" layoutX="133.0" layoutY="91.0" text="Quantity">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label fx:id="lbl_basketItemTotalCost" layoutX="145.0" layoutY="162.0" text="Cost">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
                         <Label layoutX="33.0" layoutY="162.0" text="Total:">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Label>
-                        <Button fx:id="btn_removeItemFromBasket" layoutX="40.0" layoutY="267.0"
-                                mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0"
-                                style="-fx-background-color: red;" styleClass="outside-buttons"
-                                stylesheets="@css/dashboard.css" text="Remove Item" textFill="WHITE">
+                        <Button fx:id="btn_removeItemFromBasket" layoutX="40.0" layoutY="267.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" style="-fx-background-color: red;" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Remove Item" textFill="WHITE">
                             <font>
-                                <Font name="Roboto Light" size="14.0"/>
+                                <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Button>
                     </AnchorPane>
-                    <AnchorPane layoutX="595.0" layoutY="35.0" prefHeight="306.0" prefWidth="286.0"
-                                style="-fx-background-color: white; -fx-background-radius: 8;">
-                        <TableView fx:id="tv_basketItem" prefHeight="311.0" prefWidth="286.0"
-                                   stylesheets="@css/dashboard.css">
+                    <AnchorPane layoutX="595.0" layoutY="35.0" prefHeight="306.0" prefWidth="286.0" style="-fx-background-color: white; -fx-background-radius: 8;">
+                        <TableView fx:id="tv_basketItem" prefHeight="311.0" prefWidth="286.0" stylesheets="@css/dashboard.css">
                             <columns>
-                                <TableColumn fx:id="tvCol_basketItemName" prefWidth="158.60000610351562"
-                                             text="Item Name"/>
-                                <TableColumn fx:id="tvCol_basketItemQuantityAdded" prefWidth="127.0"
-                                             text="Amount Selected"/>
+                                <TableColumn fx:id="tvCol_basketItemName" prefWidth="158.60000610351562" text="Item Name" />
+                                <TableColumn fx:id="tvCol_basketItemQuantityAdded" prefWidth="127.0" text="Amount Selected" />
                             </columns>
                         </TableView>
                     </AnchorPane>
-                    <Button fx:id="btn_purchase" layoutX="55.0" layoutY="489.0" mnemonicParsing="false"
-                            prefHeight="78.0" prefWidth="173.0" style="-fx-background-color: green;"
-                            styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Purchase"
-                            textFill="WHITE">
+                    <Button fx:id="btn_purchase" layoutX="55.0" layoutY="489.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="173.0" style="-fx-background-color: green;" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="Purchase" textFill="WHITE">
                         <font>
-                            <Font name="Roboto Light" size="14.0"/>
+                            <Font name="Roboto Light" size="14.0" />
                         </font>
                     </Button>
                     <Label layoutX="339.0" text="Basket:" textFill="ROYALBLUE" underline="true">
                         <font>
-                            <Font name="Roboto Light" size="25.0"/>
+                            <Font name="Roboto Light" size="25.0" />
                         </font>
                     </Label>
-                    <TableView fx:id="tv_basketDiscounts" layoutX="23.0" layoutY="35.0" prefHeight="311.0"
-                               prefWidth="286.0" stylesheets="@css/dashboard.css">
+                    <TableView fx:id="tv_basketDiscounts" layoutX="23.0" layoutY="35.0" prefHeight="311.0" prefWidth="286.0" stylesheets="@css/dashboard.css">
                         <columns>
-                            <TableColumn fx:id="tvCol_basketDiscountThreshold" prefWidth="132.80000686645508"
-                                         text="Threshold Spend"/>
-                            <TableColumn fx:id="tvCol_basketDiscountPercentageOff"
-                                         prefWidth="156.00001525878906" text="Percentage Off"/>
+                            <TableColumn fx:id="tvCol_basketDiscountThreshold" prefWidth="132.80000686645508" text="Threshold Spend" />
+                            <TableColumn fx:id="tvCol_basketDiscountPercentageOff" prefWidth="156.00001525878906" text="Percentage Off" />
                         </columns>
                     </TableView>
                     <Label layoutX="23.0" text="Discounts Available:" textFill="ROYALBLUE" underline="true">
                         <font>
-                            <Font name="Roboto Light" size="25.0"/>
+                            <Font name="Roboto Light" size="25.0" />
                         </font>
                     </Label>
-                    <Label layoutX="23.0" layoutY="368.0" text="Total BasketCost:" textFill="ROYALBLUE"
-                           underline="true">
+                    <Label layoutX="23.0" layoutY="368.0" text="Total Basket Cost:" textFill="ROYALBLUE">
                         <font>
-                            <Font name="Roboto Light" size="19.0"/>
+                            <Font name="Roboto Light" size="19.0" />
                         </font>
                     </Label>
-                    <Label fx:id="lbl_basketTotalOrderCost" layoutX="217.0" layoutY="368.0" text="0"
-                           textFill="ROYALBLUE" underline="true">
+                    <Label fx:id="lbl_basketTotalOrderCost" layoutX="217.0" layoutY="368.0" text="0" textFill="ROYALBLUE" underline="true">
                         <font>
-                            <Font name="Roboto Light" size="19.0"/>
+                            <Font name="Roboto Light" size="19.0" />
                         </font>
                     </Label>
                     <Label layoutX="205.0" layoutY="368.0" text="£" textFill="ROYALBLUE" underline="true">
                         <font>
-                            <Font name="Roboto Light" size="19.0"/>
+                            <Font name="Roboto Light" size="19.0" />
                         </font>
                     </Label>
-                    <Button fx:id="btn_viewPreviousBasket" layoutX="525.0" layoutY="359.0"
-                            mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0"
-                            styleClass="outside-buttons" stylesheets="@css/dashboard.css"
-                            text="View Previous Basket" textFill="WHITE">
+                    <Button fx:id="btn_viewPreviousBasket" layoutX="525.0" layoutY="359.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="169.0" styleClass="outside-buttons" stylesheets="@css/dashboard.css" text="View Previous Basket" textFill="WHITE">
                         <font>
-                            <Font name="Roboto Light" size="14.0"/>
+                            <Font name="Roboto Light" size="14.0" />
                         </font>
                     </Button>
+               <Label layoutX="23.0" layoutY="401.0" text="Discount Selected Percentage Off:" textFill="ROYALBLUE">
+                  <font>
+                     <Font name="Roboto Light" size="19.0" />
+                  </font>
+               </Label>
+               <Label fx:id="lbl_basketPercentageOff" layoutX="316.0" layoutY="401.0" text="00" textFill="ROYALBLUE" underline="true">
+                  <font>
+                     <Font name="Roboto Light" size="19.0" />
+                  </font>
+               </Label>
+               <Label layoutX="339.0" layoutY="401.0" text="\%" textFill="ROYALBLUE" underline="true">
+                  <font>
+                     <Font name="Roboto Light" size="19.0" />
+                  </font>
+               </Label>
+               <Label layoutX="23.0" layoutY="437.0" text="Adjusted Basket Cost:" textFill="ROYALBLUE">
+                  <font>
+                     <Font name="Roboto Light" size="19.0" />
+                  </font>
+               </Label>
+               <Label fx:id="lbl_basketAdjustedOrderCost" layoutX="223.0" layoutY="437.0" text="0" textFill="ROYALBLUE" underline="true">
+                  <font>
+                     <Font name="Roboto Light" size="19.0" />
+                  </font>
+               </Label>
+               <Label layoutX="210.0" layoutY="437.0" text="£" textFill="ROYALBLUE" underline="true">
+                  <font>
+                     <Font name="Roboto Light" size="19.0" />
+                  </font>
+               </Label>
                 </AnchorPane>
             </AnchorPane>
         </center>

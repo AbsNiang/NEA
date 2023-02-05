@@ -346,8 +346,9 @@ public class CustomerLoggedInController implements Initializable {
                         Double.parseDouble(lbl_basketTotalOrderCost.getText()),
                         LocalDate.now(),
                         localTime.format(timeFormatter));
-                TransactionTable.addTransaction(transaction);
-                BasketTable.makeBasketPurchased(basketID);
+                TransactionTable.addTransaction(transaction);//adds transaction to db
+                BasketTable.makeBasketPurchased(basketID);//sets basket to purchased
+                DiscountsTable.giveUserDiscount(customerEmail);
                 sendReceipt();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Purchase has gone through.\nReceipt has been sent to your email address.");

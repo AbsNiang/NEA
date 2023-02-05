@@ -42,6 +42,7 @@ public class DiscountsTable {
                 thresholdPassed = 10;
             }
         }
+        System.out.println(thresholdPassed);
         Connection connection = null;
         PreparedStatement psInsert = null;
         PreparedStatement psCheckDiscountExists = null;
@@ -58,6 +59,7 @@ public class DiscountsTable {
 
             } else {
                 connection.close();
+                connection =  DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
                 PreparedStatement ps = connection.prepareStatement("SELECT PercentageOff FROM Discounts WHERE ThresholdSpend = ?");
                 ps.setDouble(1, thresholdPassed);
                 ResultSet rs = ps.executeQuery();
@@ -66,6 +68,7 @@ public class DiscountsTable {
                     percentageOff = rs.getInt("PercentageOff");
                 }
                 connection.close();
+                connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
                 if (percentageOff > 0) {
                     psInsert = connection.prepareStatement("INSERT INTO UserDiscountLink (PercentageOff, EmailAddress) VALUES (?, ?)");
                     psInsert.setInt(1, percentageOff);

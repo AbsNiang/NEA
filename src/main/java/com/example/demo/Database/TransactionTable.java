@@ -46,15 +46,23 @@ public class TransactionTable {
         }
     }
 
-    public static double sumTransactionsForCustomer(String emailAddress) {
+    public static double sumTransactions(String emailAddress, boolean forOnePerson) {
         Connection connection = null;
         PreparedStatement psSum = null;
         ResultSet rs = null;
         double sum = 0;
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            psSum = connection.prepareStatement("SELECT SUM(MoneySpent) AS sumPrice FROM Transactions WHERE EmailAddress = ?");
-            psSum.setString(1, emailAddress);
+            String whereClause;
+            if (forOnePerson) {
+                whereClause = "WHERE EmailAddress = ?";
+            } else {
+                whereClause = "";
+            }
+            psSum = connection.prepareStatement("SELECT SUM(MoneySpent) AS sumPrice FROM Transactions " + whereClause);
+            if (forOnePerson) {
+                psSum.setString(1, emailAddress);
+            }
             rs = psSum.executeQuery();
             if (rs.next()) {
                 sum = rs.getDouble("sumPrice");

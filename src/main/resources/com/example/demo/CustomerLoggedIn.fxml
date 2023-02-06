@@ -66,7 +66,7 @@
         </left>
         <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                <AnchorPane fx:id="browse_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane fx:id="browse_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                         <Label layoutX="15.0" layoutY="14.0" text="Item Name:">
                             <font>
@@ -180,7 +180,7 @@
                   </Label>
                     </AnchorPane>
                 </AnchorPane>
-                <AnchorPane fx:id="basket_form" layoutX="10.0" layoutY="10.0" prefHeight="651.0" prefWidth="882.0">
+                <AnchorPane fx:id="basket_form" layoutX="10.0" layoutY="10.0" prefHeight="651.0" prefWidth="882.0" visible="false">
                     <AnchorPane layoutX="339.0" layoutY="35.0" prefHeight="312.0" prefWidth="255.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                         <Label layoutX="15.0" layoutY="14.0" text="Item Name:">
                             <font>

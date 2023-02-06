@@ -48,7 +48,9 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private Label lbl_profits;
     @FXML
-    private Label lbl_availableItems;
+    private Label lbl_availableIndividualItems;
+    @FXML
+    private Label lbl_availableTotalItems;
 
     //Add Items Anchor Pane: //add items will count as a transaction for the business as it costs money to get stock irl
     @FXML
@@ -168,7 +170,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         return listData;
     }
 
-
     public void showAddItemList() {
         ObservableList<Item> listAddItem = addItemList();
         tvCol_addItemName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -237,7 +238,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         return listData;
     }
 
-
     public void showEditUsersList() {
         ObservableList<User> listEditUsers = editUsersList();
         tvCol_editEmail.setCellValueFactory(new PropertyValueFactory<>("emailAddress"));
@@ -257,8 +257,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        showAddItemList();
-        showEditUsersList();
+        setupLogistics();
         //Item TableView
         tv_addItems.setOnMouseClicked(mouseEvent -> {
             try {
@@ -300,15 +299,16 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             showEditUsersList();
         });
         btn_signout.setOnAction(actionEvent -> SceneHandler.changeScene(actionEvent, "Login.fxml", "Login", adminEmailAddress, 600, 400));
-
         btn_logistics.setOnAction(this::switchForm);
-
-        btn_addItems.setOnAction(this::switchForm);
-
-        btn_editUsers.setOnAction(this::switchForm);
-
+        btn_addItems.setOnAction(actionEvent -> {
+            switchForm(actionEvent);
+            showAddItemList();
+        });
+        btn_editUsers.setOnAction(actionEvent -> {
+            switchForm(actionEvent);
+            showEditUsersList();
+        });
         btn_customerView.setOnAction(event -> SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome", adminEmailAddress, 1100, 651));
-
         btn_addItem.setOnAction(actionEvent -> {
             Item item = new Item(tf_itemName.getText(),
                     Double.parseDouble(tf_itemPrice.getText()),
@@ -319,7 +319,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             LocalTime localTime = LocalTime.now();
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             // will sum all transactions made by emails with admin set as true
-            Transaction transaction = new Transaction(adminEmailAddress,-Double.parseDouble(tf_itemBulkPrice.getText()), LocalDate.now(),localTime.format(timeFormatter));
+            Transaction transaction = new Transaction(adminEmailAddress, -Double.parseDouble(tf_itemBulkPrice.getText()), LocalDate.now(), localTime.format(timeFormatter));
             TransactionTable.addTransaction(transaction);
             showAddItemList();
         });
@@ -336,7 +336,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         });
     }
 
-    public void switchForm(ActionEvent event) {
+    private void switchForm(ActionEvent event) {
         if (event.getSource() == btn_logistics) {
             logistics_form.setVisible(true);
             addItems_form.setVisible(false);
@@ -365,5 +365,11 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     public void setAdminEmail(String forwardedEmail) {
         adminEmailAddress = forwardedEmail;
         System.out.println("Email: " + adminEmailAddress);
+    }
+
+    private void setupLogistics() {
+        lbl_profits.setText("£" + TransactionTable.sumTransactions(adminEmailAddress, false));
+        lbl_availableTotalItems.setText(Integer.toString(ItemTable.sumItems()));
+        lbl_availableIndividualItems.setText(Integer.toString(ItemTable.countItems()));
     }
 }

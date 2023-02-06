@@ -70,11 +70,90 @@ public class ItemTable {
         }
     }
 
+    //Removes the amount added to the basket from the Item in DB (-ve if basket isn't purchased and app is closed)
+    public static void updateItemAmount(String itemName, int amount) {
+        int previousQuantity = Integer.parseInt(Utils.selectFromRecord("Quantity", "Items", "ItemName", itemName));
+        Utils.updateInfo(itemName, "Quantity", Integer.toString(previousQuantity - amount), "Items", "ItemName");
+    }
 
+    public static int sumItems() {
+        Connection connection = null;
+        PreparedStatement psSum = null;
+        ResultSet rs = null;
+        int sum = 0;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psSum = connection.prepareStatement("SELECT SUM(Quantity) AS sumPrice FROM Items");
+            rs = psSum.executeQuery();
+            if (rs.next()) {
+                sum = rs.getInt("sumPrice");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psSum != null) {
+                try {
+                    psSum.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return sum;
+    }
 
-    //Removes the amount added to the basket from the Item in DB
-    public static void updateItemAmount(String itemName, int amount){
-        int previousQuantity = Integer.parseInt(Utils.selectFromRecord("Quantity","Items","ItemName",itemName));
-        Utils.updateInfo(itemName, "Quantity", Integer.toString(previousQuantity-amount), "Items", "ItemName");
+    public static int countItems() {
+        Connection connection = null;
+        PreparedStatement psCount = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            psCount = connection.prepareStatement("SELECT COUNT(*) AS itemTotal FROM Items ");
+            rs = psCount.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("itemTotal");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (psCount != null) {
+                try {
+                    psCount.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return count;
     }
 }
+

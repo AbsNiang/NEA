@@ -46,7 +46,7 @@ public class SceneHandler {
                     CustomerLoggedInController customerLoggedInController = loader.getController();
                     customerLoggedInController.closeCustomerWindow();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println("not in customer fxml file.");
                 }
             });
         } catch (Exception e) {

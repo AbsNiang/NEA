@@ -58,7 +58,7 @@ public class SignUpController implements Initializable { //Add toggle password v
                 byte[] byteDigestPassword = PasswordHandler.getSaltedHash(password, salt);
                 String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
                 String strSalt = PasswordConverter.toHex(salt);
-                User user = new User(email, hashedPassword, strSalt, firstName, surname, false, false);
+                User user = new User(email, hashedPassword, strSalt, firstName, surname, false);
                 UserTable.signUpUser(event, user);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

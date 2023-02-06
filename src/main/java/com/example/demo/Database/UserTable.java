@@ -34,14 +34,13 @@ public class UserTable {
                 alert.setContentText("You cannot use this email address.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO Users (emailAddress, password, passwordSalt, firstName, Surname, isAdmin,hasLoyaltyCard ) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO Users (emailAddress, password, passwordSalt, firstName, Surname, isAdmin) VALUES (?, ?, ?, ?, ?, ?)");
                 psInsert.setString(1, user.getEmailAddress());
                 psInsert.setString(2, user.getPassword());
                 psInsert.setString(3, user.getPasswordSalt());
                 psInsert.setString(4, user.getFirstName());
                 psInsert.setString(5, user.getSurname());
                 psInsert.setBoolean(6, user.isAdmin());
-                psInsert.setBoolean(7, user.isHasLoyaltyCard());
                 psInsert.executeUpdate();
                 SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome!", user.getEmailAddress(), 1100, 651);
             }

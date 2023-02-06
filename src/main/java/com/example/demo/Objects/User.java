@@ -6,17 +6,15 @@ public class User {
     String passwordSalt;
     String firstName;
     String surname;
-    boolean hasLoyaltyCard;
     boolean isAdmin;
 
     public User(String emailAddress, String password, String passwordSalt, String firstName,
-                String surname, boolean hasLoyaltyCard, boolean isAdmin) {
+                String surname, boolean isAdmin) {
         this.emailAddress = emailAddress;
         this.password = password;
         this.passwordSalt = passwordSalt;
         this.firstName = firstName;
         this.surname = surname;
-        this.hasLoyaltyCard = hasLoyaltyCard;
         this.isAdmin = isAdmin;
     }
 
@@ -58,14 +56,6 @@ public class User {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public boolean isHasLoyaltyCard() {
-        return hasLoyaltyCard;
-    }
-
-    public void setHasLoyaltyCard(boolean hasLoyaltyCard) {
-        this.hasLoyaltyCard = hasLoyaltyCard;
     }
 
     public boolean isAdmin() {

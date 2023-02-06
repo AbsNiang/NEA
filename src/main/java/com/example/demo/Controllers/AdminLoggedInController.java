@@ -1,25 +1,27 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Database.ItemTable;
+import com.example.demo.Database.TransactionTable;
 import com.example.demo.Database.UserTable;
 import com.example.demo.Database.Utils;
+import com.example.demo.Objects.Transaction;
 import com.example.demo.SceneHandler;
 import com.example.demo.Objects.Item;
 import com.example.demo.Objects.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import static com.example.demo.Database.Utils.dbLocation;
@@ -68,6 +70,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private TextArea ta_itemDescription;
     @FXML
+    private TextField tf_itemBulkPrice;
+    @FXML
     private AnchorPane itemNotFound_form; // turns visible if the item isn't found in the grocery item price dataset
     @FXML
     private TextField tf_searchAddItems;
@@ -100,8 +104,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private CheckBox cb_isAdmin;
     @FXML
-    private CheckBox cb_hasLoyaltyCard;
-    @FXML
     private TextField tf_searchUser;
     @FXML
     private TableColumn<?, ?> tvCol_editEmail;
@@ -111,8 +113,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TableColumn<?, ?> tvCol_editSurname;
     @FXML
     private TableColumn<?, ?> tvCol_editIsAdmin;
-    @FXML
-    private TableColumn<?, ?> tvCol_editHasLoyaltyCard;
     @FXML
     private TableView<User> tv_users;
 
@@ -206,7 +206,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                         resultSet.getString("PasswordSalt"),
                         resultSet.getString("FirstName"),
                         resultSet.getString("Surname"),
-                        resultSet.getBoolean("HasLoyaltyCard"),
                         resultSet.getBoolean("IsAdmin"));
                 listData.add(user);
             }
@@ -245,7 +244,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         tvCol_editFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         tvCol_editSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
         tvCol_editIsAdmin.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));// error for debug stage
-        tvCol_editHasLoyaltyCard.setCellValueFactory(new PropertyValueFactory<>("hasLoyaltyCard"));
         tv_users.setItems(listEditUsers);
     }
 
@@ -255,7 +253,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         tf_firstName.setText(user.getFirstName());
         tf_surname.setText(user.getSurname());
         cb_isAdmin.setSelected(user.isAdmin());
-        cb_hasLoyaltyCard.setSelected(user.isHasLoyaltyCard());
     }
 
     @Override
@@ -267,6 +264,10 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             try {
                 selectAddItemList();
                 selectedItem = new Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()), Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(), ta_itemDescription.getText());
+                LocalTime localTime = LocalTime.now();
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                Transaction transaction = new Transaction("Store",-Double.parseDouble(tf_itemBulkPrice.getText()), LocalDate.now(),localTime.format(timeFormatter));// any transactions done by "store" are money spent
+                TransactionTable.addTransaction(transaction);
             } catch (Exception e) {
                 System.out.println("item not selected.");
             }
@@ -274,7 +275,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         //User TableView
         tv_users.setOnMouseClicked(mouseEvent -> {
             selectEditUsersList();
-            selectedUser = new User(tf_email.getText(), null, null, tf_firstName.getText(), tf_surname.getText(), cb_hasLoyaltyCard.isSelected(), cb_isAdmin.isSelected());
+            tf_itemBulkPrice.setText("");
+            selectedUser = new User(tf_email.getText(), null, null, tf_firstName.getText(), tf_surname.getText(), cb_isAdmin.isSelected());
         });
         btn_submitUserChanges.setOnAction(event -> {
             try {
@@ -282,7 +284,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                 Utils.updateInfo(selectedUser.getEmailAddress(), "FirstName", tf_firstName.getText(), "USERS", "EmailAddress");
                 Utils.updateInfo(selectedUser.getEmailAddress(), "Surname", tf_surname.getText(), "USERS", "EmailAddress");
                 UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "IsAdmin", cb_isAdmin.isSelected());
-                UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "HasLoyaltyCard", cb_hasLoyaltyCard.isSelected());
                 showEditUsersList();
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

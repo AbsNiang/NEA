@@ -35,7 +35,7 @@ public class ResetPasswordController implements Initializable {
                 byte[] byteDigestPassword = PasswordHandler.getSaltedHash(pf_newpassword.getText(), salt);
                 String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
                 String strSalt = PasswordConverter.toHex(salt);
-                User user = new User(email, hashedPassword, strSalt, "","",false,false);
+                User user = new User(email, hashedPassword, strSalt, "","",false);
                 System.out.println(user.getEmailAddress());
                 UserTable.alterPassword(user);
                 SceneHandler.changeScene(actionEvent, "AdminLoggedIn.fxml", "Welcome!", email, 1100, 651);

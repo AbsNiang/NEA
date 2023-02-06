@@ -264,10 +264,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             try {
                 selectAddItemList();
                 selectedItem = new Item(tf_itemName.getText(), Double.parseDouble(tf_itemPrice.getText()), Integer.parseInt(tf_itemQuantity.getText()), ta_itemTags.getText(), ta_itemDescription.getText());
-                LocalTime localTime = LocalTime.now();
-                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-                Transaction transaction = new Transaction("Store",-Double.parseDouble(tf_itemBulkPrice.getText()), LocalDate.now(),localTime.format(timeFormatter));// any transactions done by "store" are money spent
-                TransactionTable.addTransaction(transaction);
             } catch (Exception e) {
                 System.out.println("item not selected.");
             }
@@ -320,6 +316,11 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                     ta_itemTags.getText(),
                     ta_itemDescription.getText());
             ItemTable.insertItem(item);
+            LocalTime localTime = LocalTime.now();
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            // will sum all transactions made by emails with admin set as true
+            Transaction transaction = new Transaction(adminEmailAddress,-Double.parseDouble(tf_itemBulkPrice.getText()), LocalDate.now(),localTime.format(timeFormatter));
+            TransactionTable.addTransaction(transaction);
             showAddItemList();
         });
 

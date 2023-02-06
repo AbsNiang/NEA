@@ -7,10 +7,12 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.example.demo.Database.Utils.dbLocation;
 
 public class TransactionTable {
+
     public static void addTransaction(Transaction transaction) {
         Connection connection = null;
         PreparedStatement psInsert = null;
@@ -44,7 +46,7 @@ public class TransactionTable {
         }
     }
 
-    public static double sumTransactionsForCustomer(String emailAddress){
+    public static double sumTransactionsForCustomer(String emailAddress) {
         Connection connection = null;
         PreparedStatement psSum = null;
         ResultSet rs = null;
@@ -52,7 +54,7 @@ public class TransactionTable {
         try {
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
             psSum = connection.prepareStatement("SELECT SUM(MoneySpent) AS sumPrice FROM Transactions WHERE EmailAddress = ?");
-            psSum.setString(1,emailAddress);
+            psSum.setString(1, emailAddress);
             rs = psSum.executeQuery();
             if (rs.next()) {
                 sum = rs.getDouble("sumPrice");

@@ -1,5 +1,7 @@
 package com.example.demo.EmailHandling;
 
+import javafx.scene.control.Alert;
+
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -42,6 +44,9 @@ public class Email {//neaprojectemailsend@gmail.com, normal password is NEAP4ssw
             Transport.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("This email doesn't exist.");
+            alert.show();
         }
     }
 

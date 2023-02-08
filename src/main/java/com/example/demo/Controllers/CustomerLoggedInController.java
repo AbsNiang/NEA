@@ -326,16 +326,23 @@ public class CustomerLoggedInController implements Initializable {
         btn_plus1.setOnAction(event -> addOne());
         btn_minus1.setOnAction(event -> minusOne());
         btn_addToBasket.setOnAction(event -> {
-            if (!basketMade) {
-                basketID = BasketTable.createBasket(customerEmail);
-                basketMade = true;
+            if (!lbl_itemTotal.getText().equals("£0")) {
+                if (!basketMade) {
+                    basketID = BasketTable.createBasket(customerEmail);
+                    basketMade = true;
+                }
+                BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
+                ItemTable.updateItemAmount(lbl_itemName.getText(), Integer.parseInt(lbl_itemAmount.getText()));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Item has been added to basket.");
+                alert.show();
+                showItemList();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Can't add 0 to basket.");
+                alert.show();
             }
-            BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
-            ItemTable.updateItemAmount(lbl_itemName.getText(), Integer.parseInt(lbl_itemAmount.getText()));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Item has been added to basket.");
-            alert.show();
-            showItemList();
+
         });
         btn_signout.setOnAction(event -> SceneHandler.changeScene(event, "Login.fxml", "Login", null, 600, 400));
         btn_browse.setOnAction(event -> {

@@ -51,6 +51,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private Label lbl_availableIndividualItems;
     @FXML
     private Label lbl_availableTotalItems;
+    @FXML
+    private CheckBox cb_autoOrderStock;
 
     //Add Items Anchor Pane: //add items will count as a transaction for the business as it costs money to get stock irl
     @FXML
@@ -300,6 +302,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         });
         btn_signout.setOnAction(actionEvent -> SceneHandler.changeScene(actionEvent, "Login.fxml", "Login", adminEmailAddress, 600, 400));
         btn_logistics.setOnAction(this::switchForm);
+        cb_autoOrderStock.setOnMouseClicked(mouseEvent -> Utils.changeAutoStockUpSetting(cb_autoOrderStock.isSelected()));
         btn_addItems.setOnAction(actionEvent -> {
             switchForm(actionEvent);
             showAddItemList();
@@ -318,12 +321,11 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             ItemTable.insertItem(item);
             LocalTime localTime = LocalTime.now();
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            // will sum all transactions made by emails with admin set as true
+            // will sum all transactions made by emails with admin set as true when calculating losses
             Transaction transaction = new Transaction(adminEmailAddress, -Double.parseDouble(tf_itemBulkPrice.getText()), LocalDate.now(), localTime.format(timeFormatter));
             TransactionTable.addTransaction(transaction);
             showAddItemList();
         });
-
         btn_updateItem.setOnAction(event -> {//name, price, quantity, tags, desc.
             String name = selectedItem.getName();
             Utils.updateInfo(name, "ItemName", tf_itemName.getText(), "ITEMS", "ItemName");
@@ -371,5 +373,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         lbl_profits.setText("£" + TransactionTable.sumTransactions(adminEmailAddress, false));
         lbl_availableTotalItems.setText(Integer.toString(ItemTable.sumItems()));
         lbl_availableIndividualItems.setText(Integer.toString(ItemTable.countItems()));
+        cb_autoOrderStock.setSelected(Utils.readAutoStockUpSetting());
     }
 }

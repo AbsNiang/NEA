@@ -1,7 +1,7 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
-import com.example.demo.SceneHandler;
+
 import com.example.demo.Objects.User;
 import com.example.demo.Registration.PasswordConverter;
 import com.example.demo.Registration.PasswordHandler;
@@ -38,7 +38,7 @@ public class ResetPasswordController implements Initializable {
                 User user = new User(email, hashedPassword, strSalt, "","",false);
                 System.out.println(user.getEmailAddress());
                 UserTable.alterPassword(user);
-                SceneHandler.changeScene(actionEvent, "AdminLoggedIn.fxml", "Welcome!", email, 1100, 651);
+                UserTable.logInUser(actionEvent,email,pf_newpassword.getText());
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);

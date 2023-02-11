@@ -81,13 +81,13 @@ public class UserTable {
 
     public static void logInUser(ActionEvent event, String emailAddress, String password) {
         String correctPassword = fetchInfo(emailAddress, "password");
+        System.out.println("correct:"+correctPassword);
         String originalSalt = fetchInfo(emailAddress, "passwordSalt");
         String isAdmin = fetchInfo(emailAddress, "isAdmin");
         System.out.println("Admin? = "+isAdmin);
         byte[] byteSalt = PasswordConverter.fromHex(originalSalt);
         byte[] loginPassword = PasswordHandler.getSaltedHash(password, byteSalt);
         byte[] storedPassword = PasswordConverter.fromHex(correctPassword);
-
         if (Arrays.equals(loginPassword, storedPassword)) {
             System.out.println("Passwords are a match.");
             if (isAdmin.equals("TRUE")) {

@@ -119,6 +119,11 @@
                   </AnchorPane>
                   <AnchorPane layoutX="543.0" layoutY="10.0" prefHeight="168.0" prefWidth="222.0" style="-fx-background-color: #4169e1; -fx-background-radius: 0px 10px 10px 0px;" />
                </AnchorPane>
+               <CheckBox fx:id="cb_autoOrderStock" layoutX="22.0" layoutY="210.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="261.0" text="Automatically Re-order Stock?">
+                  <font>
+                     <Font name="Roboto Light" size="16.0" />
+                  </font>
+               </CheckBox>
             </AnchorPane>
             <AnchorPane fx:id="addItems_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">

@@ -2,6 +2,11 @@ package com.example.demo.Database;
 
 import javafx.scene.control.Alert;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 
 public class Utils {
@@ -85,5 +90,24 @@ public class Utils {
         return content;
     }
 
+    public static void changeAutoStockUpSetting(boolean autoStockUp) {//whether the admin wants the program to automatically order stock
+        Path path = Paths.get("src/main/resources/com/example/demo/AutoStockUp");
+        try {
+            Files.writeString(path, Boolean.toString(autoStockUp), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean readAutoStockUpSetting() {
+        Path path = Paths.get("src/main/resources/com/example/demo/AutoStockUp");
+        boolean setting = false;
+        try {
+            setting = Boolean.parseBoolean(Files.readString(path));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return setting;
+    }
 
 }

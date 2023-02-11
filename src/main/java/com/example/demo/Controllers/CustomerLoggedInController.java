@@ -525,11 +525,33 @@ public class CustomerLoggedInController implements Initializable {
             }
         }
         for (BasketItem basketItem : basketItems) {
+            checkForStockUp(basketItem.getItemName());//checks if this order makes any of the items low in stock
             text.append("\n Item Name: ").append(basketItem.getItemName()).append(" - ").append("Quantity: ").append(basketItem.getQuantityAdded());
         }
         text.append("\nTotal Order Cost: £").append(lbl_basketAdjustedOrderCost.getText());
         EmailToken emailToken = new EmailToken(customerEmail, null, "Receipt for Purchase", text.toString(), false);
         Email.sendEmail(emailToken);
+    }
+
+    private void checkForStockUp(String itemName) {//if an item is under a certain quantity it will be re-ordered, and email will be sent to admins
+        int itemQuantity = Integer.parseInt(Utils.selectFromRecord("Quantity", "Items", "ItemName", itemName));
+        if (itemQuantity < 50) {
+            if (Utils.readAutoStockUpSetting()) {
+                LocalTime localTime = LocalTime.now();
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                double itemPriceForOne = Double.parseDouble(Utils.selectFromRecord("Price", "Items", "ItemName", itemName));
+                ItemTable.updateItemAmount(itemName, -200);//method subtracts amount, so this increases it
+                //assuming that buying an item in bulk would cost ~ 60% of selling price for reasonable profits
+                Transaction transaction = new Transaction("aboubacre76@gmail.com", -(0.6 * (200 * (itemPriceForOne))), LocalDate.now(), localTime.format(timeFormatter));
+                TransactionTable.addTransaction(transaction);
+            } else {
+                EmailToken emailToken = new EmailToken(customerEmail, "",
+                        itemName + " item is low in stock.",
+                        "This is an automated message.\n this item is low in stock and needs to be re-ordered.",
+                        false);
+                Email.sendEmail(emailToken);
+            }
+        }
     }
 
     public void closeCustomerWindow() {

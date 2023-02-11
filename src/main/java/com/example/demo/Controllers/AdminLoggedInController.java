@@ -330,7 +330,14 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
             String name = selectedItem.getName();
             Utils.updateInfo(name, "ItemName", tf_itemName.getText(), "ITEMS", "ItemName");
             Utils.updateInfo(name, "Price", tf_itemPrice.getText(), "ITEMS", "ItemName");
-            Utils.updateInfo(name, "Quantity", tf_itemQuantity.getText(), "ITEMS", "ItemName");
+            int newItemQuantity = Integer.parseInt(tf_itemQuantity.getText());
+            int oldItemQuantity = Integer.parseInt(Utils.selectFromRecord("Quantity", "Items", "ItemName", name));
+            LocalTime localTime = LocalTime.now();
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            // will sum all transactions made by emails with admin set as true when calculating losses, assuming bulk price is 60% of selling price
+            Transaction transaction = new Transaction(adminEmailAddress, -(0.6 * (newItemQuantity - oldItemQuantity)), LocalDate.now(), localTime.format(timeFormatter));
+            TransactionTable.addTransaction(transaction);
+            Utils.updateInfo(name, "Quantity", Integer.toString(newItemQuantity), "ITEMS", "ItemName");
             Utils.updateInfo(name, "Tags", ta_itemTags.getText(), "ITEMS", "ItemName");
             Utils.updateInfo(name, "Description", ta_itemDescription.getText(), "ITEMS", "ItemName");
             showAddItemList();

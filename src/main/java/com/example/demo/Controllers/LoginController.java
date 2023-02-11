@@ -1,9 +1,11 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
+import com.example.demo.EmailHandling.Email;
 import com.example.demo.SceneHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -26,11 +28,19 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        btn_login.setOnAction(event -> UserTable.logInUser(event, tf_username.getText(), pf_password.getText()));
+        btn_login.setOnAction(event -> {
+            if (Email.checkEmail(tf_username.getText())) {
+                UserTable.logInUser(event, tf_username.getText(), pf_password.getText());
+            }else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Email isn't in correct format.");
+                alert.show();
+            }
+        });
 
         btn_signup.setOnAction(event -> SceneHandler.changeScene(event, "SignUp.fxml", "Sign-Up", tf_username.getText(), 600, 400));
 
-        btn_forgot.setOnAction(actionEvent -> SceneHandler.changeScene(actionEvent,"ForgotPassword.fxml","Forgot Password", tf_username.getText(), 600,400));
+        btn_forgot.setOnAction(actionEvent -> SceneHandler.changeScene(actionEvent, "ForgotPassword.fxml", "Forgot Password", tf_username.getText(), 600, 400));
     }
 
 }

@@ -127,7 +127,7 @@ public class CustomerLoggedInController implements Initializable {
     private int basketID;
 
     //Item TableView Stuff
-    public ObservableList<Item> addItemList() {
+    private ObservableList<Item> addItemList() {
         ObservableList<Item> listData = FXCollections.observableArrayList();
         Connection connection = null;
         PreparedStatement prepare = null;
@@ -174,7 +174,7 @@ public class CustomerLoggedInController implements Initializable {
         return listData;
     }
 
-    public void showItemList() {
+    private void showItemList() {
         ObservableList<Item> listAddItem = addItemList();
         tvCol_itemName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tvCol_itemPrice.setCellValueFactory(new PropertyValueFactory<>("cost"));
@@ -184,7 +184,7 @@ public class CustomerLoggedInController implements Initializable {
         tv_items.setItems(listAddItem);
     }
 
-    public void selectAddItemList() {
+    private void selectAddItemList() {
         Item item = tv_items.getSelectionModel().getSelectedItem();
         lbl_itemName.setText(item.getName());
         lbl_itemPrice.setText(Double.toString(item.getCost()));
@@ -193,7 +193,7 @@ public class CustomerLoggedInController implements Initializable {
     }
 
     //BasketItem TableView Stuff
-    public ObservableList<BasketItem> basketItemList() { //might be able to use interface to better abstraction
+    private ObservableList<BasketItem> basketItemList() {
         ObservableList<BasketItem> listData = FXCollections.observableArrayList();
         Connection connection = null;
         PreparedStatement prepare = null;
@@ -237,20 +237,85 @@ public class CustomerLoggedInController implements Initializable {
         return listData;
     }
 
-    public void showBasketItemList() {
+    private ObservableList<BasketItem> oldBasketItemList() {
+        ObservableList<BasketItem> listData = FXCollections.observableArrayList();
+        Connection connection = null;
+        PreparedStatement prepare = null;
+        ResultSet resultSet = null;
+        try {
+            ArrayList<Integer> basketIDList = new ArrayList<>();
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            prepare = connection.prepareStatement("SELECT BasketID FROM BasketItem, Basket WHERE EmailAddress = ? ");
+            prepare.setString(1, customerEmail);
+            resultSet = prepare.executeQuery();
+            while (resultSet.next()) {
+                basketIDList.add(resultSet.getInt("BasketID"));
+            }
+            int previousBasketID = basketIDList.get(basketIDList.indexOf(basketID) - 1);
+            BasketItem basketItem;
+            connection.close();
+            prepare.close();
+            resultSet.close();
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            prepare = connection.prepareStatement("SELECT * FROM BasketItem WHERE BasketID = ?");
+            prepare.setInt(1, previousBasketID);
+            resultSet = prepare.executeQuery();
+            while (resultSet.next()) {
+                basketItem = new BasketItem(resultSet.getString("ItemName"), resultSet.getInt("QuantityAdded"));
+                listData.add(basketItem);
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("No previous basket.");
+            alert.show();
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prepare != null) {
+                try {
+                    prepare.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return listData;
+    }
+
+    private void showBasketItemList() {
         ObservableList<BasketItem> listAddItem = basketItemList();
         tvCol_basketItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         tvCol_basketItemQuantityAdded.setCellValueFactory(new PropertyValueFactory<>("quantityAdded"));
         tv_basketItem.setItems(listAddItem);
     }
 
-    public void selectBasketItemList() {
+    private void showOldBasketItemList() {
+        ObservableList<BasketItem> listAddItem = oldBasketItemList();
+        tvCol_basketItemName.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        tvCol_basketItemQuantityAdded.setCellValueFactory(new PropertyValueFactory<>("quantityAdded"));
+        tv_basketItem.setItems(listAddItem);
+    }
+
+    private void selectBasketItemList() {
         BasketItem basketItem = tv_basketItem.getSelectionModel().getSelectedItem();
         lbl_basketItemName.setText(basketItem.getItemName());
         lbl_basketItemQuantity.setText(Integer.toString(basketItem.getQuantityAdded()));
     }
 
-    public ObservableList<Discount> discountList() {
+    private ObservableList<Discount> discountList() {
         ObservableList<Discount> listData = FXCollections.observableArrayList();
         Connection connection = null;
         PreparedStatement prepare = null;
@@ -294,21 +359,21 @@ public class CustomerLoggedInController implements Initializable {
         return listData;
     }
 
-    public void showDiscountList() {
+    private void showDiscountList() {
         ObservableList<Discount> listDiscounts = discountList();
         tvCol_discountsPercentageOff.setCellValueFactory(new PropertyValueFactory<>("percentageOff"));
         tvCol_discountsThresholdSpend.setCellValueFactory(new PropertyValueFactory<>("purchaseThreshold"));
         tv_discounts.setItems(listDiscounts);
     }
 
-    public void showBasketDiscountList() {
+    private void showBasketDiscountList() {
         ObservableList<Discount> listDiscounts = discountList();
         tvCol_basketDiscountPercentageOff.setCellValueFactory(new PropertyValueFactory<>("percentageOff"));
         tvCol_basketDiscountThreshold.setCellValueFactory(new PropertyValueFactory<>("purchaseThreshold"));
         tv_basketDiscounts.setItems(listDiscounts);
     }
 
-    public void selectBasketDiscountList() {
+    private void selectBasketDiscountList() {
         Discount discount = tv_basketDiscounts.getSelectionModel().getSelectedItem();
         lbl_basketPercentageOff.setText(Integer.toString(discount.getPercentageOff()));
     }
@@ -359,6 +424,10 @@ public class CustomerLoggedInController implements Initializable {
             lbl_basketTotalOrderCost.setText(normalTotalOrderCost);
             lbl_basketAdjustedOrderCost.setText(normalTotalOrderCost);
         });
+        btn_viewPreviousBasket.setOnAction(event -> {//need to loop through new tableview and add those to basket and reshow order total
+            tv_basketItem.getItems().clear();
+            showOldBasketItemList();
+        });
         tv_basketItem.setOnMouseClicked(mouseEvent -> {
             selectBasketItemList();
             lbl_basketItemTotalCost.setText(Double.toString(BasketItemTable.fetchTotalPriceForItems(lbl_basketItemName.getText(), basketID)));
@@ -401,7 +470,7 @@ public class CustomerLoggedInController implements Initializable {
     }
 
 
-    public void switchForm(ActionEvent event) {
+    private void switchForm(ActionEvent event) {
         if (event.getSource() == btn_browse) {
             browse_form.setVisible(true);
             discounts_form.setVisible(false);

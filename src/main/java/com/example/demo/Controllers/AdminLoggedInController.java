@@ -39,8 +39,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private Button btn_editUsers;
     @FXML
     private Button btn_customerView;
-    @FXML
-    private Label lbl_username;
 
     //Logistics Anchor Pane:
     @FXML
@@ -58,8 +56,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     @FXML
     private AnchorPane addItems_form;
     @FXML
-    private Button btn_importItem;
-    @FXML
     private Button btn_updateItem;
     @FXML
     private Button btn_addItem;
@@ -75,10 +71,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TextArea ta_itemDescription;
     @FXML
     private TextField tf_itemBulkPrice;
-    @FXML
-    private AnchorPane itemNotFound_form; // turns visible if the item isn't found in the grocery item price dataset
-    @FXML
-    private TextField tf_searchAddItems;
     @FXML
     private TableColumn<Item, String> tvCol_addItemName;
     @FXML
@@ -107,8 +99,6 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private TextField tf_surname;
     @FXML
     private CheckBox cb_isAdmin;
-    @FXML
-    private TextField tf_searchUser;
     @FXML
     private TableColumn<?, ?> tvCol_editEmail;
     @FXML

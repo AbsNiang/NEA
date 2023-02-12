@@ -66,8 +66,6 @@ public class CustomerLoggedInController implements Initializable {
     @FXML
     private TableView<Item> tv_items;
     @FXML
-    private TextField tf_searchItems;
-    @FXML
     private TableColumn<Item, String> tvCol_itemName;
     @FXML
     private TableColumn<Item, String> tvCol_itemPrice;

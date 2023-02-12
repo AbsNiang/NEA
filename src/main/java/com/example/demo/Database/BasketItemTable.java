@@ -1,8 +1,6 @@
 package com.example.demo.Database;
 
 import com.example.demo.Objects.BasketItem;
-import javafx.scene.control.Alert;
-
 import java.math.RoundingMode;
 import java.sql.*;
 import java.text.DecimalFormat;

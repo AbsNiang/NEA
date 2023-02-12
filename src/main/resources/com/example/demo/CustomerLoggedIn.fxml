@@ -27,7 +27,7 @@
                         <Font name="Roboto Light" size="18.0" />
                     </font>
                 </Label>
-                <Label fx:id="lbl_username" alignment="CENTER" layoutX="60.0" layoutY="159.0" prefHeight="26.0" prefWidth="78.0" text="Guest" textFill="WHITE">
+                <Label alignment="CENTER" layoutX="60.0" layoutY="159.0" prefHeight="26.0" prefWidth="78.0" text="Guest" textFill="WHITE">
                     <font>
                         <Font name="Roboto Light" size="18.0" />
                     </font>
@@ -98,7 +98,7 @@
                                 <Font name="Roboto Light" size="14.0" />
                             </font>
                         </Button>
-                        <AnchorPane fx:id="itemNotFound_form" layoutX="1.0" layoutY="378.0" prefHeight="54.0" prefWidth="253.0" visible="false">
+                        <AnchorPane layoutX="1.0" layoutY="378.0" prefHeight="54.0" prefWidth="253.0" visible="false">
                             <Label layoutX="40.0" layoutY="3.0" text="Item couldnt be found in dataset." textFill="#f80000">
                                 <font>
                                     <Font name="Roboto Light" size="11.0" />
@@ -162,7 +162,6 @@
                                 <TableColumn fx:id="tvCol_itemDescription" prefWidth="194.0" text="Description" />
                             </columns>
                         </TableView>
-                        <TextField fx:id="tf_searchItems" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />
                     </AnchorPane>
                 </AnchorPane>
                 <AnchorPane fx:id="discounts_form" prefHeight="651.2" prefWidth="815.2" visible="false">

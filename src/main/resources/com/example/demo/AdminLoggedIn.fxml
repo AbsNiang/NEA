@@ -37,7 +37,7 @@
                   <Font name="Roboto Light" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lbl_username" alignment="CENTER" layoutX="60.0" layoutY="159.0" prefHeight="26.0" prefWidth="78.0" text="Admin" textFill="WHITE">
+            <Label alignment="CENTER" layoutX="60.0" layoutY="159.0" prefHeight="26.0" prefWidth="78.0" text="Admin" textFill="WHITE">
                <font>
                   <Font name="Roboto Light" size="18.0" />
                </font>
@@ -76,7 +76,7 @@
       </left>
       <center>
          <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <AnchorPane fx:id="logistics_form" layoutX="229.0" layoutY="144.0" prefHeight="651.2" prefWidth="815.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="logistics_form" layoutX="229.0" layoutY="144.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="187.0" prefWidth="794.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                   <AnchorPane layoutX="26.0" layoutY="10.0" prefHeight="168.0" prefWidth="222.0" style="-fx-background-color: #4169e1; -fx-background-radius: 0px 10px 10px 0px;">
                      <Label layoutX="14.0" layoutY="14.0" prefHeight="39.0" prefWidth="109.0" text="Total Profits:" textFill="WHITE">
@@ -172,19 +172,6 @@
                         <Font name="Roboto Light" size="14.0" />
                      </font>
                   </Label>
-                  <AnchorPane fx:id="itemNotFound_form" layoutX="1.0" layoutY="378.0" prefHeight="54.0" prefWidth="253.0" visible="false">
-                     <Label layoutX="40.0" layoutY="3.0" text="Item couldnt be found in dataset." textFill="#f80000">
-                        <font>
-                           <Font name="Roboto Light" size="11.0" />
-                        </font>
-                     </Label>
-                     <TextField fx:id="tf_OrderPrice" layoutX="143.0" layoutY="21.0" prefHeight="26.0" prefWidth="94.0" />
-                     <Label layoutY="24.0" prefHeight="20.0" prefWidth="143.0" text="Price of Item for Order:">
-                        <font>
-                           <Font name="Roboto Light" size="14.0" />
-                        </font>
-                     </Label>
-                  </AnchorPane>
                   <TextField fx:id="tf_itemBulkPrice" layoutX="71.0" layoutY="310.0" prefHeight="25.0" prefWidth="105.0" />
                </AnchorPane>
                <AnchorPane layoutX="286.0" layoutY="16.0" prefHeight="620.0" prefWidth="597.0" style="-fx-background-color: white; -fx-background-radius: 8;">
@@ -197,10 +184,9 @@
                         <TableColumn fx:id="tvCol_addItemDescription" prefWidth="194.0" text="Description" />
                      </columns>
                   </TableView>
-                  <TextField fx:id="tf_searchAddItems" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />
                </AnchorPane>
             </AnchorPane>
-            <AnchorPane fx:id="editUsers_form" prefHeight="651.2" prefWidth="815.2" visible="false">
+            <AnchorPane fx:id="editUsers_form" prefHeight="651.2" prefWidth="815.2">
                <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">
                   <Label layoutX="45.0" layoutY="27.0" prefHeight="20.0" prefWidth="39.0" text="Email:">
                      <font>
@@ -246,7 +232,6 @@
                         <TableColumn fx:id="tvCol_editIsAdmin" prefWidth="160.0" text="Admin?" />
                      </columns>
                   </TableView>
-                  <TextField fx:id="tf_searchUser" layoutX="15.0" layoutY="21.0" prefHeight="26.0" prefWidth="184.0" promptText="Type to search" />
                </AnchorPane>
             </AnchorPane>
          </AnchorPane>

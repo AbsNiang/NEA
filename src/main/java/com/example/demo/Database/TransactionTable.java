@@ -1,5 +1,6 @@
 package com.example.demo.Database;
 
+import com.example.demo.Objects.Item;
 import com.example.demo.Objects.Transaction;
 import javafx.scene.control.Alert;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static com.example.demo.Database.Utils.dbLocation;
 
@@ -93,5 +95,47 @@ public class TransactionTable {
             }
         }
         return sum;
+    }
+
+    public static ArrayList<Transaction> getTransactionsList() {
+        ArrayList<Transaction> listData = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement prepare = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            prepare = connection.prepareStatement("SELECT * FROM Transactions");
+            resultSet = prepare.executeQuery();
+            Transaction transaction;
+            while (resultSet.next()) {
+                transaction = new Transaction(resultSet.getString("EmailAddress"), resultSet.getDouble("MoneySpent"), resultSet.getDate("Date").toLocalDate(), resultSet.getString("Time"));
+                listData.add(transaction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prepare != null) {
+                try {
+                    prepare.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return listData;
     }
 }

@@ -13,6 +13,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -22,6 +26,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static com.example.demo.Database.Utils.dbLocation;
@@ -51,6 +56,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private Label lbl_availableTotalItems;
     @FXML
     private CheckBox cb_autoOrderStock;
+    @FXML
+    private LineChart<CategoryAxis, NumberAxis> cashFlowLineChart;
 
     //Add Items Anchor Pane: //add items will count as a transaction for the business as it costs money to get stock irl
     @FXML
@@ -371,5 +378,16 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         lbl_availableTotalItems.setText(Integer.toString(ItemTable.sumItems()));
         lbl_availableIndividualItems.setText(Integer.toString(ItemTable.countItems()));
         cb_autoOrderStock.setSelected(Utils.readAutoStockUpSetting());
+        setUpCashFlowChart();
+    }
+
+    private void setUpCashFlowChart(){
+        XYChart.Series<CategoryAxis,NumberAxis> series = new XYChart.Series<>();
+        series.setName("Money");
+        ArrayList<Transaction> transactions = TransactionTable.getTransactionsList();
+        for (Transaction transaction:transactions) {
+            series.getData().add(new XYChart.Data(""+ transaction.getDateOfTransaction().getDayOfYear(),transaction.getMoneySpent()));
+        }
+        cashFlowLineChart.getData().add(series);
     }
 }

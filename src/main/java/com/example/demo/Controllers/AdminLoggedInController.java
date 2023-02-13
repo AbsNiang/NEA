@@ -1,9 +1,6 @@
 package com.example.demo.Controllers;
 
-import com.example.demo.Database.ItemTable;
-import com.example.demo.Database.TransactionTable;
-import com.example.demo.Database.UserTable;
-import com.example.demo.Database.Utils;
+import com.example.demo.Database.*;
 import com.example.demo.Objects.Transaction;
 import com.example.demo.SceneHandler;
 import com.example.demo.Objects.Item;
@@ -13,10 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -27,6 +21,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import static com.example.demo.Database.Utils.dbLocation;
@@ -58,6 +54,8 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
     private CheckBox cb_autoOrderStock;
     @FXML
     private LineChart<CategoryAxis, NumberAxis> cashFlowLineChart;
+    @FXML
+    private BarChart<CategoryAxis, NumberAxis> itemOrdersBarChart;
 
     //Add Items Anchor Pane: //add items will count as a transaction for the business as it costs money to get stock irl
     @FXML
@@ -379,15 +377,28 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
         lbl_availableIndividualItems.setText(Integer.toString(ItemTable.countItems()));
         cb_autoOrderStock.setSelected(Utils.readAutoStockUpSetting());
         setUpCashFlowChart();
+        setUpItemOrdersChart();
     }
 
-    private void setUpCashFlowChart(){
-        XYChart.Series<CategoryAxis,NumberAxis> series = new XYChart.Series<>();
+    private void setUpCashFlowChart() {
+        XYChart.Series<CategoryAxis, NumberAxis> series = new XYChart.Series<>();
         series.setName("Money");
         ArrayList<Transaction> transactions = TransactionTable.getTransactionsList();
-        for (Transaction transaction:transactions) {
-            series.getData().add(new XYChart.Data(""+ transaction.getDateOfTransaction().getDayOfYear(),transaction.getMoneySpent()));
+        for (Transaction transaction : transactions) {
+            series.getData().add(new XYChart.Data("" + transaction.getDateOfTransaction().getDayOfYear(), transaction.getMoneySpent()));
         }
         cashFlowLineChart.getData().add(series);
+    }
+
+    private void setUpItemOrdersChart() {
+        XYChart.Series<CategoryAxis, NumberAxis> series = new XYChart.Series<>();
+        series.setName("Total Ordered");
+        HashMap<String, Integer> itemTotalOrderedList = BasketItemTable.getBasketItemTotalOrderedList();
+        for (Map.Entry<String, Integer> entry : itemTotalOrderedList.entrySet()) {
+            String itemName = entry.getKey();
+            int totalOrderedAmount = entry.getValue();
+            series.getData().add(new XYChart.Data(itemName, totalOrderedAmount));
+        }
+        itemOrdersBarChart.getData().add(series);
     }
 }

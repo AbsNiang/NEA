@@ -1,15 +1,16 @@
 package com.example.demo.Database;
 
 import com.example.demo.Objects.BasketItem;
+
 import java.math.RoundingMode;
 import java.sql.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.example.demo.Database.Utils.dbLocation;
 
 public class BasketItemTable {
-
 
     public static void addItemToBasket(String itemName, int basketID, int QuantityToAdd) {
         Connection connection = null;
@@ -228,5 +229,47 @@ public class BasketItemTable {
                 }
             }
         }
+    }
+
+    public static HashMap<String, Integer> getBasketItemTotalOrderedList() {
+        HashMap<String, Integer> listData = new HashMap<>();
+        Connection connection = null;
+        PreparedStatement prepare = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
+            prepare = connection.prepareStatement("SELECT ItemName, QuantityAdded FROM BasketItem, Basket WHERE BasketItem.BasketID = Basket.BasketID AND Purchased = true");
+            resultSet = prepare.executeQuery();
+            while (resultSet.next()) {
+                String itemName = resultSet.getString("ItemName");
+                int itemQuantityAdded = resultSet.getInt("QuantityAdded");
+                listData.merge(itemName, itemQuantityAdded, Integer::sum); // adds current quantity to existing one in hashmap.
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (prepare != null) {
+                try {
+                    prepare.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return  listData;
     }
 }

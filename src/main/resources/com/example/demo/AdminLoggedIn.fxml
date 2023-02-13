@@ -125,7 +125,7 @@
                      <Font name="Roboto Light" size="16.0" />
                   </font>
                </CheckBox>
-               <LineChart fx:id="cashFlowLineChart" layoutX="14.0" layoutY="267.0" prefHeight="351.0" prefWidth="446.0" title="Cash Flow">
+               <LineChart fx:id="cashFlowLineChart" layoutX="14.0" layoutY="267.0" prefHeight="351.0" prefWidth="417.0" title="Cash Flow">
                  <xAxis>
                    <CategoryAxis label="Day Of The Year" side="BOTTOM" />
                  </xAxis>
@@ -133,6 +133,14 @@
                    <NumberAxis label="Transactions (£)" side="LEFT" />
                  </yAxis>
                </LineChart>
+               <BarChart fx:id="itemOrdersBarChart" layoutX="444.0" layoutY="277.0" prefHeight="339.0" prefWidth="428.0" title="Item Orders">
+                 <xAxis>
+                   <CategoryAxis label="Item Name" side="BOTTOM" />
+                 </xAxis>
+                 <yAxis>
+                   <NumberAxis label="Total Quantity Ordered" side="LEFT" />
+                 </yAxis>
+               </BarChart>
             </AnchorPane>
             <AnchorPane fx:id="addItems_form" layoutX="273.0" layoutY="141.0" prefHeight="651.2" prefWidth="815.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="620.0" prefWidth="252.0" style="-fx-background-color: white; -fx-background-radius: 8;">

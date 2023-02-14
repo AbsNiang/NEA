@@ -80,6 +80,7 @@ public class UserTable {
     }
 
     public static void logInUser(ActionEvent event, String emailAddress, String password) {
+        try{
         String correctPassword = fetchInfo(emailAddress, "password");
         System.out.println("correct:"+correctPassword);
         String originalSalt = fetchInfo(emailAddress, "passwordSalt");
@@ -101,6 +102,9 @@ public class UserTable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("The provided credentials are incorrect.");
             alert.show();
+        }
+        }catch (Exception e){
+            System.out.println("User doesn't exist");
         }
     }
 

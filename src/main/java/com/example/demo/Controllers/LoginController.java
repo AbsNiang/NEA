@@ -29,11 +29,17 @@ public class LoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         btn_login.setOnAction(event -> {
-            if (Email.checkEmail(tf_username.getText())) {
-                UserTable.logInUser(event, tf_username.getText(), pf_password.getText());
+            if (!tf_username.getText().equals("") || !pf_password.getText().equals("")) {
+                if (Email.checkEmail(tf_username.getText())) {
+                    UserTable.logInUser(event, tf_username.getText(), pf_password.getText());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Email isn't in correct format.");
+                    alert.show();
+                }
             }else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Email isn't in correct format.");
+                alert.setContentText("Please fill in all fields.");
                 alert.show();
             }
         });

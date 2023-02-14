@@ -125,6 +125,7 @@ public class CustomerLoggedInController implements Initializable {
     private boolean basketMade = false;
     private String customerEmail;
     private int basketID;
+    private int oldBasketID;
 
     //Item TableView Stuff
     private ObservableList<Item> addItemList() {
@@ -245,13 +246,16 @@ public class CustomerLoggedInController implements Initializable {
         try {
             ArrayList<Integer> basketIDList = new ArrayList<>();
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            prepare = connection.prepareStatement("SELECT BasketID FROM BasketItem, Basket WHERE EmailAddress = ? ");
+            prepare = connection.prepareStatement("SELECT BasketID FROM Basket, BasketItem  WHERE EmailAddress = ? AND BasketItem.BasketID = Basket.BasketID");
             prepare.setString(1, customerEmail);
             resultSet = prepare.executeQuery();
             while (resultSet.next()) {
-                basketIDList.add(resultSet.getInt("BasketID"));
+                int currentBasketID = resultSet.getInt("BasketID");
+                basketIDList.add(currentBasketID);
+
             }
             int previousBasketID = basketIDList.get(basketIDList.indexOf(basketID) - 1);
+            oldBasketID = previousBasketID;
             BasketItem basketItem;
             connection.close();
             prepare.close();
@@ -263,6 +267,7 @@ public class CustomerLoggedInController implements Initializable {
             while (resultSet.next()) {
                 basketItem = new BasketItem(resultSet.getString("ItemName"), resultSet.getInt("QuantityAdded"));
                 listData.add(basketItem);
+
             }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -374,8 +379,12 @@ public class CustomerLoggedInController implements Initializable {
     }
 
     private void selectBasketDiscountList() {
-        Discount discount = tv_basketDiscounts.getSelectionModel().getSelectedItem();
-        lbl_basketPercentageOff.setText(Integer.toString(discount.getPercentageOff()));
+        try {
+            Discount discount = tv_basketDiscounts.getSelectionModel().getSelectedItem();
+            lbl_basketPercentageOff.setText(Integer.toString(discount.getPercentageOff()));
+        } catch (NullPointerException e) {
+            System.out.println("Discounts not selected. " + e);
+        }
     }
 
     @Override
@@ -389,7 +398,7 @@ public class CustomerLoggedInController implements Initializable {
         btn_plus1.setOnAction(event -> addOne());
         btn_minus1.setOnAction(event -> minusOne());
         btn_addToBasket.setOnAction(event -> {
-            if (!lbl_itemTotal.getText().equals("£0")) {
+            if (!lbl_itemTotal.getText().contains("£0")) {
                 if (!basketMade) {
                     basketID = BasketTable.createBasket(customerEmail);
                     basketMade = true;
@@ -427,6 +436,9 @@ public class CustomerLoggedInController implements Initializable {
         btn_viewPreviousBasket.setOnAction(event -> {//need to loop through new tableview and add those to basket and reshow order total
             tv_basketItem.getItems().clear();
             showOldBasketItemList();
+            String normalTotalOrderCost = Double.toString(BasketItemTable.sumItems(oldBasketID));
+            lbl_basketTotalOrderCost.setText(normalTotalOrderCost);
+            lbl_basketAdjustedOrderCost.setText(normalTotalOrderCost);
         });
         tv_basketItem.setOnMouseClicked(mouseEvent -> {
             selectBasketItemList();

@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
+import com.example.demo.General.Repository;
 import com.example.demo.SceneHandler;
 import com.example.demo.EmailHandling.EmailToken;
 import com.example.demo.EmailHandling.Email;
@@ -47,10 +48,9 @@ public class ForgotPasswordController implements Initializable {
                 sendCode();
                 switchForm();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.setContentText("This user doesn't exist.");
-                alert.show();
+
+                Repository.giveAlert("This user doesn't exist.","error");
+
             }
         });
 
@@ -60,11 +60,9 @@ public class ForgotPasswordController implements Initializable {
                         email, 600, 400);
 
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.setContentText("The entered code is incorrect. " +
-                        "\nPress the send code button again or re enter the code correctly.");
-                alert.show();
+                Repository.giveAlert("The entered code is incorrect. " +
+                        "\nPress the send code button again or re enter the code correctly.","error");
+
             }
         });
 

@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
+import com.example.demo.General.Repository;
 import com.example.demo.SceneHandler;
 import com.example.demo.EmailHandling.EmailToken;
 import com.example.demo.Objects.User;
@@ -61,10 +62,7 @@ public class SignUpController implements Initializable { //Add toggle password v
                 User user = new User(email, hashedPassword, strSalt, firstName, surname, false);
                 UserTable.signUpUser(event, user);
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.setContentText("Code entered is incorrect.");
-                alert.show();
+                Repository.giveAlert("Code entered is incorrect.","error");
             }
         });
 
@@ -95,11 +93,9 @@ public class SignUpController implements Initializable { //Add toggle password v
             firstName = tf_firstname.getText();
             surname = tf_surname.getText();
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-            alert.setContentText("Please fill in all the information. " +
-                    "\nPasswords must contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.");
-            alert.show();
+            Repository.giveAlert("Please fill in all the information. " +
+                    "\nPasswords must contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.","error");
+
         }
     }
 }

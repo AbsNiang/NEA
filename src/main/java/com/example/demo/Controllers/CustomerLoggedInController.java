@@ -3,6 +3,7 @@ package com.example.demo.Controllers;
 import com.example.demo.Database.*;
 import com.example.demo.EmailHandling.Email;
 import com.example.demo.EmailHandling.EmailToken;
+import com.example.demo.General.Repository;
 import com.example.demo.Objects.Discount;
 import com.example.demo.Objects.Transaction;
 import com.example.demo.SceneHandler;
@@ -244,17 +245,17 @@ public class CustomerLoggedInController implements Initializable {
         PreparedStatement prepare = null;
         ResultSet resultSet = null;
         try {
-            ArrayList<Integer> basketIDList = new ArrayList<>();
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
-            prepare = connection.prepareStatement("SELECT BasketID FROM Basket, BasketItem  WHERE EmailAddress = ? AND BasketItem.BasketID = Basket.BasketID");
+            prepare = connection.prepareStatement("SELECT BasketID FROM Basket WHERE EmailAddress = ? AND Purchased = ?");
             prepare.setString(1, customerEmail);
+            prepare.setBoolean(2, true);
             resultSet = prepare.executeQuery();
+            int previousBasketID = 0;
             while (resultSet.next()) {
-                int currentBasketID = resultSet.getInt("BasketID");
-                basketIDList.add(currentBasketID);
+                previousBasketID = resultSet.getInt("BasketID");
+
 
             }
-            int previousBasketID = basketIDList.get(basketIDList.indexOf(basketID) - 1);
             oldBasketID = previousBasketID;
             BasketItem basketItem;
             connection.close();
@@ -262,7 +263,7 @@ public class CustomerLoggedInController implements Initializable {
             resultSet.close();
             connection = DriverManager.getConnection("jdbc:ucanaccess://" + dbLocation, "", "");
             prepare = connection.prepareStatement("SELECT * FROM BasketItem WHERE BasketID = ?");
-            prepare.setInt(1, previousBasketID);
+            prepare.setInt(1, oldBasketID);
             resultSet = prepare.executeQuery();
             while (resultSet.next()) {
                 basketItem = new BasketItem(resultSet.getString("ItemName"), resultSet.getInt("QuantityAdded"));
@@ -270,9 +271,7 @@ public class CustomerLoggedInController implements Initializable {
 
             }
         } catch (SQLException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("No previous basket.");
-            alert.show();
+            Repository.giveAlert("No previous basket.", "error");
             e.printStackTrace();
         } finally {
             if (resultSet != null) {
@@ -405,14 +404,10 @@ public class CustomerLoggedInController implements Initializable {
                 }
                 BasketItemTable.addItemToBasket(lbl_itemName.getText(), basketID, Integer.parseInt(lbl_itemAmount.getText()));
                 ItemTable.updateItemAmount(lbl_itemName.getText(), Integer.parseInt(lbl_itemAmount.getText()));
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("Item has been added to basket.");
-                alert.show();
+                Repository.giveAlert("Item has been added to basket.", "confirmation");
                 showItemList();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Can't add 0 to basket.");
-                alert.show();
+                Repository.giveAlert("Can't add 0 to basket.", "error");
             }
 
         });
@@ -467,16 +462,13 @@ public class CustomerLoggedInController implements Initializable {
                 DiscountsTable.removeDiscount(customerEmail, Integer.parseInt(lbl_basketPercentageOff.getText()));
                 DiscountsTable.giveUserDiscount(customerEmail);
                 sendReceipt();
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Purchase has gone through.\nReceipt has been sent to your email address.");
-                alert.show();
+                Repository.giveAlert("Purchase has gone through.\nReceipt has been sent to your email address.", "confirmation");
+
                 Stage stage = (Stage) btn_purchase.getScene().getWindow();
                 stage.close();
             } else {
                 System.out.println("basket is empty.");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Basket is empty.");
-                alert.show();
+                Repository.giveAlert("Basket is empty.", "error");
             }
         });
     }
@@ -516,15 +508,10 @@ public class CustomerLoggedInController implements Initializable {
                 lbl_itemQuantity.setText(Integer.toString(quantityLeft - 1));
                 lbl_itemTotal.setText("£" + (currentAmount + 1) * Double.parseDouble(lbl_itemPrice.getText()));
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("No More of this item to add.");
-                alert.show();
+                Repository.giveAlert("No More of this item to add.", "error");
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("No item selected");
-            alert.show();
+            Repository.giveAlert("No item selected","error");
         }
     }
 
@@ -537,15 +524,10 @@ public class CustomerLoggedInController implements Initializable {
                 lbl_itemQuantity.setText(Integer.toString(quantityLeft + 1));
                 lbl_itemTotal.setText("£" + (currentAmount - 1) * Double.parseDouble(lbl_itemPrice.getText()));
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("You already have 0.");
-                alert.show();
+                Repository.giveAlert("You already have 0.","error");
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("No item selected");
-            alert.show();
+            Repository.giveAlert("No item selected","error");
         }
     }
 
@@ -556,9 +538,7 @@ public class CustomerLoggedInController implements Initializable {
             showBasketItemList();
             lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("You haven't selected an item to remove.");
-            alert.show();
+                Repository.giveAlert("You haven't selected an item to remove.","error");
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
 
+import com.example.demo.General.Repository;
 import com.example.demo.Objects.User;
 import com.example.demo.Registration.PasswordConverter;
 import com.example.demo.Registration.PasswordHandler;
@@ -40,11 +41,9 @@ public class ResetPasswordController implements Initializable {
                 UserTable.alterPassword(user);
                 UserTable.logInUser(actionEvent,email,pf_newpassword.getText());
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                alert.setContentText("Both passwords need to be identical " +
-                        "and contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.");
-                alert.show();
+                Repository.giveAlert("Both passwords need to be identical " +
+                        "and contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.","error");
+
             }
         });
     }

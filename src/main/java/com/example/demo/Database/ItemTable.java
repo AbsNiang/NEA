@@ -1,5 +1,6 @@
 package com.example.demo.Database;
 
+import com.example.demo.General.Repository;
 import com.example.demo.Objects.Item;
 import javafx.scene.control.Alert;
 
@@ -23,9 +24,8 @@ public class ItemTable {
             resultSet = psCheckItemExists.executeQuery();
             if (resultSet.isBeforeFirst()) { //if true, item already exists.
                 System.out.println("Item already exists.");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("An item with this name already exists.");
-                alert.show();
+                Repository.giveAlert("An item with this name already exists.","error");
+
             } else {
                 psInsert = connection.prepareStatement("INSERT INTO Items (ItemName, Price, Quantity, Tags, Description) VALUES (?, ?, ?, ?, ?)");
                 psInsert.setString(1, item.getName());

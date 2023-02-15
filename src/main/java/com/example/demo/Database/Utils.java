@@ -1,5 +1,6 @@
 package com.example.demo.Database;
 
+import com.example.demo.General.Repository;
 import javafx.scene.control.Alert;
 
 import java.io.IOException;
@@ -51,10 +52,8 @@ public class Utils {
             ps.setString(1, primaryKey);
             resultSet = ps.executeQuery();
             if (!resultSet.isBeforeFirst()) { //if item doesn't exist
-                System.out.println("Item doesn't exists.");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("An item with this name already exists.");
-                alert.show();
+                System.out.println("Item doesn't exist.");
+                Repository.giveAlert("Item doesn't exist.", "error");
             } else {
                 while (resultSet.next()) {
                     content = resultSet.getString(wantedField);

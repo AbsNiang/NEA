@@ -2,6 +2,7 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
 import com.example.demo.EmailHandling.Email;
+import com.example.demo.General.Repository;
 import com.example.demo.SceneHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,14 +34,13 @@ public class LoginController implements Initializable {
                 if (Email.checkEmail(tf_username.getText())) {
                     UserTable.logInUser(event, tf_username.getText(), pf_password.getText());
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Email isn't in correct format.");
-                    alert.show();
+                    Repository.giveAlert("Email isn't in correct format.", "error");
+
                 }
             }else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Please fill in all fields.");
-                alert.show();
+
+                Repository.giveAlert("Please fill in all fields.","error");
+
             }
         });
 

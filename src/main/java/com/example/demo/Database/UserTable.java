@@ -30,9 +30,8 @@ public class UserTable {
             resultSet = psCheckUserExists.executeQuery();
             if (resultSet.isBeforeFirst()) { //if true, username is taken, if false, it means it is available.
                 System.out.println("User already exists.");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("You cannot use this email address.");
-                alert.show();
+                Repository.giveAlert("You cannot use this email address.", "error");
+
             } else {
                 psInsert = connection.prepareStatement("INSERT INTO Users (emailAddress, password, passwordSalt, firstName, Surname, isAdmin) VALUES (?, ?, ?, ?, ?, ?)");
                 psInsert.setString(1, user.getEmailAddress());
@@ -99,9 +98,8 @@ public class UserTable {
 
         } else {
             System.out.println("Passwords didn't match.");
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("The provided credentials are incorrect.");
-            alert.show();
+            Repository.giveAlert("The provided credentials are incorrect.","error");
+
         }
         }catch (Exception e){
             System.out.println("User doesn't exist");
@@ -120,9 +118,8 @@ public class UserTable {
             resultSet = preparedStatement.executeQuery();
             if (!checkUserExists(emailAddress)) {
                 System.out.println("User not found.");
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Provided credentials are incorrect.");
-                alert.show();
+                Repository.giveAlert("Provided credentials are incorrect.", "error");
+
             } else {
                 while (resultSet.next()) {
                     info = resultSet.getString(desiredField);

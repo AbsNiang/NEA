@@ -1,5 +1,7 @@
 package com.example.demo.General;
 
+import javafx.scene.control.Alert;
+
 public class Repository {
 
     // each time it splits, go into a new mergesort, once a pair is reached, go out and complete the mergesort
@@ -72,9 +74,21 @@ public class Repository {
             }
         } else {
             boolean stringFound = emailAddress.equalsIgnoreCase(emailArray[0]);
-            System.out.println("Found? = "+stringFound);
+            System.out.println("Found? = " + stringFound);
             return stringFound;
 
         }
+    }
+
+    public static void giveAlert(String content, String alertType) {//error, information, or confirmation
+        Alert alert;
+        switch (alertType) {
+            case "error" -> alert = new Alert(Alert.AlertType.ERROR);
+            case "information" -> alert = new Alert(Alert.AlertType.INFORMATION);
+            case "confirmation" -> alert = new Alert(Alert.AlertType.CONFIRMATION);
+            default -> throw new IllegalStateException("Unexpected value: " + alertType);
+        }
+        alert.setContentText(content);
+        alert.show();
     }
 }

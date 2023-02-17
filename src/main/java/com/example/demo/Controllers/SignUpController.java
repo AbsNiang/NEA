@@ -62,7 +62,7 @@ public class SignUpController implements Initializable { //Add toggle password v
                 User user = new User(email, hashedPassword, strSalt, firstName, surname, false);
                 UserTable.signUpUser(event, user);
             } else {
-                Repository.giveAlert("Code entered is incorrect.","error");
+                Repository.giveAlert("Code entered is incorrect.", "error");
             }
         });
 
@@ -88,13 +88,19 @@ public class SignUpController implements Initializable { //Add toggle password v
     private void setDetails() {
         if (!tf_username.getText().isEmpty() && !pf_password.getText().trim().isEmpty()
                 && !tf_firstname.getText().trim().isEmpty() && !tf_surname.getText().trim().isEmpty() && PasswordHandler.passwordCheck(pf_password.getText())) {
-            email = tf_username.getText();
-            password = pf_password.getText();
-            firstName = tf_firstname.getText();
-            surname = tf_surname.getText();
+            if (Email.checkEmail(tf_username.getText())) {
+
+
+                email = tf_username.getText();
+                password = pf_password.getText();
+                firstName = tf_firstname.getText();
+                surname = tf_surname.getText();
+            }else {
+                Repository.giveAlert("Email isn't in the correct format.","error");
+            }
         } else {
             Repository.giveAlert("Please fill in all the information. " +
-                    "\nPasswords must contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.","error");
+                    "\nPasswords must contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.", "error");
 
         }
     }

@@ -76,7 +76,6 @@ public class Repository {
             boolean stringFound = emailAddress.equalsIgnoreCase(emailArray[0]);
             System.out.println("Found? = " + stringFound);
             return stringFound;
-
         }
     }
 

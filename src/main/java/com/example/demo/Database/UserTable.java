@@ -1,12 +1,11 @@
 package com.example.demo.Database;
 
 import com.example.demo.General.Repository;
-import com.example.demo.SceneHandler;
 import com.example.demo.Objects.User;
 import com.example.demo.Registration.PasswordConverter;
 import com.example.demo.Registration.PasswordHandler;
+import com.example.demo.SceneHandler;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
 
 import java.sql.*;
 import java.util.Arrays;
@@ -79,29 +78,29 @@ public class UserTable {
     }
 
     public static void logInUser(ActionEvent event, String emailAddress, String password) {
-        try{
-        String correctPassword = fetchInfo(emailAddress, "password");
-        System.out.println("correct:"+correctPassword);
-        String originalSalt = fetchInfo(emailAddress, "passwordSalt");
-        String isAdmin = fetchInfo(emailAddress, "isAdmin");
-        System.out.println("Admin? = "+isAdmin);
-        byte[] byteSalt = PasswordConverter.fromHex(originalSalt);
-        byte[] loginPassword = PasswordHandler.getSaltedHash(password, byteSalt);
-        byte[] storedPassword = PasswordConverter.fromHex(correctPassword);
-        if (Arrays.equals(loginPassword, storedPassword)) {
-            System.out.println("Passwords are a match.");
-            if (isAdmin.equals("TRUE")) {
-                SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
+        try {
+            String correctPassword = fetchInfo(emailAddress, "password");
+            System.out.println("correct:" + correctPassword);
+            String originalSalt = fetchInfo(emailAddress, "passwordSalt");
+            String isAdmin = fetchInfo(emailAddress, "isAdmin");
+            System.out.println("Admin? = " + isAdmin);
+            byte[] byteSalt = PasswordConverter.fromHex(originalSalt);
+            byte[] loginPassword = PasswordHandler.getSaltedHash(password, byteSalt);
+            byte[] storedPassword = PasswordConverter.fromHex(correctPassword);
+            if (Arrays.equals(loginPassword, storedPassword)) {
+                System.out.println("Passwords are a match.");
+                if (isAdmin.equals("TRUE")) {
+                    SceneHandler.changeScene(event, "AdminLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
+                } else {
+                    SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
+                }
+
             } else {
-                SceneHandler.changeScene(event, "CustomerLoggedIn.fxml", "Welcome!", emailAddress, 1100, 651);
+                System.out.println("Passwords didn't match.");
+                Repository.giveAlert("The provided credentials are incorrect.", "error");
+
             }
-
-        } else {
-            System.out.println("Passwords didn't match.");
-            Repository.giveAlert("The provided credentials are incorrect.","error");
-
-        }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("User doesn't exist");
         }
     }
@@ -194,7 +193,7 @@ public class UserTable {
             }
         }
         Repository.mergeSort(emailAddresses);
-        System.out.println("Ordered List: "+Arrays.toString(emailAddresses));
+        System.out.println("Ordered List: " + Arrays.toString(emailAddresses));
         return Repository.binarySearch(email, emailAddresses);
     }
 

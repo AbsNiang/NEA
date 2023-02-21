@@ -1,7 +1,6 @@
 package com.example.demo.Database;
 
 import com.example.demo.General.Repository;
-import javafx.scene.control.Alert;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -103,7 +102,7 @@ public class Utils {
         boolean setting = false;
         try {
             setting = Boolean.parseBoolean(Files.readString(path));
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return setting;

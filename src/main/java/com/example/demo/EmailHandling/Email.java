@@ -1,14 +1,12 @@
 package com.example.demo.EmailHandling;
 
 import com.example.demo.General.Repository;
-import java.util.Properties;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
 //email app password expires after certain amount of time
 public class Email {//neaprojectemailsend@gmail.com, normal password is NEAP4ssword!, app password is gabdgvnjigejtkzz
 
@@ -36,18 +34,18 @@ public class Email {//neaprojectemailsend@gmail.com, normal password is NEAP4ssw
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailToken.getEmailAddress()));
             message.setSubject(emailToken.getSubject());
             if (emailToken.isSendCode()) {
-                message.setText(emailToken.getText() + "\n"+emailToken.getCode());
+                message.setText(emailToken.getText() + "\n" + emailToken.getCode());
             } else {
                 message.setText(emailToken.getText());
             }
             Transport.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
-            Repository.giveAlert("This email doesn't exist.","error");
+            Repository.giveAlert("This email doesn't exist.", "error");
         }
     }
 
-    public static boolean checkEmail(String inputEmail){// regex from https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression
+    public static boolean checkEmail(String inputEmail) {// regex from https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression
         String pattern = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
         return inputEmail.matches(pattern);
     }

@@ -1,7 +1,5 @@
 package com.example.demo.Database;
 
-import javafx.scene.control.Alert;
-
 import java.sql.*;
 
 import static com.example.demo.Database.Utils.dbLocation;
@@ -9,7 +7,7 @@ import static com.example.demo.Database.Utils.dbLocation;
 public class DiscountsTable {
 
     public static void giveUserDiscount(String customerEmail) {
-        double customerTransactionSum = TransactionTable.sumTransactions(customerEmail,true);
+        double customerTransactionSum = TransactionTable.sumTransactions(customerEmail, true);
         double thresholdPassed = 0;
         int nearest100 = (((int) customerTransactionSum) / 100) * 100;// rounded down so every 100 you can get discounts again
         if (customerTransactionSum - nearest100 > 10) { //all possible discount thresholds

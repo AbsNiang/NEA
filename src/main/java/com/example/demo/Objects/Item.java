@@ -5,10 +5,10 @@ public class Item {
     private String name;
     private double cost;
     private int quantity;
-    private  String tags;
+    private String tags;
     private String description;
 
-    public Item( String name, double cost, int quantity, String tags, String description) {
+    public Item(String name, double cost, int quantity, String tags, String description) {
         this.name = name;
         this.cost = cost;
         this.quantity = quantity;

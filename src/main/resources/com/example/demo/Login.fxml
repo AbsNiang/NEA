@@ -1,37 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Controllers.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Controllers.LoginController">
     <children>
-        <VBox prefHeight="400.0" prefWidth="239.0" style="-fx-background-color: #4169e1;" />
+        <VBox prefHeight="400.0" prefWidth="239.0" style="-fx-background-color: #4169e1;"/>
         <Label layoutX="280.0" layoutY="6.0" prefHeight="79.0" prefWidth="246.0" text=" Sign In">
             <font>
-                <Font name="Roboto Light" size="30.0" />
+                <Font name="Roboto Light" size="30.0"/>
             </font>
         </Label>
-        <TextField fx:id="tf_username" layoutX="283.0" layoutY="110.0" prefHeight="36.0" prefWidth="239.0" promptText="Email">
+        <TextField fx:id="tf_username" layoutX="283.0" layoutY="110.0" prefHeight="36.0" prefWidth="239.0"
+                   promptText="Email">
             <font>
-                <Font name="Roboto Light" size="17.0" />
-            </font></TextField>
-        <PasswordField fx:id="pf_password" layoutX="283.0" layoutY="177.0" prefHeight="36.0" prefWidth="239.0" promptText="Password">
+                <Font name="Roboto Light" size="17.0"/>
+            </font>
+        </TextField>
+        <PasswordField fx:id="pf_password" layoutX="283.0" layoutY="177.0" prefHeight="36.0" prefWidth="239.0"
+                       promptText="Password">
             <font>
-                <Font name="Roboto Light" size="17.0" />
-            </font></PasswordField>
-        <Button fx:id="btn_login" layoutX="407.0" layoutY="241.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="115.0" styleClass="buttons" stylesheets="@css/general.css" text="Login" textFill="WHITE">
+                <Font name="Roboto Light" size="17.0"/>
+            </font>
+        </PasswordField>
+        <Button fx:id="btn_login" layoutX="407.0" layoutY="241.0" mnemonicParsing="false" prefHeight="28.0"
+                prefWidth="115.0" styleClass="buttons" stylesheets="@css/general.css" text="Login" textFill="WHITE">
             <font>
-                <Font name="Roboto Light" size="14.0" />
-            </font></Button>
-        <Button fx:id="btn_forgot" alignment="CENTER_RIGHT" layoutX="258.0" layoutY="238.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="149.0" style="-fx-background-color: white; -fx-cursor: hand;" text="Forgot Password?" textFill="#4c61adbd" underline="true">
-            <font>
-                <Font name="Roboto Light" size="14.0" />
+                <Font name="Roboto Light" size="14.0"/>
             </font>
         </Button>
-        <Button fx:id="btn_signup" layoutX="282.0" layoutY="300.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="239.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Don't have an account?" textFill="#4b60abbd" underline="true">
+        <Button fx:id="btn_forgot" alignment="CENTER_RIGHT" layoutX="258.0" layoutY="238.0" mnemonicParsing="false"
+                prefHeight="36.0" prefWidth="149.0" style="-fx-background-color: white; -fx-cursor: hand;"
+                text="Forgot Password?" textFill="#4c61adbd" underline="true">
             <font>
-                <Font name="Roboto Light" size="14.0" />
+                <Font name="Roboto Light" size="14.0"/>
+            </font>
+        </Button>
+        <Button fx:id="btn_signup" layoutX="282.0" layoutY="300.0" mnemonicParsing="false" prefHeight="30.0"
+                prefWidth="239.0" style="-fx-background-color: transparent; -fx-cursor: hand;"
+                text="Don't have an account?" textFill="#4b60abbd" underline="true">
+            <font>
+                <Font name="Roboto Light" size="14.0"/>
             </font>
         </Button>
     </children>

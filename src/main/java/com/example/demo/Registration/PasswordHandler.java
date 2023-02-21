@@ -19,7 +19,7 @@ public class PasswordHandler {
             byte[] byteData = md.digest(password.getBytes());
             md.reset();
             return byteData;
-        }catch (NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
         }

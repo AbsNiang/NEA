@@ -1,18 +1,14 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Database.UserTable;
-
 import com.example.demo.General.Repository;
 import com.example.demo.Objects.User;
 import com.example.demo.Registration.PasswordConverter;
 import com.example.demo.Registration.PasswordHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.layout.Region;
-
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,13 +32,13 @@ public class ResetPasswordController implements Initializable {
                 byte[] byteDigestPassword = PasswordHandler.getSaltedHash(pf_newpassword.getText(), salt);
                 String hashedPassword = PasswordConverter.toHex(byteDigestPassword);
                 String strSalt = PasswordConverter.toHex(salt);
-                User user = new User(email, hashedPassword, strSalt, "","",false);
+                User user = new User(email, hashedPassword, strSalt, "", "", false);
                 System.out.println(user.getEmailAddress());
                 UserTable.alterPassword(user);
-                UserTable.logInUser(actionEvent,email,pf_newpassword.getText());
+                UserTable.logInUser(actionEvent, email, pf_newpassword.getText());
             } else {
                 Repository.giveAlert("Both passwords need to be identical " +
-                        "and contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.","error");
+                        "and contain at least 8 characters including upper and lowercase, 1 number, and 1 special character.", "error");
 
             }
         });

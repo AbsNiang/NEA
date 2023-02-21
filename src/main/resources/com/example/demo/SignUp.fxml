@@ -3,71 +3,85 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Controllers.SignUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.Controllers.SignUpController">
     <children>
-        <Button fx:id="btn_alreadyhaveaccount" layoutX="181.0" layoutY="356.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="239.0" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Already have an account?" textFill="#4b60abbd" underline="true">
+        <Button fx:id="btn_alreadyhaveaccount" layoutX="181.0" layoutY="356.0" mnemonicParsing="false" prefHeight="30.0"
+                prefWidth="239.0" style="-fx-background-color: transparent; -fx-cursor: hand;"
+                text="Already have an account?" textFill="#4b60abbd" underline="true">
             <font>
-                <Font name="Roboto Light" size="14.0" />
+                <Font name="Roboto Light" size="14.0"/>
             </font>
         </Button>
-      <AnchorPane fx:id="signUp_form" prefHeight="348.0" prefWidth="600.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-              <Label layoutX="240.0" prefHeight="79.0" prefWidth="120.0" text=" Sign Up">
-                  <font>
-                      <Font name="Roboto Light" size="30.0" />
-                  </font>
-              </Label>
-              <TextField fx:id="tf_username" layoutX="181.0" layoutY="193.0" prefHeight="36.0" prefWidth="239.0" promptText="Email">
-                  <font>
-                      <Font name="Roboto Light" size="17.0" />
-                  </font>
-            </TextField>
-              <PasswordField fx:id="pf_password" layoutX="181.0" layoutY="248.0" prefHeight="36.0" prefWidth="239.0" promptText="Password">
-                  <font>
-                      <Font name="Roboto Light" size="17.0" />
-                  </font>
-            </PasswordField>
-            <TextField fx:id="tf_firstname" layoutX="181.0" layoutY="79.0" prefHeight="36.0" prefWidth="239.0" promptText="First Name">
-               <font>
-                  <Font name="Roboto Light" size="17.0" />
-               </font>
-            </TextField>
-            <TextField fx:id="tf_surname" layoutX="181.0" layoutY="132.0" prefHeight="36.0" prefWidth="239.0" promptText="Surname">
-               <font>
-                  <Font name="Roboto Light" size="17.0" />
-               </font>
-            </TextField>
-            <Button fx:id="btn_confirm" layoutX="181.0" layoutY="304.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" styleClass="buttons" stylesheets="@css/general.css" text="Send Confirmation Email" textFill="WHITE">
-               <font>
-                  <Font name="Roboto Light" size="14.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="enterCode_form" prefHeight="348.0" prefWidth="600.0" visible="false">
-         <children>
-              <Button fx:id="btn_signup" layoutX="181.0" layoutY="279.0" mnemonicParsing="false" prefHeight="8.0" prefWidth="239.0" styleClass="buttons" stylesheets="@css/general.css" text="Sign Up" textFill="WHITE">
-                  <font>
-                      <Font name="Roboto Light" size="14.0" />
-                  </font>
-            </Button>
-            <TextField fx:id="tf_code" alignment="CENTER" layoutX="182.0" layoutY="156.0" prefHeight="94.0" prefWidth="239.0" promptText="_ _ _ _ _ _">
-               <font>
-                  <Font name="Roboto Light" size="45.0" />
-               </font>
-            </TextField>
-            <Label layoutX="123.0" layoutY="54.0" prefHeight="43.0" prefWidth="355.0" text="A confirmation code has  been sent to your email.">
-               <font>
-                  <Font name="Roboto Light" size="16.0" />
-               </font>
-            </Label>
-            <Label layoutX="200.0" layoutY="86.0" prefHeight="70.0" prefWidth="201.0" text="Enter the code:">
-               <font>
-                  <Font name="Roboto Light" size="30.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
+        <AnchorPane fx:id="signUp_form" prefHeight="348.0" prefWidth="600.0" AnchorPane.bottomAnchor="52.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="240.0" prefHeight="79.0" prefWidth="120.0" text=" Sign Up">
+                    <font>
+                        <Font name="Roboto Light" size="30.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="tf_username" layoutX="181.0" layoutY="193.0" prefHeight="36.0" prefWidth="239.0"
+                           promptText="Email">
+                    <font>
+                        <Font name="Roboto Light" size="17.0"/>
+                    </font>
+                </TextField>
+                <PasswordField fx:id="pf_password" layoutX="181.0" layoutY="248.0" prefHeight="36.0" prefWidth="239.0"
+                               promptText="Password">
+                    <font>
+                        <Font name="Roboto Light" size="17.0"/>
+                    </font>
+                </PasswordField>
+                <TextField fx:id="tf_firstname" layoutX="181.0" layoutY="79.0" prefHeight="36.0" prefWidth="239.0"
+                           promptText="First Name">
+                    <font>
+                        <Font name="Roboto Light" size="17.0"/>
+                    </font>
+                </TextField>
+                <TextField fx:id="tf_surname" layoutX="181.0" layoutY="132.0" prefHeight="36.0" prefWidth="239.0"
+                           promptText="Surname">
+                    <font>
+                        <Font name="Roboto Light" size="17.0"/>
+                    </font>
+                </TextField>
+                <Button fx:id="btn_confirm" layoutX="181.0" layoutY="304.0" mnemonicParsing="false" prefHeight="8.0"
+                        prefWidth="239.0" styleClass="buttons" stylesheets="@css/general.css"
+                        text="Send Confirmation Email" textFill="WHITE">
+                    <font>
+                        <Font name="Roboto Light" size="14.0"/>
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="enterCode_form" prefHeight="348.0" prefWidth="600.0" visible="false">
+            <children>
+                <Button fx:id="btn_signup" layoutX="181.0" layoutY="279.0" mnemonicParsing="false" prefHeight="8.0"
+                        prefWidth="239.0" styleClass="buttons" stylesheets="@css/general.css" text="Sign Up"
+                        textFill="WHITE">
+                    <font>
+                        <Font name="Roboto Light" size="14.0"/>
+                    </font>
+                </Button>
+                <TextField fx:id="tf_code" alignment="CENTER" layoutX="182.0" layoutY="156.0" prefHeight="94.0"
+                           prefWidth="239.0" promptText="_ _ _ _ _ _">
+                    <font>
+                        <Font name="Roboto Light" size="45.0"/>
+                    </font>
+                </TextField>
+                <Label layoutX="123.0" layoutY="54.0" prefHeight="43.0" prefWidth="355.0"
+                       text="A confirmation code has  been sent to your email.">
+                    <font>
+                        <Font name="Roboto Light" size="16.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="200.0" layoutY="86.0" prefHeight="70.0" prefWidth="201.0" text="Enter the code:">
+                    <font>
+                        <Font name="Roboto Light" size="30.0"/>
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>

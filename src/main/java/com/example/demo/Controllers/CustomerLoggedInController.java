@@ -4,17 +4,20 @@ import com.example.demo.Database.*;
 import com.example.demo.EmailHandling.Email;
 import com.example.demo.EmailHandling.EmailToken;
 import com.example.demo.General.Repository;
+import com.example.demo.Objects.BasketItem;
 import com.example.demo.Objects.Discount;
+import com.example.demo.Objects.Item;
 import com.example.demo.Objects.Transaction;
 import com.example.demo.SceneHandler;
-import com.example.demo.Objects.BasketItem;
-import com.example.demo.Objects.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -511,7 +514,7 @@ public class CustomerLoggedInController implements Initializable {
                 Repository.giveAlert("No More of this item to add.", "error");
             }
         } catch (Exception e) {
-            Repository.giveAlert("No item selected","error");
+            Repository.giveAlert("No item selected", "error");
         }
     }
 
@@ -524,10 +527,10 @@ public class CustomerLoggedInController implements Initializable {
                 lbl_itemQuantity.setText(Integer.toString(quantityLeft + 1));
                 lbl_itemTotal.setText("£" + (currentAmount - 1) * Double.parseDouble(lbl_itemPrice.getText()));
             } else {
-                Repository.giveAlert("You already have 0.","error");
+                Repository.giveAlert("You already have 0.", "error");
             }
         } catch (Exception e) {
-            Repository.giveAlert("No item selected","error");
+            Repository.giveAlert("No item selected", "error");
         }
     }
 
@@ -538,7 +541,7 @@ public class CustomerLoggedInController implements Initializable {
             showBasketItemList();
             lbl_basketTotalOrderCost.setText(Double.toString(BasketItemTable.sumItems(basketID)));
         } catch (Exception e) {
-                Repository.giveAlert("You haven't selected an item to remove.","error");
+            Repository.giveAlert("You haven't selected an item to remove.", "error");
         }
     }
 

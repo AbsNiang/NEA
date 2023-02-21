@@ -6,7 +6,6 @@ import com.example.demo.General.Repository;
 import com.example.demo.SceneHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -37,9 +36,9 @@ public class LoginController implements Initializable {
                     Repository.giveAlert("Email isn't in correct format.", "error");
 
                 }
-            }else {
+            } else {
 
-                Repository.giveAlert("Please fill in all fields.","error");
+                Repository.giveAlert("Please fill in all fields.", "error");
 
             }
         });

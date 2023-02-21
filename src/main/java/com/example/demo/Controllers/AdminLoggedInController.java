@@ -2,10 +2,10 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Database.*;
 import com.example.demo.General.Repository;
-import com.example.demo.Objects.Transaction;
-import com.example.demo.SceneHandler;
 import com.example.demo.Objects.Item;
+import com.example.demo.Objects.Transaction;
 import com.example.demo.Objects.User;
+import com.example.demo.SceneHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -279,7 +279,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                 UserTable.updateBooleanInfo(selectedUser.getEmailAddress(), "IsAdmin", cb_isAdmin.isSelected());
                 showEditUsersList();
             } catch (Exception e) {
-                Repository.giveAlert("This isn't a pre-existing account.","error");
+                Repository.giveAlert("This isn't a pre-existing account.", "error");
             }
 
         });
@@ -288,7 +288,7 @@ public class AdminLoggedInController implements Initializable { //Scene once sig
                 UserTable.deleteUser(tf_email.getText());
                 showEditUsersList();
             } catch (Exception e) {
-                Repository.giveAlert("Can't do that!","error");
+                Repository.giveAlert("Can't do that!", "error");
             }
             showEditUsersList();
         });

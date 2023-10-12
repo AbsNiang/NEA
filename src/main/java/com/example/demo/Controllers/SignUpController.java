@@ -87,8 +87,6 @@ public class SignUpController implements Initializable { //Add toggle password v
         if (!tf_username.getText().isEmpty() && !pf_password.getText().trim().isEmpty()
                 && !tf_firstname.getText().trim().isEmpty() && !tf_surname.getText().trim().isEmpty() && PasswordHandler.passwordCheck(pf_password.getText())) {
             if (Email.checkEmail(tf_username.getText())) {
-
-
                 email = tf_username.getText();
                 password = pf_password.getText();
                 firstName = tf_firstname.getText();

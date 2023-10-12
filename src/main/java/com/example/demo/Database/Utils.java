@@ -11,7 +11,7 @@ import java.sql.*;
 
 public class Utils {
 
-    public static final String dbLocation = (System.getProperty("user.dir") + "\\databaseNEA.accdb");
+    public static final String dbLocation = (System.getProperty("user.dir") + "/databaseNEA.accdb");
 
     public static void updateInfo(String primaryKey, String field, String newInfo, String tableName, String primaryKeyName) {
         Connection connection = null;

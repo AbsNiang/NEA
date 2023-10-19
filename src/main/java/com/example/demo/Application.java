@@ -14,7 +14,7 @@ public class Application extends javafx.application.Application { //all the admi
         stage.setTitle("Login");
         stage.setScene(scene);
         stage.show();
-        stage.setResizable(false);
+        stage.setResizable(true);
     }
 
     public static void main(String[] args) {
